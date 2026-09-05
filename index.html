@@ -20,11 +20,11 @@
           colors: {
             racing: {
               DEFAULT: '#1C64F2', // Bleu roi RCBA
-              navy: '#0B1D4F',    // Bleu nuit profond
+              navy: '#070C1A',    // Bleu nuit très profond
               sky: '#38BDF8',     // Bleu ciel lumineux
               gold: '#F59E0B',    // Or victoire
-              emerald: '#10B981', // Vert émeraude terrain
-              dark: '#040817'     // Fond stade nuit
+              emerald: '#10B981', // Vert émeraude pelouse
+              dark: '#030712'     // Fond nuit stade
             }
           },
           fontFamily: {
@@ -43,20 +43,23 @@
   <style>
     body {
       font-family: 'Inter', sans-serif;
-      background-color: #040817;
-      background-image: radial-gradient(circle at 50% 20%, rgba(28, 100, 242, 0.15) 0%, transparent 60%),
-                        radial-gradient(circle at 80% 80%, rgba(16, 185, 129, 0.08) 0%, transparent 50%);
+      background-color: #030712;
+      background-image: 
+        radial-gradient(circle at 50% 15%, rgba(28, 100, 242, 0.22) 0%, transparent 65%),
+        radial-gradient(circle at 10% 85%, rgba(16, 185, 129, 0.12) 0%, transparent 50%),
+        radial-gradient(circle at 90% 85%, rgba(245, 158, 11, 0.10) 0%, transparent 50%);
       color: #ffffff;
       margin: 0;
       padding: 0;
       overflow-x: hidden;
+      min-height: 100vh;
     }
 
     .font-heading {
       font-family: 'Montserrat', sans-serif;
     }
 
-    /* Ratio standard Feed 4:5 (620 x 767 calqué sur le fond exact fourni) */
+    /* Le Conteneur du Visuel Officiel (Ratio 4:5 exact 620 x 767) */
     .canvas-container {
       width: 620px;
       height: 767px;
@@ -65,31 +68,45 @@
       background-position: center;
       background-repeat: no-repeat;
       overflow: hidden;
-      box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.95), 0 0 45px rgba(28, 100, 242, 0.35);
+      box-shadow: 
+        0 25px 60px -15px rgba(0, 0, 0, 0.95),
+        0 0 45px rgba(28, 100, 242, 0.40);
       border: 2px solid rgba(56, 189, 248, 0.45);
       border-radius: 1.5rem;
       user-select: none;
+      transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
-    /* Transitions & animations douces */
-    .opt-btn {
+    /* Boutons de réponse interactifs avec micro-interactions */
+    .opt-card-btn {
       transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
     }
-    .opt-btn:not(:disabled):hover {
-      transform: translateY(-1px);
-      border-color: rgba(56, 189, 248, 0.6) !important;
-      background-color: #122144 !important;
+    .opt-card-btn:not(:disabled):hover {
+      transform: translateY(-2px);
+      border-color: rgba(56, 189, 248, 0.8) !important;
+      background-color: #121f42 !important;
+      box-shadow: 0 6px 20px rgba(56, 189, 248, 0.25);
     }
-    .opt-btn:not(:disabled):active {
+    .opt-card-btn:not(:disabled):active {
       transform: translateY(1px) scale(0.99);
     }
 
-    /* Verre dépoli sombre */
-    .glass-dark {
-      background: rgba(8, 14, 30, 0.94);
+    /* Effets de lueur et verre dépoli */
+    .glass-panel {
+      background: rgba(7, 12, 26, 0.94);
       backdrop-filter: blur(14px);
       -webkit-backdrop-filter: blur(14px);
-      border: 1px solid rgba(56, 189, 248, 0.35);
+      border: 1.5px solid rgba(56, 189, 248, 0.35);
+    }
+
+    /* Barre d'animation d'enchaînement */
+    @keyframes shimmer-bar {
+      0% { opacity: 0.8; }
+      50% { opacity: 1; filter: drop-shadow(0 0 6px #38bdf8); }
+      100% { opacity: 0.8; }
+    }
+    .shimmer-active {
+      animation: shimmer-bar 1s infinite alternate;
     }
 
     /* Scrollbars personnalisées */
@@ -106,104 +123,103 @@
     }
   </style>
 </head>
-<body class="min-h-screen flex flex-col items-center justify-center p-2 sm:p-4">
+<body class="flex flex-col items-center justify-center p-2 sm:p-4 min-h-screen">
 
   <!-- ========================================================================= -->
-  <!-- BOUTON FLOTTANT DISCRET : OUTILS EXPORT / ADMIN (Reste accessible)       -->
+  <!-- BOUTON FLOTTANT DISCRET : EXPORT HD & OUTILS CLUB                         -->
   <!-- ========================================================================= -->
-  <div class="fixed top-3 right-3 z-50 flex items-center space-x-2">
-    <button onclick="toggleAdminModal(true)" title="Accéder aux outils d'export HD et textes Meta" class="px-3 py-1.5 rounded-full bg-slate-950/80 hover:bg-slate-900 border border-racing-sky/40 text-slate-300 hover:text-white text-xs font-bold shadow-2xl backdrop-blur-md flex items-center space-x-1.5 transition">
+  <div class="fixed top-3 right-3 z-50">
+    <button onclick="toggleAdminModal(true)" title="Accéder aux exports HD et posts pour les réseaux sociaux" class="px-3.5 py-1.5 rounded-full bg-slate-950/80 hover:bg-slate-900 border border-racing-sky/40 text-slate-300 hover:text-white text-xs font-bold shadow-2xl backdrop-blur-md flex items-center space-x-1.5 transition-all hover:scale-105">
       <i data-lucide="download" class="w-3.5 h-3.5 text-racing-sky"></i>
-      <span class="hidden sm:inline text-[11px]">Télécharger les visuels HD</span>
+      <span class="text-[11px]">Télécharger les visuels HD</span>
     </button>
   </div>
 
-  <!-- ========================================================================= -->
-  <!-- PETIT BANDEAU HAUT DISCRET : LOGO RCBA & STATUT DU JEU                    -->
-  <!-- ========================================================================= -->
-  <header class="w-full max-w-[620px] flex items-center justify-between py-1.5 px-2 mb-1.5 text-xs">
-    <div class="flex items-center space-x-2">
-      <img src="assets/logo_rcba.png" alt="Logo RCBA" class="w-7 h-7 rounded-lg shadow border border-racing-sky/50 bg-racing-navy object-contain p-0.5">
-      <span class="font-heading font-black text-white text-xs tracking-wide">RACING CLUB BÛ ABONDANT</span>
-    </div>
-    <div class="flex items-center space-x-2">
-      <span class="text-[11px] font-bold text-slate-300" id="header-q-counter">Question 1 / 11</span>
-      <span class="text-slate-600">|</span>
-      <span class="text-[11px] font-bold text-racing-gold bg-racing-gold/15 px-2 py-0.5 rounded-full border border-racing-gold/30" id="header-score-counter">Score : 0 pt</span>
-    </div>
-  </header>
+  <!-- Toast notification discrète pour le partage -->
+  <div id="toast-notify" class="fixed bottom-4 z-50 px-4 py-2.5 rounded-2xl bg-emerald-950 border border-emerald-400 text-white text-xs font-bold shadow-2xl transition-all duration-300 transform translate-y-12 opacity-0 pointer-events-none flex items-center space-x-2">
+    <i data-lucide="check-circle" class="w-4 h-4 text-emerald-400"></i>
+    <span id="toast-message">Copié dans le presse-papiers !</span>
+  </div>
 
   <!-- ========================================================================= -->
-  <!-- CONTENEUR DU VISUEL OFFICIEL (LE QUIZ SE JOUE ENTIÈREMENT DEDANS)         -->
+  <!-- ENVELOPPE DU VISUEL OFFICIEL RCBA (AUTO-SCALÉE SELON L'ÉCRAN)             -->
   <!-- ========================================================================= -->
-  <div id="quiz-viewport-wrapper" class="relative flex items-center justify-center">
+  <main id="quiz-viewport-wrapper" class="relative flex items-center justify-center my-auto">
     
+    <!-- ========================================================================= -->
+    <!-- LA CARTE POSTER OFFICIELLE (EXACTEMENT COMME VOTRE VISUEL DE RÉFÉRENCE)   -->
+    <!-- ========================================================================= -->
     <div id="quiz-canvas-card" class="canvas-container rounded-3xl flex flex-col justify-between" style="background-image: url('assets/fond_clean.png');">
 
-      <!-- Liseré supérieur & ambiance -->
+      <!-- Liseré supérieur & ambiance tamisée -->
       <div class="absolute inset-0 pointer-events-none bg-gradient-to-b from-black/20 via-transparent to-black/30"></div>
 
       <!-- ==================== ZONE HAUTE : HEADER & TITRE ==================== -->
-      <div class="relative z-10 pt-5 px-6 flex flex-col items-center text-center">
-        <div class="w-full rounded-2xl py-3 px-4 border border-racing-sky/40 shadow-2xl flex flex-col items-center" style="background: #050914; box-shadow: 0 10px 30px rgba(0,0,0,0.9);">
+      <div class="relative z-10 pt-6 px-6 flex flex-col items-center text-center">
+        
+        <!-- Boîte du titre avec pilule thème chevauchante sur le bord supérieur -->
+        <div class="relative w-full rounded-2xl pt-4 pb-3 px-4 border-2 border-racing-sky/40 shadow-2xl flex flex-col items-center" style="background: #050914; box-shadow: 0 12px 35px rgba(0,0,0,0.95);">
           
-          <!-- Badge Catégorie / Thème -->
-          <div class="inline-flex items-center space-x-1.5 px-3 py-0.5 rounded-full bg-racing-navy border border-racing-sky/50 shadow mb-1">
-            <span class="w-1.5 h-1.5 rounded-full bg-racing-gold animate-ping"></span>
+          <!-- Pilule Catégorie / Thème centrée sur le bord supérieur -->
+          <div class="absolute -top-3.5 left-1/2 -translate-x-1/2 px-4 py-0.5 rounded-full bg-[#070c1a] border-2 border-racing-gold shadow-md flex items-center space-x-1.5">
             <span id="canvas-theme-tag" class="text-[10px] font-black uppercase tracking-widest text-racing-gold">
               HISTOIRE & FONDATION
             </span>
           </div>
 
-          <!-- Titre principal du Quiz -->
-          <h2 class="font-heading font-black text-xl text-white tracking-wider uppercase drop-shadow italic leading-tight" id="canvas-main-title">
+          <!-- Titre principal du Quiz (Montserrat Italic Bold) -->
+          <h1 class="font-heading font-black text-2xl text-white tracking-wider uppercase drop-shadow-md italic leading-tight mt-0.5" id="canvas-main-title">
             LE GRAND QUIZ DU RCBA
-          </h2>
-          <div class="flex items-center justify-center space-x-2 mt-0.5">
-            <span class="h-[1.5px] w-6 bg-gradient-to-r from-transparent to-racing-sky"></span>
+          </h1>
+
+          <!-- Sous-titre avec doubles tirets cyan -->
+          <div class="flex items-center justify-center space-x-2 mt-1">
+            <span class="h-[1.5px] w-8 bg-gradient-to-r from-transparent to-racing-sky"></span>
             <span id="canvas-q-number" class="text-[11px] font-extrabold tracking-widest text-racing-sky uppercase">
               QUESTION 01 / 11
             </span>
-            <span class="h-[1.5px] w-6 bg-gradient-to-l from-transparent to-racing-sky"></span>
+            <span class="h-[1.5px] w-8 bg-gradient-to-l from-transparent to-racing-sky"></span>
           </div>
+
         </div>
+
       </div>
 
-      <!-- ==================== ZONE CENTRALE A : CARTE QUESTION / RÉPONSE ==================== -->
+      <!-- ==================== ZONE CENTRALE A : CARTE QUESTION EN COURS ==================== -->
       <div id="canvas-question-container" class="relative z-10 px-6 my-auto">
         
-        <div id="canvas-main-card" class="rounded-2xl p-4 sm:p-5 border-2 shadow-2xl transition-all duration-300" style="background: #070c1a; border-color: rgba(56, 189, 248, 0.5); box-shadow: 0 16px 40px rgba(0,0,0,0.9), 0 0 25px rgba(28,100,242,0.3);">
+        <div id="canvas-main-card" class="rounded-3xl p-5 border-2 shadow-2xl transition-all duration-300" style="background: #070d1e; border-color: rgba(56, 189, 248, 0.65); box-shadow: 0 16px 45px rgba(0,0,0,0.95), 0 0 30px rgba(28,100,242,0.35);">
 
           <!-- EN-TÊTE DE LA CARTE -->
           <div class="flex items-center justify-between pb-2.5 mb-3 border-b border-white/10">
             <div class="flex items-center space-x-2">
-              <span class="w-6 h-6 rounded-lg bg-racing flex items-center justify-center text-white text-[11px] font-black shadow">
+              <span class="w-6 h-6 rounded-lg bg-racing flex items-center justify-center text-white text-xs font-black shadow-md">
                 ?
               </span>
               <span id="canvas-card-badge" class="text-[11px] font-black tracking-wide text-racing-gold uppercase">
                 QUESTION DU CLUB (1 POINT)
               </span>
             </div>
-            <div class="flex items-center space-x-1.5 text-racing-sky text-[10px] font-bold">
-              <i data-lucide="award" class="w-3.5 h-3.5"></i>
+            <div class="flex items-center space-x-1.5 text-racing-sky text-[11px] font-bold">
+              <i data-lucide="award" class="w-4 h-4"></i>
               <span id="canvas-points-tag">1 POINT</span>
             </div>
           </div>
 
           <!-- TEXTE DE LA QUESTION -->
-          <div class="mb-3">
-            <p id="canvas-question-text" class="font-heading font-extrabold text-[14px] leading-snug text-white tracking-normal text-left drop-shadow">
+          <div class="mb-3.5">
+            <p id="canvas-question-text" class="font-heading font-extrabold text-[15px] leading-snug text-white tracking-normal text-left drop-shadow">
               Dans le nom complet du club, le RCBA, quelles sont les deux communes historiques associées pour former cette entité ?
             </p>
           </div>
 
-          <!-- OPTIONS DE RÉPONSE INTERACTIVES (A, B, C) -->
-          <div class="space-y-2" id="canvas-options-container">
-            <!-- Injectées dynamiquement en boutons cliquables par JS -->
+          <!-- 3 OPTIONS DE RÉPONSE INTERACTIVES (A, B, C) -->
+          <div class="space-y-2.5" id="canvas-options-container">
+            <!-- Boutons injectés dynamiquement par JS -->
           </div>
 
-          <!-- CALL-TO-ACTION & ZONE FEEDBACK DYNAMIQUE -->
-          <div id="canvas-card-bottom-box" class="mt-3 p-2.5 rounded-xl border border-racing-sky/30 text-xs transition-all" style="background: #0c1c38;">
+          <!-- CALL-TO-ACTION & ZONE DE FEEDBACK DYNAMIQUE -->
+          <div id="canvas-card-bottom-box" class="mt-3.5 p-3 rounded-2xl border text-xs transition-all duration-300" style="background: #091326; border-color: rgba(56, 189, 248, 0.35);">
             <div class="font-black text-racing-sky text-[11px] uppercase tracking-wider mb-0.5 flex items-center space-x-1.5" id="bottom-box-title">
               <span>💬</span>
               <span>À vos pronostics !</span>
@@ -215,17 +231,17 @@
               1 point par bonne réponse • Enchaînement automatique direct !
             </p>
 
-            <!-- Barre de transition automatique (affichée après le clic) -->
+            <!-- Barre animée de transition automatique (s'affiche après le clic) -->
             <div id="visual-auto-advance-wrap" class="hidden pt-2 border-t border-white/10 mt-2">
               <div class="flex items-center justify-between text-[10px] font-bold text-racing-sky mb-1">
-                <span class="flex items-center space-x-1" id="visual-auto-text">
+                <span class="flex items-center space-x-1.5" id="visual-auto-text">
                   <span class="w-1.5 h-1.5 rounded-full bg-racing-sky animate-ping"></span>
                   <span>Passage automatique à la question suivante...</span>
                 </span>
-                <span class="text-racing-gold font-mono">⚡ Direct</span>
+                <span class="text-racing-gold font-mono font-black">⚡ Direct</span>
               </div>
               <div class="w-full h-1 bg-white/10 rounded-full overflow-hidden">
-                <div id="visual-auto-progress-bar" class="h-full bg-gradient-to-r from-racing via-racing-sky to-emerald-400 w-0 transition-all ease-linear"></div>
+                <div id="visual-auto-progress-bar" class="h-full bg-gradient-to-r from-racing via-racing-sky to-emerald-400 w-0 transition-all ease-linear shimmer-active"></div>
               </div>
             </div>
           </div>
@@ -234,19 +250,19 @@
 
       </div>
 
-      <!-- ==================== ZONE CENTRALE B : CARTE PALMARÈS & RÉSULTATS ==================== -->
+      <!-- ==================== ZONE CENTRALE B : CARTE PALMARÈS FINAL ==================== -->
       <div id="canvas-results-container" class="hidden relative z-10 px-6 my-auto">
         
-        <div class="rounded-2xl p-4 sm:p-5 border-2 shadow-2xl transition-all duration-300" style="background: #070c1a; border-color: rgba(245, 158, 11, 0.7); box-shadow: 0 16px 40px rgba(0,0,0,0.9), 0 0 25px rgba(245, 158, 11, 0.25);">
+        <div class="rounded-3xl p-5 border-2 shadow-2xl transition-all duration-300" style="background: #070d1e; border-color: rgba(245, 158, 11, 0.75); box-shadow: 0 16px 45px rgba(0,0,0,0.95), 0 0 30px rgba(245, 158, 11, 0.3);">
 
           <!-- EN-TÊTE DU PALMARÈS -->
-          <div class="flex items-center justify-between pb-2 mb-2 border-b border-white/10">
+          <div class="flex items-center justify-between pb-2 mb-2.5 border-b border-white/10">
             <div class="flex items-center space-x-2">
               <span class="w-6 h-6 rounded-lg bg-racing-gold flex items-center justify-center text-slate-950 font-black text-xs shadow">
                 🏆
               </span>
               <span class="text-[11px] font-black tracking-wide text-racing-gold uppercase">
-                VOTRE RÉSULTAT OFFICIEL DU QUIZ
+                VOTRE PALMARÈS OFFICIEL DU RCBA
               </span>
             </div>
             <span class="text-[10px] font-bold text-racing-sky px-2 py-0.5 rounded-full bg-racing/20 border border-racing-sky/30">
@@ -254,25 +270,25 @@
             </span>
           </div>
 
-          <!-- ENCART SCORE GÉANT -->
-          <div class="py-2.5 px-3 rounded-xl bg-black/60 border border-white/10 flex items-center justify-between mb-2.5">
+          <!-- ENCART SCORE GÉANT DU JOUEUR -->
+          <div class="py-2.5 px-3 rounded-2xl bg-black/60 border border-white/10 flex items-center justify-between mb-2.5">
             <div class="flex items-center space-x-2.5">
-              <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-racing to-racing-gold flex items-center justify-center text-xl shadow-lg shadow-racing-gold/30">
+              <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-racing to-racing-gold flex items-center justify-center text-2xl shadow-lg shadow-racing-gold/30">
                 🏆
               </div>
               <div>
-                <div class="text-[10px] uppercase font-bold text-slate-400">Score Final Officiel</div>
-                <div class="font-heading font-black text-lg text-white leading-tight">
+                <div class="text-[10px] uppercase font-bold text-slate-400">Score Officiel Certifié</div>
+                <div class="font-heading font-black text-xl text-white leading-tight">
                   <span id="res-score-num" class="text-racing-gold text-2xl">10</span> <span class="text-xs text-slate-400">/ 11 pts</span>
                 </div>
               </div>
             </div>
-            <div id="res-percent-badge" class="text-xs font-black text-emerald-400 bg-emerald-950/60 border border-emerald-500/40 px-2.5 py-1 rounded-lg">
+            <div id="res-percent-badge" class="text-xs font-black text-emerald-400 bg-emerald-950/70 border border-emerald-500/40 px-3 py-1 rounded-xl shadow">
               91% de réussite
             </div>
           </div>
 
-          <!-- LES 4 RANGS OFFICIELS AVEC HIGHLIGHT DU JOUEUR -->
+          <!-- LES 4 RANGS DU CLUB AVEC SURBRILLANCE DU JOUEUR -->
           <div class="space-y-1.5" id="canvas-tiers-list">
             
             <!-- 1. LÉGENDE DU RCBA -->
@@ -330,12 +346,12 @@
           </div>
 
           <!-- BOUTONS D'ACTION DU JOUEUR -->
-          <div class="mt-3 pt-2.5 border-t border-white/10 flex items-center gap-2">
-            <button onclick="restartQuizGame()" class="flex-1 py-2 px-3 rounded-xl bg-gradient-to-r from-racing to-blue-600 hover:from-blue-600 hover:to-racing text-white font-black text-xs shadow-lg shadow-racing/30 transition flex items-center justify-center space-x-1.5">
+          <div class="mt-3.5 pt-3 border-t border-white/10 flex items-center gap-2.5">
+            <button onclick="restartQuizGame()" class="flex-1 py-2.5 px-3 rounded-xl bg-gradient-to-r from-racing to-blue-600 hover:from-blue-600 hover:to-racing text-white font-black text-xs shadow-lg shadow-racing/30 transition flex items-center justify-center space-x-1.5">
               <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i>
               <span>Rejouer le Quiz</span>
             </button>
-            <button onclick="copyPlayerScore()" id="btn-share-score" class="flex-1 py-2 px-3 rounded-xl bg-gradient-to-r from-racing-gold to-amber-500 hover:from-amber-500 hover:to-racing-gold text-slate-950 font-black text-xs shadow-lg shadow-racing-gold/30 transition flex items-center justify-center space-x-1.5">
+            <button onclick="copyPlayerScore()" id="btn-share-score" class="flex-1 py-2.5 px-3 rounded-xl bg-gradient-to-r from-racing-gold to-amber-500 hover:from-amber-500 hover:to-racing-gold text-slate-950 font-black text-xs shadow-lg shadow-racing-gold/30 transition flex items-center justify-center space-x-1.5">
               <i data-lucide="share-2" class="w-3.5 h-3.5"></i>
               <span id="btn-share-label">Partager mon score</span>
             </button>
@@ -345,26 +361,26 @@
 
       </div>
 
-      <!-- ==================== ZONE BASSE : PRÉSERVÉE DANS LE FOND ==================== -->
+      <!-- ==================== ZONE BASSE : PRÉSERVÉE DU FOND OFFICIEL ==================== -->
       <div class="relative z-10 pb-2 px-8 h-[175px] pointer-events-none">
         <!-- Espace réservé pour laisser respirer les éléments graphiques du fond officiel :
              - FIERS DE NOS COULEURS !
              - RESPECT • ENGAGEMENT • CONVIVIALITÉ • PERFORMANCE • SÉRIEUX
              - Un club. Plusieurs équipes. Une seule passion. 💙💚
-             - Logos Sponsors officiels
+             - Logos Sponsors officiels (O'Plateau, Renault Dacia Bû, Crédit Agricole, etc.)
         -->
       </div>
 
     </div>
 
-  </div>
+  </main>
 
 
   <!-- ========================================================================= -->
-  <!-- MODAL ADMIN / EXPORT DES VISUELS HD (Accessible via le bouton en haut)    -->
+  <!-- MODAL ADMIN / EXPORT DES VISUELS HD & POSTS RÉSEAUX SOCIAUX               -->
   <!-- ========================================================================= -->
-  <div id="admin-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
-    <div class="glass-dark rounded-3xl max-w-lg w-full p-6 border-2 border-racing-sky/40 shadow-2xl space-y-4 max-h-[90vh] overflow-y-auto">
+  <div id="admin-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md hidden flex items-center justify-center p-4">
+    <div class="glass-panel rounded-3xl max-w-lg w-full p-6 border-2 border-racing-sky/40 shadow-2xl space-y-4 max-h-[90vh] overflow-y-auto">
       
       <div class="flex items-center justify-between pb-3 border-b border-white/10">
         <div class="flex items-center space-x-2">
@@ -377,33 +393,33 @@
       </div>
 
       <p class="text-xs text-slate-300">
-        Téléchargez les visuels officiels en haute résolution (1080 × 1336 px) pour vos publications Facebook et Instagram.
+        Générez et téléchargez les visuels officiels en résolution HD (1080 × 1336 px) prêts à publier sur Meta Business Suite (Facebook & Instagram).
       </p>
 
-      <!-- Actions rapides d'export -->
+      <!-- Actions d'exportation -->
       <div class="space-y-2">
         <button onclick="downloadCurrentVisual()" class="w-full py-2.5 px-4 rounded-xl bg-racing hover:bg-racing/80 text-white font-black text-xs flex items-center justify-center space-x-2 transition shadow-lg shadow-racing/30">
           <i data-lucide="download" class="w-4 h-4"></i>
-          <span>Télécharger le visuel actuel (.png)</span>
+          <span>Télécharger ce visuel (.png HD)</span>
         </button>
 
         <button onclick="downloadAllVisualsPack()" id="btn-pack-download" class="w-full py-2.5 px-4 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-teal-600 hover:to-emerald-600 text-white font-black text-xs flex items-center justify-center space-x-2 transition shadow-lg shadow-emerald-500/20">
           <i data-lucide="layers" class="w-4 h-4"></i>
-          <span>Générer et télécharger le Pack complet (12 visuels HD)</span>
+          <span>Télécharger le Pack complet (12 visuels HD)</span>
         </button>
       </div>
 
-      <!-- Navigation manuelle dans les slides -->
+      <!-- Navigation vers une question spécifique -->
       <div class="pt-3 border-t border-white/10">
         <label class="block text-xs font-bold text-slate-300 mb-2">Choisir une question à prévisualiser / exporter :</label>
         <div class="grid grid-cols-6 gap-1" id="admin-questions-grid">
-          <!-- 12 boutons injectés par JS -->
+          <!-- 12 boutons générés par JS -->
         </div>
       </div>
 
-      <!-- Copier le texte du post Meta -->
+      <!-- Copier le texte du post Meta Business Suite -->
       <div class="pt-3 border-t border-white/10">
-        <button onclick="copyMetaPostCaption()" id="btn-copy-caption" class="w-full py-2 px-3 rounded-xl bg-white/10 hover:bg-white/15 text-slate-200 font-bold text-xs flex items-center justify-center space-x-2 border border-white/15 transition">
+        <button onclick="copyMetaPostCaption()" id="btn-copy-caption" class="w-full py-2.5 px-3 rounded-xl bg-white/10 hover:bg-white/15 text-slate-200 font-bold text-xs flex items-center justify-center space-x-2 border border-white/15 transition">
           <i data-lucide="copy" class="w-4 h-4 text-racing-sky"></i>
           <span id="copy-caption-label">Copier le texte du post Meta Business Suite</span>
         </button>
@@ -420,7 +436,7 @@
 
 
   <!-- ========================================================================= -->
-  <!-- JAVASCRIPT : DONNÉES DU QUIZ & LOGIQUE DE JEU EN VISUEL DIRECT            -->
+  <!-- JAVASCRIPT : DONNÉES DU QUIZ & EXPÉRIENCE DE JEU INTERACTIVE              -->
   <!-- ========================================================================= -->
   <script>
     // 11 QUESTIONS OFFICIELLES DU RCBA
@@ -603,7 +619,7 @@
       }
     ];
 
-    // BARÈME OFFICIEL DU RCBA (11 POINTS)
+    // LES 4 RANGS OFFICIELS DU BARÈME RCBA
     const TIERS_DATA = [
       {
         id: 1,
@@ -613,8 +629,6 @@
         badge: "10 - 11 PTS",
         icon: "👑",
         color: "#F59E0B",
-        borderClass: "border-racing-gold",
-        bgClass: "bg-racing-gold/20",
         desc: "Connaissance absolue du club ! Vous avez le respect éternel du vestiaire, le maillot floqué en or et votre photo au club-house. Un véritable monument vivant !"
       },
       {
@@ -625,8 +639,6 @@
         badge: "7 - 9 PTS",
         icon: "⚽",
         color: "#10B981",
-        borderClass: "border-emerald-500",
-        bgClass: "bg-emerald-500/20",
         desc: "Le sang bleu et blanc coule dans vos veines ! Vous connaissez parfaitement le RCBA, son histoire et ses valeurs. Un cadre exemplaire sur lequel le club peut toujours compter."
       },
       {
@@ -637,8 +649,6 @@
         badge: "4 - 6 PTS",
         icon: "🍺",
         color: "#38BDF8",
-        borderClass: "border-racing-sky",
-        bgClass: "bg-racing-sky/20",
         desc: "Un très beau potentiel ! Vous aimez le club et l'ambiance, mais une petite séance de révision autour de la buvette s'impose pour perfectionner vos classiques."
       },
       {
@@ -649,8 +659,6 @@
         badge: "0 - 3 PTS",
         icon: "🍟",
         color: "#F97316",
-        borderClass: "border-orange-500",
-        bgClass: "bg-orange-500/20",
         desc: "Bienvenue dans la grande famille du RCBA ! Tout s'apprend sur le rectangle vert et la prochaine tournée de frites chaudes à la buvette est pour vous !"
       }
     ];
@@ -661,7 +669,7 @@
     let playerAnswers = [];
     let autoTimer = null;
 
-    // INITIALISATION DU JEU
+    // INITIALISATION DE L'APPLICATION
     window.addEventListener('DOMContentLoaded', () => {
       renderGameQuestion(0);
       initAdminQuestionsGrid();
@@ -669,7 +677,7 @@
       lucide.createIcons();
     });
 
-    // ADAPTATION RESPONSIVE PARFAITE (MOBILE & DESKTOP)
+    // ADAPTATION RESPONSIVE DE PRÉCISION (MOBILE & DESKTOP)
     function fitQuizToScreen() {
       const card = document.getElementById('quiz-canvas-card');
       const wrapper = document.getElementById('quiz-viewport-wrapper');
@@ -678,10 +686,10 @@
       const baseW = 620;
       const baseH = 767;
       const availW = window.innerWidth - 16;
-      const availH = window.innerHeight - 70; // espace réservé pour en-tête
+      const availH = window.innerHeight - 30;
 
       let scale = Math.min(availW / baseW, availH / baseH, 1);
-      if (scale < 0.42) scale = 0.42;
+      if (scale < 0.40) scale = 0.40;
 
       card.style.transform = `scale(${scale})`;
       card.style.transformOrigin = 'top center';
@@ -695,58 +703,55 @@
       currentStep = stepIdx;
       const q = QUIZ_DATA[stepIdx];
 
-      // Réinitialiser les conteneurs
+      // Réinitialisation des conteneurs
       document.getElementById('canvas-results-container').classList.add('hidden');
       document.getElementById('canvas-question-container').classList.remove('hidden');
 
-      // Header du visuel
+      // Zone haute du visuel
       document.getElementById('canvas-theme-tag').innerText = q.theme;
       document.getElementById('canvas-main-title').innerText = "LE GRAND QUIZ DU RCBA";
       const qNumStr = String(stepIdx + 1).padStart(2, '0');
       document.getElementById('canvas-q-number').innerText = `QUESTION ${qNumStr} / 11`;
-
-      // Header externe discret
-      document.getElementById('header-q-counter').innerText = `Question ${stepIdx + 1} / 11`;
-      document.getElementById('header-score-counter').innerText = `Score : ${playerScore} pt${playerScore > 1 ? 's' : ''}`;
 
       // En-tête de la carte
       document.getElementById('canvas-card-badge').innerText = "QUESTION DU CLUB (1 POINT)";
       document.getElementById('canvas-points-tag').innerText = "1 POINT";
       document.getElementById('canvas-question-text').innerText = q.question;
 
-      // Génération des 3 boutons interactifs A, B, C
+      // Génération des 3 boutons de réponse stylés
       const optionsContainer = document.getElementById('canvas-options-container');
       optionsContainer.innerHTML = '';
 
-      const badgeStyles = {
-        'A': 'bg-racing/50 text-racing-sky border-racing-sky/40',
-        'B': 'bg-racing-gold/40 text-racing-gold border-racing-gold/40',
-        'C': 'bg-emerald-500/40 text-emerald-300 border-emerald-500/40'
+      // Couleurs officielles des carrés de badges
+      const badgeBg = {
+        'A': 'background: #1d4ed8; color: #ffffff;',
+        'B': 'background: #d97706; color: #ffffff;',
+        'C': 'background: #059669; color: #ffffff;'
       };
 
       q.options.forEach(opt => {
         const btn = document.createElement('button');
         btn.id = `opt-btn-${opt.id}`;
         btn.onclick = () => selectVisualOption(opt.id);
-        btn.className = 'opt-btn w-full rounded-xl p-2.5 flex items-center space-x-3 text-left cursor-pointer group';
-        btn.style.background = '#0f1830';
-        btn.style.border = '1px solid rgba(255,255,255,0.12)';
+        btn.className = 'opt-card-btn w-full rounded-2xl p-3 flex items-center space-x-3.5 text-left cursor-pointer group';
+        btn.style.background = '#0e1733';
+        btn.style.border = '1.5px solid rgba(255,255,255,0.12)';
         
         btn.innerHTML = `
-          <span id="opt-badge-${opt.id}" class="w-7 h-7 rounded-lg ${badgeStyles[opt.id]} font-black text-xs flex items-center justify-center shrink-0 border transition-transform group-hover:scale-105">
+          <span id="opt-badge-${opt.id}" class="w-8 h-8 rounded-xl font-black text-sm flex items-center justify-center shrink-0 shadow transition-transform group-hover:scale-105" style="${badgeBg[opt.id]}">
             ${opt.id}
           </span>
-          <span id="opt-text-${opt.id}" class="text-xs font-bold text-slate-100 leading-tight group-hover:text-white">
+          <span id="opt-text-${opt.id}" class="text-sm font-bold text-slate-100 leading-tight group-hover:text-white">
             ${opt.text}
           </span>
         `;
         optionsContainer.appendChild(btn);
       });
 
-      // Réinitialiser la zone CTA / Feedback
+      // Réinitialisation de la zone d'appel / feedback
       const bottomBox = document.getElementById('canvas-card-bottom-box');
-      bottomBox.style.background = '#0c1c38';
-      bottomBox.style.borderColor = 'rgba(56, 189, 248, 0.3)';
+      bottomBox.style.background = '#091326';
+      bottomBox.style.borderColor = 'rgba(56, 189, 248, 0.35)';
 
       document.getElementById('bottom-box-title').className = 'font-black text-racing-sky text-[11px] uppercase tracking-wider mb-0.5 flex items-center space-x-1.5';
       document.getElementById('bottom-box-title').innerHTML = `<span>💬</span><span>À vos pronostics !</span>`;
@@ -757,7 +762,7 @@
       document.getElementById('bottom-box-sub').className = 'text-slate-400 text-[10px] mt-0.5';
       document.getElementById('bottom-box-sub').innerText = "1 point par bonne réponse • Enchaînement automatique direct !";
 
-      // Cacher la jauge de transition
+      // Cacher la jauge d'enchaînement
       const autoWrap = document.getElementById('visual-auto-advance-wrap');
       autoWrap.classList.add('hidden');
       const progressBar = document.getElementById('visual-auto-progress-bar');
@@ -769,12 +774,12 @@
       lucide.createIcons();
     }
 
-    // CLIC SUR UNE RÉPONSE : VERROUILLAGE IRRÉVERSIBLE & PASSAGE AUTOMATIQUE
+    // GESTION DU CLIC : VERROUILLAGE IRRÉVERSIBLE & PASSAGE DIRECT (1.4S)
     function selectVisualOption(chosenId) {
       const q = QUIZ_DATA[currentStep];
       const isCorrect = (chosenId === q.answer);
 
-      // 1. Verrouillage instantané et irréversible de tous les boutons (aucun retour arrière)
+      // 1. Verrouillage instantané et irréversible de toutes les options
       q.options.forEach(opt => {
         const btn = document.getElementById(`opt-btn-${opt.id}`);
         const badge = document.getElementById(`opt-badge-${opt.id}`);
@@ -783,29 +788,30 @@
         btn.style.pointerEvents = 'none';
 
         if (opt.id === q.answer) {
-          // Bonne réponse : Vert émeraude éclatant
-          btn.style.background = '#064e3b';
+          // Bonne réponse : Vert émeraude éclatant avec coche
+          btn.style.background = 'linear-gradient(135deg, rgba(6, 78, 59, 0.95), rgba(4, 120, 87, 0.85))';
           btn.style.borderColor = '#34d399';
-          btn.style.boxShadow = '0 0 16px rgba(16,185,129,0.45)';
-          badge.className = 'w-7 h-7 rounded-lg bg-emerald-500 text-slate-950 font-black text-xs flex items-center justify-center shrink-0 border border-emerald-300';
+          btn.style.boxShadow = '0 0 25px rgba(16, 185, 129, 0.5)';
+          badge.style.background = '#10b981';
+          badge.style.color = '#022c22';
           badge.innerHTML = '✓';
         } else if (opt.id === chosenId && !isCorrect) {
-          // Mauvais choix : Rouge avertissement
-          btn.style.background = '#7f1d1d';
+          // Choix erroné du joueur : Rouge avec croix
+          btn.style.background = 'linear-gradient(135deg, rgba(127, 29, 29, 0.95), rgba(185, 28, 28, 0.85))';
           btn.style.borderColor = '#ef4444';
-          btn.style.opacity = '0.9';
-          badge.className = 'w-7 h-7 rounded-lg bg-red-500 text-white font-black text-xs flex items-center justify-center shrink-0 border border-red-300';
+          btn.style.boxShadow = '0 0 20px rgba(239, 68, 68, 0.45)';
+          badge.style.background = '#ef4444';
+          badge.style.color = '#ffffff';
           badge.innerHTML = '✗';
         } else {
-          // Autre choix neutre estompé
+          // Option non choisie neutre estompée
           btn.style.opacity = '0.35';
         }
       });
 
-      // 2. Score
+      // 2. Mise à jour du score
       if (isCorrect) {
         playerScore++;
-        document.getElementById('header-score-counter').innerText = `Score : ${playerScore} pt${playerScore > 1 ? 's' : ''}`;
       }
 
       playerAnswers.push({
@@ -815,16 +821,16 @@
         isCorrect: isCorrect
       });
 
-      // 3. Transformation du bloc bas de la carte en feedback + anecdote
+      // 3. Révélation de l'explication et de l'anecdote dans le bloc inférieur
       const bottomBox = document.getElementById('canvas-card-bottom-box');
       if (isCorrect) {
         bottomBox.style.background = '#06281e';
-        bottomBox.style.borderColor = 'rgba(16, 185, 129, 0.6)';
+        bottomBox.style.borderColor = 'rgba(16, 185, 129, 0.7)';
         document.getElementById('bottom-box-title').className = 'font-black text-emerald-400 text-[11px] uppercase tracking-wider mb-0.5 flex items-center space-x-1.5';
         document.getElementById('bottom-box-title').innerHTML = `<span>✓</span><span>EXCELLENT ! C'EST LA BONNE RÉPONSE (+1 PT)</span>`;
       } else {
         bottomBox.style.background = '#2c0d14';
-        bottomBox.style.borderColor = 'rgba(239, 68, 68, 0.6)';
+        bottomBox.style.borderColor = 'rgba(239, 68, 68, 0.7)';
         document.getElementById('bottom-box-title').className = 'font-black text-red-400 text-[11px] uppercase tracking-wider mb-0.5 flex items-center space-x-1.5';
         document.getElementById('bottom-box-title').innerHTML = `<span>✗</span><span>AÏE ! LA BONNE RÉPONSE ÉTAIT L'OPTION ${q.answer}</span>`;
       }
@@ -835,7 +841,7 @@
       document.getElementById('bottom-box-sub').className = 'text-racing-gold text-[10px] mt-1 font-semibold border-t border-white/10 pt-1';
       document.getElementById('bottom-box-sub').innerText = q.funFact ? `💡 ${q.funFact}` : '';
 
-      // 4. Jauge animée de transition automatique
+      // 4. Animation de la barre de transition
       const autoWrap = document.getElementById('visual-auto-advance-wrap');
       const autoText = document.getElementById('visual-auto-text');
       const progressBar = document.getElementById('visual-auto-progress-bar');
@@ -844,7 +850,7 @@
       if (isLast) {
         autoText.innerHTML = `
           <span class="w-1.5 h-1.5 rounded-full bg-racing-gold animate-ping"></span>
-          <span class="text-racing-gold font-bold">Calcul de votre score & résultat final...</span>
+          <span class="text-racing-gold font-bold">Calcul de votre score & proclamation du résultat...</span>
         `;
       } else {
         autoText.innerHTML = `
@@ -866,7 +872,7 @@
 
       lucide.createIcons();
 
-      // 5. Enchaînement automatique (1,4s) sans retour arrière
+      // 5. Enchaînement automatique (1,4 s) sans retour arrière possible
       if (autoTimer) clearTimeout(autoTimer);
       autoTimer = setTimeout(() => {
         if (currentStep < 10) {
@@ -877,13 +883,13 @@
       }, 1400);
     }
 
-    // ÉCRAN FINAL DU PALMARÈS (DANS LE MÊME VISUEL OFFICIEL)
+    // ÉCRAN DU PALMARÈS (DANS CE MÊME VISUEL OFFICIEL)
     function showVisualResults() {
       document.getElementById('canvas-question-container').classList.add('hidden');
       const resContainer = document.getElementById('canvas-results-container');
       resContainer.classList.remove('hidden');
 
-      // Mise à jour du header dans le visuel
+      // Mise à jour de la zone haute du visuel
       document.getElementById('canvas-theme-tag').innerText = "RÉSULTATS DU GRAND QUIZ";
       document.getElementById('canvas-main-title').innerText = "LE GRAND QUIZ DU RCBA";
       document.getElementById('canvas-q-number').innerText = "COUP DE SIFFLET FINAL 🏆";
@@ -899,20 +905,21 @@
       else if (playerScore >= 7) activeTierId = 2;
       else if (playerScore >= 4) activeTierId = 3;
 
-      // Mise en surbrillance du palier du joueur
+      // Surbrillance du palier du joueur
       for (let i = 1; i <= 4; i++) {
         const card = document.getElementById(`tier-card-${i}`);
         if (i === activeTierId) {
-          card.style.background = 'rgba(28, 100, 242, 0.25)';
+          card.style.background = 'rgba(28, 100, 242, 0.28)';
           card.style.borderColor = '#F59E0B';
-          card.style.boxShadow = '0 0 20px rgba(245, 158, 11, 0.4)';
+          card.style.boxShadow = '0 0 25px rgba(245, 158, 11, 0.5)';
           card.style.transform = 'scale(1.02)';
+          card.style.opacity = '1';
         } else {
           card.style.background = '#0c142a';
           card.style.borderColor = 'rgba(255,255,255,0.08)';
           card.style.boxShadow = 'none';
           card.style.transform = 'none';
-          card.style.opacity = '0.5';
+          card.style.opacity = '0.45';
         }
       }
 
@@ -927,27 +934,37 @@
       renderGameQuestion(0);
     }
 
-    // PARTAGER SON SCORE
+    // PARTAGER SON SCORE (AVEC TOAST DE CONFIRMATION)
     function copyPlayerScore() {
       let tier = TIERS_DATA[3];
       if (playerScore >= 10) tier = TIERS_DATA[0];
       else if (playerScore >= 7) tier = TIERS_DATA[1];
       else if (playerScore >= 4) tier = TIERS_DATA[2];
 
-      const text = `🏆 J'ai obtenu ${playerScore}/11 au GRAND QUIZ DU RACING CLUB BÛ ABONDANT ! 🔵🔘
+      const text = `🏆 J'ai obtenu le score de ${playerScore}/11 au GRAND QUIZ DU RACING CLUB BÛ ABONDANT ! 🔵🔘
 
 Mon statut officiel : ${tier.icon} ${tier.title} (${tier.badge})
 "${tier.desc}"
 
-Feras-tu mieux que moi ? Teste tes connaissances du RCBA ! ⚽👇
+Et toi, connais-tu vraiment le RCBA ? Feras-tu mieux que moi ? ⚽👇
 #RCBA #GrandQuizRCBA #RacingClubBuAbondant #FiersDeNosCouleurs #District28`;
 
       navigator.clipboard.writeText(text).then(() => {
-        const label = document.getElementById('btn-share-label');
-        const orig = label.innerText;
-        label.innerText = 'Copié ! ✓';
-        setTimeout(() => { label.innerText = orig; }, 2500);
+        showToast("Résultat copié ! Prêt à coller sur vos réseaux 📋");
       });
+    }
+
+    // AFFICHAGE D'UN TOAST FLOTTANT ÉLÉGANT
+    function showToast(msg) {
+      const toast = document.getElementById('toast-notify');
+      document.getElementById('toast-message').innerText = msg;
+      toast.classList.remove('translate-y-12', 'opacity-0');
+      toast.classList.add('translate-y-0', 'opacity-100');
+
+      setTimeout(() => {
+        toast.classList.remove('translate-y-0', 'opacity-100');
+        toast.classList.add('translate-y-12', 'opacity-0');
+      }, 2500);
     }
 
     // =========================================================================
@@ -969,7 +986,7 @@ Feras-tu mieux que moi ? Teste tes connaissances du RCBA ! ⚽👇
           renderGameQuestion(i);
           toggleAdminModal(false);
         };
-        btn.className = 'p-2 rounded-lg bg-white/5 hover:bg-racing/30 border border-white/10 text-xs font-bold text-center';
+        btn.className = 'p-2 rounded-xl bg-white/5 hover:bg-racing/30 border border-white/10 text-xs font-bold text-center transition';
         btn.innerText = `Q${i + 1}`;
         grid.appendChild(btn);
       }
@@ -980,7 +997,7 @@ Feras-tu mieux que moi ? Teste tes connaissances du RCBA ! ⚽👇
         showVisualResults();
         toggleAdminModal(false);
       };
-      btnP.className = 'p-2 rounded-lg bg-racing-gold/20 hover:bg-racing-gold/30 border border-racing-gold/50 text-racing-gold text-xs font-black text-center';
+      btnP.className = 'p-2 rounded-xl bg-racing-gold/20 hover:bg-racing-gold/30 border border-racing-gold/50 text-racing-gold text-xs font-black text-center transition';
       btnP.innerText = '🏆';
       grid.appendChild(btnP);
     }
@@ -990,13 +1007,14 @@ Feras-tu mieux que moi ? Teste tes connaissances du RCBA ! ⚽👇
       const origTransform = card.style.transform;
       card.style.transform = 'none';
 
-      const canvas = await html2canvas(card, { scale: 2, useCORS: true, backgroundColor: '#040817' });
+      const canvas = await html2canvas(card, { scale: 2, useCORS: true, backgroundColor: '#030712' });
       card.style.transform = origTransform;
 
       const link = document.createElement('a');
       link.download = `RCBA_Quiz_Q${String(currentStep + 1).padStart(2, '0')}.png`;
       link.href = canvas.toDataURL('image/png');
       link.click();
+      showToast("Visuel HD téléchargé avec succès !");
     }
 
     async function downloadAllVisualsPack() {
@@ -1012,7 +1030,7 @@ Feras-tu mieux que moi ? Teste tes connaissances du RCBA ! ⚽👇
       for (let i = 0; i < 11; i++) {
         renderGameQuestion(i);
         await new Promise(r => setTimeout(r, 200));
-        const canvas = await html2canvas(card, { scale: 2, useCORS: true, backgroundColor: '#040817' });
+        const canvas = await html2canvas(card, { scale: 2, useCORS: true, backgroundColor: '#030712' });
         const link = document.createElement('a');
         link.download = `RCBA_Quiz_Q${String(i + 1).padStart(2, '0')}_question.png`;
         link.href = canvas.toDataURL('image/png');
@@ -1023,7 +1041,7 @@ Feras-tu mieux que moi ? Teste tes connaissances du RCBA ! ⚽👇
       // Palmarès
       showVisualResults();
       await new Promise(r => setTimeout(r, 200));
-      const canvasP = await html2canvas(card, { scale: 2, useCORS: true, backgroundColor: '#040817' });
+      const canvasP = await html2canvas(card, { scale: 2, useCORS: true, backgroundColor: '#030712' });
       const linkP = document.createElement('a');
       linkP.download = `RCBA_Quiz_12_resultats.png`;
       linkP.href = canvasP.toDataURL('image/png');
@@ -1032,7 +1050,7 @@ Feras-tu mieux que moi ? Teste tes connaissances du RCBA ! ⚽👇
       card.style.transform = origTransform;
       btn.innerHTML = origText;
       lucide.createIcons();
-      alert("Pack complet de 12 visuels HD téléchargé !");
+      showToast("Pack complet des 12 visuels HD téléchargé !");
     }
 
     function copyMetaPostCaption() {
@@ -1053,10 +1071,7 @@ Mentionnez un coéquipier pour tester ses connaissances du club ! 👇
 #RCBA #RacingClubBuAbondant #GrandQuizRCBA #FiersDeNosCouleurs #District28 #FootballAmateur`;
 
       navigator.clipboard.writeText(caption).then(() => {
-        const label = document.getElementById('copy-caption-label');
-        const orig = label.innerText;
-        label.innerText = 'Copié dans le presse-papiers ! ✓';
-        setTimeout(() => { label.innerText = orig; }, 2500);
+        showToast("Texte du post copié !");
       });
     }
   </script>
