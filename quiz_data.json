@@ -52,12 +52,12 @@
   {
     "id": 6,
     "theme": "INFRASTRUCTURES",
-    "question": "En plus des terrains extérieurs de Bû et d'Abondant, quel équipement municipal le club utilise-t-il régulièrement pour les entraînements ?",
-    "optA": "Le gymnase de Bû",
-    "optB": "Une piscine municipale couverte",
+    "question": "En plus des terrains extérieurs de Bû et d'Abondant, quel équipement sportif couvert le club utilise-t-il régulièrement pour les entraînements ?",
+    "optA": "Le gymnase intercommunal de Bû",
+    "optB": "Une piscine couverte",
     "optC": "Le boulodrome couvert",
     "answer": "A",
-    "explanation": "Le gymnase de Bû permet à nos licenciés de s'entraîner au chaud l'hiver et de pratiquer le futsal !"
+    "explanation": "Le gymnase intercommunal de Bû permet à nos licenciés de s'entraîner au chaud l'hiver et de pratiquer le futsal !"
   },
   {
     "id": 7,

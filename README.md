@@ -14,7 +14,7 @@ Ce projet a été conçu pour animer la communauté des supporters, licenciés, 
 
 ### 🎮 Deux Modes en Un :
 1. **Mode Joueur Interactif (Quiz Direct)** :
-   * 11 questions thématiques couvrant la fusion historique de 1999, les infrastructures (Bû et Abondant), le tournoi Jean-Claude Poisson, les catégories féminines, les bénévoles et les valeurs du club.
+   * 11 questions officielles du club : fondation bicommunale Bû-Abondant, 450 licenciés, Top 5 en Eure-et-Loir, double labélisation FFF (Jeunes & Féminines), section féminine loisir, gymnase intercommunal de Bû, rituel de la buvette, affiliation District 28, tenues bleu roi et gris, gestion logistique et causerie d'avant-match.
    * **Enchaînement automatique & irréversible** : Dès le clic sur une option (A, B ou C), le choix est verrouillé sans retour arrière possible, affichant la validation et l'anecdote club, avant de passer automatiquement à la question suivante après 1,4 s.
    * **Grand Écran de Palmarès & Résultats** : Calcul du score officiel sur 11, attribution d'un rang club certifié, récapitulatif complet des 11 questions et bouton de partage formaté pour les réseaux sociaux.
 
