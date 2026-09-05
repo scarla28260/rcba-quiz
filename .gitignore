@@ -1,0 +1,15 @@
+# Système & OS
+.DS_Store
+Thumbs.db
+ehthumbs.db
+
+# Éditeurs
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Fichiers temporaires & logs
+*.log
+*.tmp
+.cache/

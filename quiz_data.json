@@ -1,0 +1,112 @@
+[
+  {
+    "id": 1,
+    "theme": "HISTOIRE & FONDATION",
+    "question": "Dans le nom complet du club, le RCBA, quelles sont les deux communes historiques associées pour former cette entité ?",
+    "optA": "Dreux et Anet",
+    "optB": "Bû et Abondant",
+    "optC": "Nogent-le-Roi et Maintenon",
+    "answer": "B",
+    "explanation": "Le Racing Club Bû Abondant réunit nos deux communes d'Eure-et-Loir pour faire rayonner le football local !"
+  },
+  {
+    "id": 2,
+    "theme": "EFFECTIFS DU CLUB",
+    "question": "À combien estime-t-on globalement le nombre de licenciés au sein de la grande famille du club ?",
+    "optA": "Environ 200 licenciés",
+    "optB": "Autour de 350 licenciés",
+    "optC": "Environ 450 licenciés",
+    "answer": "C",
+    "explanation": "Près de 450 passionnés (école de foot, seniors, féminines, vétérans, bénévoles) font battre le coeur du club !"
+  },
+  {
+    "id": 3,
+    "theme": "RAYONNEMENT DU CLUB",
+    "question": "Où se situe approximativement le RCBA en termes de volume de licenciés par rapport aux autres clubs du 28 ?",
+    "optA": "Dans le Top 5 départemental",
+    "optB": "Dans la moyenne basse du département",
+    "optC": "En milieu de tableau (entre la 20e et la 30e place)",
+    "answer": "A",
+    "explanation": "Le RCBA figure fièrement dans le Top 5 des clubs d'Eure-et-Loir en nombre de licenciés !"
+  },
+  {
+    "id": 4,
+    "theme": "LABELS FÉDÉRAUX FFF",
+    "question": "Le club a reçu une double labélisation officielle de la FFF (Jeunes & Féminines). Que récompensent ces labels ?",
+    "optA": "La qualité de la formation, de l'accueil et de l'encadrement",
+    "optB": "Le nombre de buts marqués par l'équipe première",
+    "optC": "La modernité exclusive des équipements et des buvettes",
+    "answer": "A",
+    "explanation": "Une distinction fédérale d'excellence saluant la formation et l'encadrement exemplaire de nos éducateurs."
+  },
+  {
+    "id": 5,
+    "theme": "FOOTBALL FÉMININ",
+    "question": "Outre les équipes masculines et l'école de foot, quel type d'équipe féminine senior a vu le jour au RCBA ?",
+    "optA": "Une équipe professionnelle en D1 Arkema",
+    "optB": "Une équipe féminine loisir",
+    "optC": "Une équipe de beach-soccer",
+    "answer": "B",
+    "explanation": "Le foot au féminin dans la bonne humeur ! Notre équipe loisir incarne le plaisir et la convivialité du RCBA."
+  },
+  {
+    "id": 6,
+    "theme": "INFRASTRUCTURES",
+    "question": "En plus des terrains extérieurs de Bû et d'Abondant, quel équipement municipal le club utilise-t-il régulièrement pour les entraînements ?",
+    "optA": "Le gymnase de Bû",
+    "optB": "Une piscine municipale couverte",
+    "optC": "Le boulodrome couvert",
+    "answer": "A",
+    "explanation": "Le gymnase de Bû permet à nos licenciés de s'entraîner au chaud l'hiver et de pratiquer le futsal !"
+  },
+  {
+    "id": 7,
+    "theme": "TRADITION & CONVIVIALITÉ",
+    "question": "Quel est le rituel sacré et incontournable après un match ou un entraînement au club ?",
+    "optA": "Une séance de yoga silencieuse dans les vestiaires",
+    "optB": "Le passage obligé par la buvette pour refaire le match",
+    "optC": "Un footing de décrassage de 10 kilomètres sur la route",
+    "answer": "B",
+    "explanation": "L'ADN du football amateur ! La buvette est le coeur battant du club pour refaire le match autour d'un verre."
+  },
+  {
+    "id": 8,
+    "theme": "INSTITUTIONS OFFICIELLES",
+    "question": "Sur un plan institutionnel, à quelle instance départementale le RCBA est-il rattaché pour ses championnats ?",
+    "optA": "Le District d'Eure-et-Loir de Football",
+    "optB": "La Ligue de Paris Île-de-France",
+    "optC": "Le District de l'Orne",
+    "answer": "A",
+    "explanation": "Le RCBA évolue sous l'égide du District d'Eure-et-Loir (28) au sein de la Ligue Centre-Val de Loire !"
+  },
+  {
+    "id": 9,
+    "theme": "COULEURS OFFICIELLES",
+    "question": "Quelles sont les teintes principales qui habillent traditionnellement les tenues du club lors des dernières saisons ?",
+    "optA": "Du vert et du jaune fluo",
+    "optB": "Du bleu roi et du gris",
+    "optC": "Du rose bonbon et du noir",
+    "answer": "B",
+    "explanation": "Le bleu roi et le gris argenté : nos couleurs emblématiques, portées avec fierté sur tous les terrains !"
+  },
+  {
+    "id": 10,
+    "theme": "ORGANISATION DU CLUB",
+    "question": "Quelle est la particularité logistique majeure de la gestion quotidienne d'un club bicommunal comme le RCBA ?",
+    "optA": "Il n'y a qu'un seul vestiaire pour tout le monde",
+    "optB": "Jongler en permanence entre les installations et plannings de Bû et d'Abondant",
+    "optC": "Les matchs se jouent obligatoirement sur terrain neutre",
+    "answer": "B",
+    "explanation": "Deux mairies, deux stades, deux plannings : une vraie prouesse menée chaque semaine par nos bénévoles !"
+  },
+  {
+    "id": 11,
+    "theme": "MATCHDAY & VESTIAIRES",
+    "question": "Comment appelle-t-on le moment crucial où l'entraîneur rassemble tout le monde dans les vestiaires avant le coup d'envoi ?",
+    "optA": "La sieste tactique",
+    "optB": "La causerie d'avant-match",
+    "optC": "Le débriefing de fin de semaine",
+    "answer": "B",
+    "explanation": "La mythique causerie ! L'instant où montent la motivation, les consignes tactiques et l'envie collective."
+  }
+]
