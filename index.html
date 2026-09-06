@@ -1025,6 +1025,7 @@
 
     // RENDU D'UNE QUESTION (PLEINE PAGE)
     function renderGameQuestion(stepIdx) {
+      stopQuestionTicTac();
       if (autoTimer) {
         clearInterval(autoTimer);
         clearTimeout(autoTimer);
@@ -1108,11 +1109,16 @@
       }
 
       lucide.createIcons();
+      // Lancer le tic-tac de suspense pendant que le joueur réfléchit
+      startQuestionTicTac();
     }
 
     // CLIC SUR UNE RÉPONSE : VERROUILLAGE IRRÉVERSIBLE & AFFICHAGE CLAIR BONNE / MAUVAISE RÉPONSE
     function selectVisualOption(chosenId) {
       try {
+        // Arrêter immédiatement le tic-tac d'attente dès que le joueur répond
+        stopQuestionTicTac();
+
         // Initialiser l'AudioContext dès le premier clic (contournement des restrictions navigateur)
         getAudioCtx();
 
@@ -1130,6 +1136,12 @@
           btn.onclick = null;
           btn.style.pointerEvents = 'none';
 
+          let tag = btn.querySelector('.status-tag');
+          if (!tag) {
+            tag = document.createElement('span');
+            btn.appendChild(tag);
+          }
+
           if (opt.id === q.answer) {
             // BONNE RÉPONSE : Vert émeraude éclatant + badge explicite
             btn.style.background = 'linear-gradient(135deg, rgba(6, 78, 59, 0.95), rgba(4, 120, 87, 0.85))';
@@ -1142,11 +1154,6 @@
               badge.innerHTML = '✓';
             }
             // Pastille explicite
-            let tag = btn.querySelector('.status-tag');
-            if (!tag) {
-              tag = document.createElement('span');
-              btn.appendChild(tag);
-            }
             tag.className = 'status-tag ml-auto px-2.5 sm:px-3 py-1 rounded-xl bg-emerald-400 text-slate-950 font-black text-xs sm:text-sm shrink-0 shadow animate-pulse border border-emerald-200';
             tag.innerText = isCorrect ? '✓ BONNE RÉPONSE (+1 PT)' : '✓ LA BONNE RÉPONSE';
           } else if (opt.id === chosenId && !isCorrect) {
@@ -1161,15 +1168,11 @@
               badge.innerHTML = '✗';
             }
             // Pastille explicite "VOTRE CHOIX (FAUX)"
-            let tag = btn.querySelector('.status-tag');
-            if (!tag) {
-              tag = document.createElement('span');
-              btn.appendChild(tag);
-            }
             tag.className = 'status-tag ml-auto px-2.5 sm:px-3 py-1 rounded-xl bg-rose-700 text-white font-black text-xs sm:text-sm shrink-0 shadow border border-rose-300';
             tag.innerText = '✗ VOTRE CHOIX (FAUX)';
           } else {
             // Option non choisie neutre estompée
+            tag.style.display = 'none';
             btn.style.opacity = '0.35';
           }
         });
@@ -1278,10 +1281,6 @@
           };
         }
 
-        let tickTacState = false;
-        // Premier Tic dès l'activation du décompte
-        try { playClockTick(false); } catch(e) {}
-
         if (autoTimer) {
           clearInterval(autoTimer);
           clearTimeout(autoTimer);
@@ -1290,10 +1289,6 @@
         autoTimer = setInterval(() => {
           if (isPaused) return;
           remainingSec--;
-          tickTacState = !tickTacState;
-          
-          // Son de tic-tac rythmique à chaque seconde
-          try { playClockTick(tickTacState); } catch(e) {}
 
           if (countdownEl) countdownEl.innerText = `⏱️ ${remainingSec}s`;
           if (remainingSec <= 0) {
@@ -1329,6 +1324,7 @@
 
     // ÉCRAN FINAL DU PALMARÈS (PLEINE PAGE)
     function showVisualResults() {
+      stopQuestionTicTac();
       document.getElementById('quiz-question-view').classList.add('hidden');
       const resContainer = document.getElementById('quiz-results-view');
       resContainer.classList.remove('hidden');
@@ -1774,6 +1770,52 @@ Et toi, connais-tu vraiment le RCBA ? Feras-tu mieux que moi ? ⚽👇
         oscBody.stop(t + 0.028);
       } catch (e) {}
     }
+
+    // Gestionnaire de tic-tac en attente de réponse (ambiance suspense de jeu télévisé)
+    let questionTicTacTimer = null;
+    let questionTicTacState = false;
+
+    function startQuestionTicTac() {
+      stopQuestionTicTac();
+      questionTicTacState = false;
+      // Démarrer immédiatement le premier tic si l'AudioContext est déjà actif
+      try {
+        const ctx = getAudioCtx();
+        if (ctx && ctx.state === 'running') {
+          playClockTick(false);
+        }
+      } catch(e) {}
+
+      questionTicTacTimer = setInterval(() => {
+        questionTicTacState = !questionTicTacState;
+        try { playClockTick(questionTicTacState); } catch(e) {}
+      }, 1000);
+    }
+
+    function stopQuestionTicTac() {
+      if (questionTicTacTimer) {
+        clearInterval(questionTicTacTimer);
+        questionTicTacTimer = null;
+      }
+    }
+
+    // Débloquer l'audio dès la première interaction de l'utilisateur sur la page
+    const unlockAudioOnGesture = () => {
+      const ctx = getAudioCtx();
+      if (ctx && ctx.state === 'suspended') {
+        ctx.resume();
+      }
+      // Si on est en attente d'une réponse sur la question en cours, lancer le son
+      if (questionTicTacTimer) {
+        try { playClockTick(false); } catch(e) {}
+      }
+      window.removeEventListener('click', unlockAudioOnGesture);
+      window.removeEventListener('touchstart', unlockAudioOnGesture);
+      window.removeEventListener('keydown', unlockAudioOnGesture);
+    };
+    window.addEventListener('click', unlockAudioOnGesture, { passive: true });
+    window.addEventListener('touchstart', unlockAudioOnGesture, { passive: true });
+    window.addEventListener('keydown', unlockAudioOnGesture, { passive: true });
 
     // TOAST FLOTTANT
     function showToast(msg) {
