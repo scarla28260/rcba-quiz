@@ -1114,7 +1114,11 @@
     // CLIC SUR UNE RÉPONSE : VERROUILLAGE IRRÉVERSIBLE & AFFICHAGE CLAIR BONNE / MAUVAISE RÉPONSE
     function selectVisualOption(chosenId) {
       try {
+        // Initialiser l'AudioContext dès le premier clic (contournement des restrictions navigateur)
+        getAudioCtx();
+
         const q = QUIZ_DATA[currentStep];
+        if (!q) return; // Protection contre les appels pendant les transitions
         const isCorrect = (chosenId === q.answer);
 
         // 1. Verrouillage et coloration immédiate de tous les boutons avec badges explicites
@@ -1457,19 +1461,19 @@ Et toi, connais-tu vraiment le RCBA ? Feras-tu mieux que moi ? ⚽👇
       // Pluie de confettis victorieuse
       launchGoalConfetti();
 
-      // Disparition en douceur après 900ms pour laisser pleine visibilité à l'explication
+      // Disparition en douceur après 1500ms pour laisser pleine visibilité à l'explication
       setTimeout(() => {
         if (overlay) {
-          overlay.style.transition = 'opacity 0.3s ease';
+          overlay.style.transition = 'opacity 0.4s ease';
           overlay.style.opacity = '0';
           setTimeout(() => {
             overlay.style.display = 'none';
             overlay.classList.add('hidden');
             overlay.style.opacity = '1';
             overlay.style.transition = '';
-          }, 300);
+          }, 400);
         }
-      }, 900);
+      }, 1500);
     }
 
     function hideGoalCelebration() {
@@ -1554,10 +1558,8 @@ Et toi, connais-tu vraiment le RCBA ? Feras-tu mieux que moi ? ⚽👇
 
     function playGoalSound() {
       try {
-        const AudioCtx = window.AudioContext || window.webkitAudioContext;
-        if (!AudioCtx) return;
-        const ctx = new AudioCtx();
-        if (ctx.state === 'suspended') ctx.resume();
+        const ctx = getAudioCtx();
+        if (!ctx) return;
 
         // Coup de sifflet d'arbitre pour marquer le but
         const osc = ctx.createOscillator();
@@ -1637,19 +1639,19 @@ Et toi, connais-tu vraiment le RCBA ? Feras-tu mieux que moi ? ⚽👇
         card.classList.add('card-miss-shake');
       }
 
-      // Disparition en douceur après 900ms pour laisser pleine visibilité à l'explication
+      // Disparition en douceur après 1500ms pour laisser pleine visibilité à l'explication
       setTimeout(() => {
         if (overlay) {
-          overlay.style.transition = 'opacity 0.3s ease';
+          overlay.style.transition = 'opacity 0.4s ease';
           overlay.style.opacity = '0';
           setTimeout(() => {
             overlay.style.display = 'none';
             overlay.classList.add('hidden');
             overlay.style.opacity = '1';
             overlay.style.transition = '';
-          }, 300);
+          }, 400);
         }
-      }, 900);
+      }, 1500);
     }
 
     function hideMissCelebration() {
@@ -1666,10 +1668,8 @@ Et toi, connais-tu vraiment le RCBA ? Feras-tu mieux que moi ? ⚽👇
 
     function playMissSound() {
       try {
-        const AudioCtx = window.AudioContext || window.webkitAudioContext;
-        if (!AudioCtx) return;
-        const ctx = new AudioCtx();
-        if (ctx.state === 'suspended') ctx.resume();
+        const ctx = getAudioCtx();
+        if (!ctx) return;
 
         // 1. Son métallique de choc sur le poteau / transversale (Klang !)
         const oscMetal = ctx.createOscillator();
@@ -1719,22 +1719,32 @@ Et toi, connais-tu vraiment le RCBA ? Feras-tu mieux que moi ? ⚽👇
     // =========================================================================
     // EFFET SONORE : TIC-TAC RYTHMIQUE D'HORLOGE / COMPTE À REBOURS
     // =========================================================================
-    let clockAudioCtx = null;
+    // AudioContext global unique (réutilisé pour tous les sons afin d'éviter
+    // les suspensions automatiques par le navigateur)
+    let globalAudioCtx = null;
+    function getAudioCtx() {
+      try {
+        const AudioCtxClass = window.AudioContext || window.webkitAudioContext;
+        if (!AudioCtxClass) return null;
+        if (!globalAudioCtx) {
+          globalAudioCtx = new AudioCtxClass();
+        }
+        if (globalAudioCtx.state === 'suspended') {
+          globalAudioCtx.resume();
+        }
+        return globalAudioCtx;
+      } catch(e) { return null; }
+    }
+
     function playClockTick(isTac = false) {
       try {
-        const AudioCtx = window.AudioContext || window.webkitAudioContext;
-        if (!AudioCtx) return;
-        if (!clockAudioCtx) {
-          clockAudioCtx = new AudioCtx();
-        }
-        if (clockAudioCtx.state === 'suspended') {
-          clockAudioCtx.resume();
-        }
-        const t = clockAudioCtx.currentTime;
+        const ctx = getAudioCtx();
+        if (!ctx) return;
+        const t = ctx.currentTime;
 
-        // 1. Clic d'horlogerie mécanique précis
-        const osc = clockAudioCtx.createOscillator();
-        const gain = clockAudioCtx.createGain();
+        // 1. Clic d'horlogerie mécanique précis (volume augmenté x2)
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
 
         // Fréquences alternées : Tic (aigu ~1420Hz) vs Tac (légèrement plus grave ~1020Hz)
         const baseFreq = isTac ? 1020 : 1420;
@@ -1742,27 +1752,27 @@ Et toi, connais-tu vraiment le RCBA ? Feras-tu mieux que moi ? ⚽👇
         osc.frequency.setValueAtTime(baseFreq, t);
         osc.frequency.exponentialRampToValueAtTime(isTac ? 650 : 900, t + 0.024);
 
-        // Enveloppe sonore nette, percutante et équilibrée
-        gain.gain.setValueAtTime(0.08, t);
-        gain.gain.exponentialRampToValueAtTime(0.0001, t + 0.028);
+        // Volume doublé pour être clairement audible
+        gain.gain.setValueAtTime(0.18, t);
+        gain.gain.exponentialRampToValueAtTime(0.0001, t + 0.035);
 
         osc.connect(gain);
-        gain.connect(clockAudioCtx.destination);
+        gain.connect(ctx.destination);
         osc.start(t);
-        osc.stop(t + 0.030);
+        osc.stop(t + 0.038);
 
-        // 2. Résonance feutrée du boîtier en bois
-        const oscBody = clockAudioCtx.createOscillator();
-        const gainBody = clockAudioCtx.createGain();
+        // 2. Résonance feutrée du boîtier en bois (volume augmenté)
+        const oscBody = ctx.createOscillator();
+        const gainBody = ctx.createGain();
         oscBody.type = 'sine';
         oscBody.frequency.setValueAtTime(isTac ? 380 : 490, t);
-        gainBody.gain.setValueAtTime(0.04, t);
-        gainBody.gain.exponentialRampToValueAtTime(0.0001, t + 0.020);
+        gainBody.gain.setValueAtTime(0.10, t);
+        gainBody.gain.exponentialRampToValueAtTime(0.0001, t + 0.025);
 
         oscBody.connect(gainBody);
-        gainBody.connect(clockAudioCtx.destination);
+        gainBody.connect(ctx.destination);
         oscBody.start(t);
-        oscBody.stop(t + 0.022);
+        oscBody.stop(t + 0.028);
       } catch (e) {}
     }
 
