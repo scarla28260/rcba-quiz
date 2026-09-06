@@ -417,20 +417,20 @@
         </p>
 
         <!-- Barre dynamique de transition automatique et bouton d'enchaînement -->
-        <div id="quiz-auto-advance-wrap" class="hidden pt-2.5 border-t border-white/10 mt-2.5 space-y-2">
-          <div class="flex items-center justify-between text-[11px] font-bold text-racing-sky mb-1">
+        <div id="quiz-auto-advance-wrap" class="hidden pt-3 border-t border-white/15 mt-3 space-y-2.5">
+          <div class="flex items-center justify-between text-xs font-bold text-racing-sky">
             <span class="flex items-center space-x-1.5" id="quiz-auto-text">
               <span class="w-2 h-2 rounded-full bg-racing-sky animate-ping"></span>
-              <span>Passage automatique à la question suivante...</span>
+              <span>Prenez le temps de lire • Enchaînement :</span>
             </span>
-            <span class="text-racing-gold font-mono font-black text-xs">⏱️ 4s</span>
+            <span class="text-racing-gold font-mono font-black text-xs px-2.5 py-0.5 rounded-lg bg-black/50 border border-racing-gold/30 shadow" id="quiz-timer-countdown">⏱️ 12s</span>
           </div>
-          <div class="w-full h-1.5 bg-white/10 rounded-full overflow-hidden">
+          <div class="w-full h-2 bg-white/10 rounded-full overflow-hidden">
             <div id="quiz-auto-progress-bar" class="h-full bg-gradient-to-r from-racing via-racing-sky to-emerald-400 w-0 transition-all ease-linear bar-glow"></div>
           </div>
           <!-- Bouton pour passer immédiatement sans attendre -->
-          <button id="btn-next-question" onclick="goToNextQuestionNow()" class="w-full py-2.5 px-4 rounded-xl bg-gradient-to-r from-blue-600 via-racing-sky to-emerald-500 hover:brightness-110 text-white font-heading font-black text-xs sm:text-sm uppercase tracking-wider flex items-center justify-center space-x-2 shadow-lg shadow-blue-500/25 transition transform hover:scale-[1.01] active:scale-[0.99] cursor-pointer">
-            <span id="btn-next-label">Passer à la question suivante</span>
+          <button id="btn-next-question" onclick="goToNextQuestionNow()" class="w-full py-3 sm:py-3.5 px-5 rounded-xl bg-gradient-to-r from-blue-600 via-racing-sky to-emerald-500 hover:brightness-110 text-white font-heading font-black text-xs sm:text-sm uppercase tracking-wider flex items-center justify-center space-x-2 shadow-xl shadow-blue-500/30 transition transform hover:scale-[1.01] active:scale-[0.99] cursor-pointer">
+            <span id="btn-next-label">Passer à la question suivante ➔</span>
             <i data-lucide="arrow-right" class="w-4 h-4"></i>
           </button>
         </div>
@@ -939,8 +939,31 @@
       lucide.createIcons();
     });
 
+    // Raccourci clavier pour passer à la question suivante (Espace, Entrée ou Flèche droite)
+    window.addEventListener('keydown', (e) => {
+      const autoWrap = document.getElementById('quiz-auto-advance-wrap');
+      // Ne déclencher que si le panneau de feedback est visible et si aucun champ d'input n'est actif
+      if (autoWrap && !autoWrap.classList.contains('hidden') && document.activeElement.tagName !== 'INPUT') {
+        if (e.key === ' ' || e.key === 'Enter' || e.key === 'ArrowRight') {
+          e.preventDefault();
+          goToNextQuestionNow();
+        }
+      }
+    });
+
     // RENDU D'UNE QUESTION (PLEINE PAGE)
     function renderGameQuestion(stepIdx) {
+      if (autoTimer) {
+        clearInterval(autoTimer);
+        clearTimeout(autoTimer);
+        autoTimer = null;
+      }
+      const bottomBox = document.getElementById('quiz-feedback-box');
+      if (bottomBox) {
+        bottomBox.onmouseenter = null;
+        bottomBox.onmouseleave = null;
+        bottomBox.ontouchstart = null;
+      }
       hideGoalCelebration();
       hideMissCelebration();
       currentStep = stepIdx;
@@ -1067,72 +1090,102 @@
         isCorrect: isCorrect
       });
 
-      // 3. Révélation de l'explication et de l'anecdote
+      // 3. Révélation de l'explication et de l'anecdote avec typographie aérée et lisible
       const bottomBox = document.getElementById('quiz-feedback-box');
       if (isCorrect) {
         bottomBox.style.background = '#06281e';
         bottomBox.style.borderColor = 'rgba(16, 185, 129, 0.7)';
-        document.getElementById('feedback-box-title').className = 'font-black text-emerald-400 text-[11px] sm:text-xs uppercase tracking-wider mb-0.5 flex items-center space-x-1.5';
+        document.getElementById('feedback-box-title').className = 'font-black text-emerald-400 text-xs sm:text-sm uppercase tracking-wider mb-1 flex items-center space-x-1.5';
         document.getElementById('feedback-box-title').innerHTML = `<span>⚽</span><span>BUUUUUT ! EXCELLENTE RÉPONSE (+1 PT)</span>`;
       } else {
         bottomBox.style.background = '#2c0d14';
         bottomBox.style.borderColor = 'rgba(239, 68, 68, 0.7)';
-        document.getElementById('feedback-box-title').className = 'font-black text-red-400 text-[11px] sm:text-xs uppercase tracking-wider mb-0.5 flex items-center space-x-1.5';
+        document.getElementById('feedback-box-title').className = 'font-black text-red-400 text-xs sm:text-sm uppercase tracking-wider mb-1 flex items-center space-x-1.5';
         document.getElementById('feedback-box-title').innerHTML = `<span>🥅💥</span><span>AÏE, POTEAU ! LA BONNE RÉPONSE ÉTAIT L'OPTION ${q.answer}</span>`;
       }
 
-      document.getElementById('feedback-box-desc').className = 'text-white text-xs sm:text-sm leading-snug font-medium';
+      document.getElementById('feedback-box-desc').className = 'text-white text-sm sm:text-base leading-relaxed font-semibold mt-1';
       document.getElementById('feedback-box-desc').innerText = q.explanation;
 
-      document.getElementById('feedback-box-sub').className = 'text-racing-gold text-[10px] sm:text-xs mt-1 font-semibold border-t border-white/10 pt-1';
-      document.getElementById('feedback-box-sub').innerText = q.funFact ? `💡 ${q.funFact}` : '';
+      document.getElementById('feedback-box-sub').className = 'text-amber-300 text-xs sm:text-sm mt-2.5 font-medium border-t border-white/15 pt-2 leading-relaxed flex items-start space-x-2';
+      document.getElementById('feedback-box-sub').innerHTML = q.funFact ? `<span class="shrink-0 text-base">💡</span><span><strong class="text-white">Le saviez-vous ?</strong> ${q.funFact}</span>` : '';
 
-      // 4. Animation de la barre de transition
+      // 4. Animation de la barre et compte à rebours confortable (12s) avec pause automatique
       const autoWrap = document.getElementById('quiz-auto-advance-wrap');
       const autoText = document.getElementById('quiz-auto-text');
       const progressBar = document.getElementById('quiz-auto-progress-bar');
+      const countdownEl = document.getElementById('quiz-timer-countdown');
 
       const isLast = (currentStep >= 9);
       if (isLast) {
         autoText.innerHTML = `
           <span class="w-2 h-2 rounded-full bg-racing-gold animate-ping"></span>
-          <span class="text-racing-gold font-bold">Calcul de votre score & proclamation du résultat final...</span>
+          <span class="text-racing-gold font-bold text-xs sm:text-sm">Lecture terminée ? Proclamation du résultat final :</span>
         `;
       } else {
         autoText.innerHTML = `
           <span class="w-2 h-2 rounded-full bg-racing-sky animate-ping"></span>
-          <span class="text-racing-sky font-bold">Passage automatique à la question suivante...</span>
+          <span class="text-racing-sky font-bold text-xs sm:text-sm">Prenez le temps de lire • Enchaînement :</span>
         `;
       }
 
       const btnNextLabel = document.getElementById('btn-next-label');
       if (btnNextLabel) {
-        btnNextLabel.innerText = isLast ? "Voir mon score & résultats 🏆" : "Passer à la question suivante ➔";
+        btnNextLabel.innerText = isLast ? "Voir mon palmarès & résultats 🏆" : "Passer à la question suivante ➔";
       }
 
       autoWrap.classList.remove('hidden');
+
+      let remainingSec = 12;
+      let isPaused = false;
+      if (countdownEl) countdownEl.innerText = `⏱️ ${remainingSec}s`;
 
       if (progressBar) {
         progressBar.style.transition = 'none';
         progressBar.style.width = '0%';
         setTimeout(() => {
-          progressBar.style.transition = 'width 4500ms linear';
+          progressBar.style.transition = 'width 12000ms linear';
           progressBar.style.width = '100%';
-        }, 30);
+        }, 40);
       }
 
-      lucide.createIcons();
+      // Mise en pause de la minuterie si le joueur survole ou touche la zone pour lire tranquillement
+      bottomBox.onmouseenter = () => {
+        isPaused = true;
+        if (countdownEl) countdownEl.innerText = `⏸️ Pause (lecture en cours)`;
+      };
+      bottomBox.onmouseleave = () => {
+        isPaused = false;
+        if (countdownEl) countdownEl.innerText = `⏱️ ${remainingSec}s`;
+      };
+      bottomBox.ontouchstart = () => {
+        isPaused = true;
+        if (countdownEl) countdownEl.innerText = `⏸️ Pause (lecture en cours)`;
+      };
 
-      // 5. Enchaînement automatique confortable (4,5s) ou clic sur le bouton pour avancer
-      if (autoTimer) clearTimeout(autoTimer);
-      autoTimer = setTimeout(() => {
-        goToNextQuestionNow();
-      }, 4500);
+      if (autoTimer) {
+        clearInterval(autoTimer);
+        clearTimeout(autoTimer);
+      }
+
+      autoTimer = setInterval(() => {
+        if (isPaused) return;
+        remainingSec--;
+        if (countdownEl) countdownEl.innerText = `⏱️ ${remainingSec}s`;
+        if (remainingSec <= 0) {
+          clearInterval(autoTimer);
+          autoTimer = null;
+          goToNextQuestionNow();
+        }
+      }, 1000);
+
+      lucide.createIcons();
     }
 
     // ENCHAÎNEMENT DIRECT VERS LA QUESTION SUIVANTE OU LE PALMARÈS
     function goToNextQuestionNow() {
       if (autoTimer) {
+        clearInterval(autoTimer);
         clearTimeout(autoTimer);
         autoTimer = null;
       }
@@ -1272,18 +1325,18 @@ Et toi, connais-tu vraiment le RCBA ? Feras-tu mieux que moi ? ⚽👇
       // Pluie de confettis victorieuse
       launchGoalConfetti();
 
-      // Disparition en douceur après 1,8s pour laisser pleine visibilité à l'explication
+      // Disparition en douceur après 900ms pour laisser pleine visibilité à l'explication
       setTimeout(() => {
         if (overlay && !overlay.classList.contains('hidden')) {
-          overlay.style.transition = 'opacity 0.4s ease';
+          overlay.style.transition = 'opacity 0.3s ease';
           overlay.style.opacity = '0';
           setTimeout(() => {
             overlay.classList.add('hidden');
             overlay.style.opacity = '1';
             overlay.style.transition = '';
-          }, 400);
+          }, 300);
         }
-      }, 1800);
+      }, 900);
     }
 
     function hideGoalCelebration() {
@@ -1448,18 +1501,18 @@ Et toi, connais-tu vraiment le RCBA ? Feras-tu mieux que moi ? ⚽👇
         card.classList.add('card-miss-shake');
       }
 
-      // Disparition en douceur après 1,8s pour laisser pleine visibilité à l'explication
+      // Disparition en douceur après 900ms pour laisser pleine visibilité à l'explication
       setTimeout(() => {
         if (overlay && !overlay.classList.contains('hidden')) {
-          overlay.style.transition = 'opacity 0.4s ease';
+          overlay.style.transition = 'opacity 0.3s ease';
           overlay.style.opacity = '0';
           setTimeout(() => {
             overlay.classList.add('hidden');
             overlay.style.opacity = '1';
             overlay.style.transition = '';
-          }, 400);
+          }, 300);
         }
-      }, 1800);
+      }, 900);
     }
 
     function hideMissCelebration() {
