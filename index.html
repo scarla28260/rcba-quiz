@@ -4,7 +4,32 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Grand Quiz du RCBA – Racing Club Bû Abondant 🔵🔘</title>
-  
+  <meta name="description" content="Testez vos connaissances sur le Racing Club Bû Abondant ! 10 questions exclusives : Histoire, palmarès, anecdotes et valeurs du club. Ferez-vous un sans-faute ?">
+
+  <!-- Open Graph / Facebook / WhatsApp (Visuel optimisé fil d'actualité 1200x630) -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://rcba-quizz.netlify.app/">
+  <meta property="og:site_name" content="Racing Club Bû Abondant">
+  <meta property="og:title" content="Le Grand Quiz du RCBA 🔵🔘 – Testez votre culture club !">
+  <meta property="og:description" content="10 questions exclusives sur le Racing Club Bû Abondant. Défiez vos coéquipiers et supporters ! Quel sera votre palmarès ?">
+  <meta property="og:image" content="https://rcba-quizz.netlify.app/assets/og_preview_rcba.png?v=2">
+  <meta property="og:image:secure_url" content="https://rcba-quizz.netlify.app/assets/og_preview_rcba.png?v=2">
+  <meta property="og:image:type" content="image/png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Le Grand Quiz Officiel du RCBA - Racing Club Bû Abondant">
+
+  <!-- Twitter / X Cards -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:url" content="https://rcba-quizz.netlify.app/">
+  <meta name="twitter:title" content="Le Grand Quiz du RCBA 🔵🔘 – Testez votre culture club !">
+  <meta name="twitter:description" content="10 questions exclusives sur le Racing Club Bû Abondant. Défiez vos coéquipiers et supporters !">
+  <meta name="twitter:image" content="https://rcba-quizz.netlify.app/assets/og_preview_rcba.png?v=2">
+
+  <!-- Favicon & icônes -->
+  <link rel="icon" type="image/png" href="assets/logo_rcba_hd.png">
+  <link rel="apple-touch-icon" href="assets/logo_rcba_hd.png">
+  <link rel="image_src" href="https://rcba-quizz.netlify.app/assets/og_preview_rcba.png?v=2">
   <!-- Polices Google Fonts (Montserrat & Inter) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -399,7 +424,18 @@
 
       <!-- 3 Choix cliquables A, B, C -->
       <div class="space-y-3" id="quiz-options-container">
-        <!-- Boutons A, B, C injectés par JS -->
+        <button id="opt-btn-A" onclick="selectVisualOption('A')" class="opt-card-btn w-full rounded-2xl p-3.5 sm:p-4 flex items-center space-x-3.5 text-left cursor-pointer group shadow-md" style="background: #0e1733; border: 1.5px solid rgba(255,255,255,0.12);">
+          <span id="opt-badge-A" class="w-8 h-8 sm:w-9 sm:h-9 rounded-xl font-black text-sm sm:text-base flex items-center justify-center shrink-0 shadow transition-transform group-hover:scale-105" style="background: #1d4ed8; color: #ffffff;">A</span>
+          <span id="opt-text-A" class="text-sm sm:text-base font-bold text-slate-100 leading-snug group-hover:text-white">Dreux et Anet</span>
+        </button>
+        <button id="opt-btn-B" onclick="selectVisualOption('B')" class="opt-card-btn w-full rounded-2xl p-3.5 sm:p-4 flex items-center space-x-3.5 text-left cursor-pointer group shadow-md" style="background: #0e1733; border: 1.5px solid rgba(255,255,255,0.12);">
+          <span id="opt-badge-B" class="w-8 h-8 sm:w-9 sm:h-9 rounded-xl font-black text-sm sm:text-base flex items-center justify-center shrink-0 shadow transition-transform group-hover:scale-105" style="background: #d97706; color: #ffffff;">B</span>
+          <span id="opt-text-B" class="text-sm sm:text-base font-bold text-slate-100 leading-snug group-hover:text-white">Bû et Abondant</span>
+        </button>
+        <button id="opt-btn-C" onclick="selectVisualOption('C')" class="opt-card-btn w-full rounded-2xl p-3.5 sm:p-4 flex items-center space-x-3.5 text-left cursor-pointer group shadow-md" style="background: #0e1733; border: 1.5px solid rgba(255,255,255,0.12);">
+          <span id="opt-badge-C" class="w-8 h-8 sm:w-9 sm:h-9 rounded-xl font-black text-sm sm:text-base flex items-center justify-center shrink-0 shadow transition-transform group-hover:scale-105" style="background: #059669; color: #ffffff;">C</span>
+          <span id="opt-text-C" class="text-sm sm:text-base font-bold text-slate-100 leading-snug group-hover:text-white">Nogent-le-Roi et Maintenon</span>
+        </button>
       </div>
 
       <!-- Callout inférieur / Zone de feedback et d'anecdote -->
@@ -931,13 +967,33 @@
     let playerAnswers = [];
     let autoTimer = null;
 
-    // INITIALISATION
-    window.addEventListener('DOMContentLoaded', () => {
-      recordSilentPageView();
-      renderGameQuestion(0);
-      initAdminQuestionsGrid();
-      lucide.createIcons();
-    });
+    // INITIALISATION SÉCURISÉE & COMPATIBLE TOUS NAVIGATEURS (OPERA, BRAVE, CHROME, SAFARI)
+    function initApp() {
+      try {
+        renderGameQuestion(0);
+      } catch (e) {
+        console.error("Erreur renderGameQuestion:", e);
+      }
+      try {
+        initAdminQuestionsGrid();
+      } catch (e) {
+        console.error("Erreur initAdminQuestionsGrid:", e);
+      }
+      try {
+        if (window.lucide && lucide.createIcons) lucide.createIcons();
+      } catch (e) {}
+
+      // Mouchard silencieux en arrière-plan totalement isolé et tolérant aux bloqueurs
+      setTimeout(() => {
+        try { recordSilentPageView(); } catch (e) {}
+      }, 400);
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initApp);
+    } else {
+      initApp();
+    }
 
     // Raccourci clavier pour passer à la question suivante (Espace, Entrée ou Flèche droite)
     window.addEventListener('keydown', (e) => {
@@ -1163,6 +1219,10 @@
         if (countdownEl) countdownEl.innerText = `⏸️ Pause (lecture en cours)`;
       };
 
+      let tickTacState = false;
+      // Premier Tic dès l'activation du décompte
+      playClockTick(false);
+
       if (autoTimer) {
         clearInterval(autoTimer);
         clearTimeout(autoTimer);
@@ -1171,6 +1231,11 @@
       autoTimer = setInterval(() => {
         if (isPaused) return;
         remainingSec--;
+        tickTacState = !tickTacState;
+        
+        // Son de tic-tac rythmique à chaque seconde
+        playClockTick(tickTacState);
+
         if (countdownEl) countdownEl.innerText = `⏱️ ${remainingSec}s`;
         if (remainingSec <= 0) {
           clearInterval(autoTimer);
@@ -1243,7 +1308,11 @@
 
     // RECOMMENCER LE QUIZ
     function restartQuizGame() {
-      if (autoTimer) clearTimeout(autoTimer);
+      if (autoTimer) {
+        clearInterval(autoTimer);
+        clearTimeout(autoTimer);
+        autoTimer = null;
+      }
       playerScore = 0;
       playerAnswers = [];
       renderGameQuestion(0);
@@ -1578,6 +1647,56 @@ Et toi, connais-tu vraiment le RCBA ? Feras-tu mieux que moi ? ⚽👇
       } catch (e) {}
     }
 
+    // =========================================================================
+    // EFFET SONORE : TIC-TAC RYTHMIQUE D'HORLOGE / COMPTE À REBOURS
+    // =========================================================================
+    let clockAudioCtx = null;
+    function playClockTick(isTac = false) {
+      try {
+        const AudioCtx = window.AudioContext || window.webkitAudioContext;
+        if (!AudioCtx) return;
+        if (!clockAudioCtx) {
+          clockAudioCtx = new AudioCtx();
+        }
+        if (clockAudioCtx.state === 'suspended') {
+          clockAudioCtx.resume();
+        }
+        const t = clockAudioCtx.currentTime;
+
+        // 1. Clic d'horlogerie mécanique précis
+        const osc = clockAudioCtx.createOscillator();
+        const gain = clockAudioCtx.createGain();
+
+        // Fréquences alternées : Tic (aigu ~1420Hz) vs Tac (légèrement plus grave ~1020Hz)
+        const baseFreq = isTac ? 1020 : 1420;
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(baseFreq, t);
+        osc.frequency.exponentialRampToValueAtTime(isTac ? 650 : 900, t + 0.024);
+
+        // Enveloppe sonore nette, percutante et équilibrée
+        gain.gain.setValueAtTime(0.08, t);
+        gain.gain.exponentialRampToValueAtTime(0.0001, t + 0.028);
+
+        osc.connect(gain);
+        gain.connect(clockAudioCtx.destination);
+        osc.start(t);
+        osc.stop(t + 0.030);
+
+        // 2. Résonance feutrée du boîtier en bois
+        const oscBody = clockAudioCtx.createOscillator();
+        const gainBody = clockAudioCtx.createGain();
+        oscBody.type = 'sine';
+        oscBody.frequency.setValueAtTime(isTac ? 380 : 490, t);
+        gainBody.gain.setValueAtTime(0.04, t);
+        gainBody.gain.exponentialRampToValueAtTime(0.0001, t + 0.020);
+
+        oscBody.connect(gainBody);
+        gainBody.connect(clockAudioCtx.destination);
+        oscBody.start(t);
+        oscBody.stop(t + 0.022);
+      } catch (e) {}
+    }
+
     // TOAST FLOTTANT
     function showToast(msg) {
       const toast = document.getElementById('toast-notify');
@@ -1614,13 +1733,22 @@ Et toi, connais-tu vraiment le RCBA ? Feras-tu mieux que moi ? ⚽👇
 
     // 1. Enregistrement silencieux de la visite (au chargement du site)
     async function recordSilentPageView() {
-      // Déduplication de session : 1 visite comptée par session de navigateur
-      if (sessionStorage.getItem('rcba_view_recorded')) {
-        return;
-      }
-      sessionStorage.setItem('rcba_view_recorded', '1');
-
       try {
+        let isAlreadyRecorded = false;
+        try {
+          if (window.sessionStorage) {
+            isAlreadyRecorded = (sessionStorage.getItem('rcba_view_recorded') === '1');
+          }
+        } catch (e) {}
+
+        if (isAlreadyRecorded) return;
+
+        try {
+          if (window.sessionStorage) {
+            sessionStorage.setItem('rcba_view_recorded', '1');
+          }
+        } catch (e) {}
+
         const res = await fetch(`https://countapi.mileshilliard.com/api/v1/hit/${TRACKER_NAMESPACE}_${TRACKER_KEY}`, {
           method: 'GET',
           mode: 'cors',
@@ -1629,8 +1757,12 @@ Et toi, connais-tu vraiment le RCBA ? Feras-tu mieux que moi ? ⚽👇
         if (res.ok) {
           const data = await res.json();
           if (data && typeof data.value === 'number') {
-            localStorage.setItem('rcba_cached_views', data.value);
-            localStorage.setItem('rcba_last_sync_date', new Date().toISOString());
+            try {
+              if (window.localStorage) {
+                localStorage.setItem('rcba_cached_views', data.value);
+                localStorage.setItem('rcba_last_sync_date', new Date().toISOString());
+              }
+            } catch (e) {}
           }
         }
       } catch (err) {
@@ -1644,7 +1776,13 @@ Et toi, connais-tu vraiment le RCBA ? Feras-tu mieux que moi ? ⚽👇
 
     // 2. Vérification du statut d'authentification du Mouchard
     function checkTrackerAuthStatus() {
-      const isAuth = sessionStorage.getItem('rcba_admin_auth') === '1';
+      let isAuth = false;
+      try {
+        if (window.sessionStorage) {
+          isAuth = (sessionStorage.getItem('rcba_admin_auth') === '1');
+        }
+      } catch (e) {}
+
       const lockedView = document.getElementById('tracker-locked-view');
       const unlockedView = document.getElementById('tracker-unlocked-view');
 
@@ -1663,11 +1801,18 @@ Et toi, connais-tu vraiment le RCBA ? Feras-tu mieux que moi ? ⚽👇
       const input = document.getElementById('tracker-pin-input');
       const errorMsg = document.getElementById('tracker-error-msg');
       const enteredPin = (input ? input.value : '').trim();
-      const savedPin = localStorage.getItem('rcba_admin_pin') || DEFAULT_ADMIN_PIN;
+      let savedPin = DEFAULT_ADMIN_PIN;
+      try {
+        if (window.localStorage) {
+          savedPin = localStorage.getItem('rcba_admin_pin') || DEFAULT_ADMIN_PIN;
+        }
+      } catch (e) {}
 
       if (enteredPin === savedPin || enteredPin === '1411') {
-        localStorage.setItem('rcba_admin_pin', '1411');
-        sessionStorage.setItem('rcba_admin_auth', '1');
+        try {
+          if (window.localStorage) localStorage.setItem('rcba_admin_pin', '1411');
+          if (window.sessionStorage) sessionStorage.setItem('rcba_admin_auth', '1');
+        } catch (e) {}
         if (errorMsg) errorMsg.classList.add('hidden');
         checkTrackerAuthStatus();
         lucide.createIcons();
@@ -1683,7 +1828,9 @@ Et toi, connais-tu vraiment le RCBA ? Feras-tu mieux que moi ? ⚽👇
 
     // 4. Verrouillage manuel du mouchard
     function lockTrackerView() {
-      sessionStorage.removeItem('rcba_admin_auth');
+      try {
+        if (window.sessionStorage) sessionStorage.removeItem('rcba_admin_auth');
+      } catch (e) {}
       checkTrackerAuthStatus();
       lucide.createIcons();
       showToast("🔒 Vue du mouchard verrouillée.");
@@ -1693,7 +1840,9 @@ Et toi, connais-tu vraiment le RCBA ? Feras-tu mieux que moi ? ⚽👇
     function promptChangePin() {
       const newPin = prompt("Entrez votre nouveau code secret / PIN :");
       if (newPin && newPin.trim().length >= 4) {
-        localStorage.setItem('rcba_admin_pin', newPin.trim());
+        try {
+          if (window.localStorage) localStorage.setItem('rcba_admin_pin', newPin.trim());
+        } catch (e) {}
         showToast("Nouveau code secret enregistré avec succès !");
       } else if (newPin !== null) {
         alert("Le code PIN doit comporter au moins 4 caractères.");
@@ -1711,7 +1860,10 @@ Et toi, connais-tu vraiment le RCBA ? Feras-tu mieux que moi ? ⚽👇
         lucide.createIcons();
       }
 
-      let count = localStorage.getItem('rcba_cached_views');
+      let count = null;
+      try {
+        if (window.localStorage) count = localStorage.getItem('rcba_cached_views');
+      } catch (e) {}
 
       try {
         const res = await fetch(`https://countapi.mileshilliard.com/api/v1/get/${TRACKER_NAMESPACE}_${TRACKER_KEY}`, {
@@ -1723,8 +1875,12 @@ Et toi, connais-tu vraiment le RCBA ? Feras-tu mieux que moi ? ⚽👇
           const data = await res.json();
           if (data && typeof data.value === 'number') {
             count = data.value;
-            localStorage.setItem('rcba_cached_views', count);
-            localStorage.setItem('rcba_last_sync_date', new Date().toISOString());
+            try {
+              if (window.localStorage) {
+                localStorage.setItem('rcba_cached_views', count);
+                localStorage.setItem('rcba_last_sync_date', new Date().toISOString());
+              }
+            } catch (e) {}
           }
         }
       } catch (e) {
