@@ -45,8 +45,8 @@
       font-family: 'Inter', sans-serif;
       background-color: #030712;
       background-image: 
-        linear-gradient(to bottom, rgba(3, 7, 18, 0.45) 0%, rgba(3, 7, 18, 0.20) 45%, rgba(3, 7, 18, 0.70) 100%),
-        url('assets/fond_but_clean.png');
+        linear-gradient(to bottom, rgba(3, 7, 18, 0.40) 0%, rgba(3, 7, 18, 0.15) 45%, rgba(3, 7, 18, 0.65) 100%),
+        url('assets/fond_stade_clean.png');
       background-size: cover;
       background-position: center top;
       background-repeat: no-repeat;
@@ -58,18 +58,18 @@
       min-height: 100vh;
     }
 
-    /* Effets de But & Secousse des Filets */
+    /* Effets de But & Secousse des Filets (Bonne réponse) */
     @keyframes goalNetImpactLeft {
-      0% { transform: translate(-100%, -50%) scale(0.6) rotate(-20deg); opacity: 0; }
-      40% { transform: translate(0%, -50%) scale(1.12) rotate(4deg); opacity: 1; }
+      0% { transform: translate(-100%, -50%) scale(0.5) rotate(-25deg); opacity: 0; }
+      40% { transform: translate(0%, -50%) scale(1.15) rotate(5deg); opacity: 1; }
       60% { transform: translate(-6%, -50%) scale(0.96) rotate(-2deg); opacity: 1; }
       80% { transform: translate(2%, -50%) scale(1.02) rotate(1deg); opacity: 1; }
       100% { transform: translate(0%, -50%) scale(1) rotate(0deg); opacity: 1; }
     }
 
     @keyframes goalNetImpactRight {
-      0% { transform: translate(100%, -50%) scale(0.6) rotate(20deg); opacity: 0; }
-      40% { transform: translate(0%, -50%) scale(1.12) rotate(-4deg); opacity: 1; }
+      0% { transform: translate(100%, -50%) scale(0.5) rotate(25deg); opacity: 0; }
+      40% { transform: translate(0%, -50%) scale(1.15) rotate(-5deg); opacity: 1; }
       60% { transform: translate(6%, -50%) scale(0.96) rotate(2deg); opacity: 1; }
       80% { transform: translate(-2%, -50%) scale(1.02) rotate(-1deg); opacity: 1; }
       100% { transform: translate(0%, -50%) scale(1) rotate(0deg); opacity: 1; }
@@ -92,11 +92,11 @@
     }
 
     .goal-animate-left {
-      animation: goalNetImpactLeft 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+      animation: goalNetImpactLeft 0.55s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
     }
 
     .goal-animate-right {
-      animation: goalNetImpactRight 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+      animation: goalNetImpactRight 0.55s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
     }
 
     .goal-banner-active {
@@ -109,19 +109,59 @@
       box-shadow: 0 0 50px rgba(16, 185, 129, 0.75), 0 20px 50px rgba(0, 0, 0, 0.95) !important;
     }
 
+    /* Effets de Tir sur le Poteau / Mauvaise réponse */
+    @keyframes postImpactBounce {
+      0% { transform: translate(-50%, -50%) scale(0.25) rotate(-35deg); opacity: 0; }
+      40% { transform: translate(-50%, -50%) scale(1.20) rotate(8deg); opacity: 1; }
+      60% { transform: translate(-50%, -50%) scale(0.92) rotate(-4deg); opacity: 1; }
+      80% { transform: translate(-50%, -50%) scale(1.04) rotate(2deg); opacity: 1; }
+      100% { transform: translate(-50%, -50%) scale(1) rotate(0deg); opacity: 1; }
+    }
+
+    .miss-ball-animate {
+      animation: postImpactBounce 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+    }
+
+    @keyframes missBannerPop {
+      0% { transform: scale(0.3) rotate(6deg); opacity: 0; }
+      50% { transform: scale(1.12) rotate(-2deg); opacity: 1; }
+      70% { transform: scale(0.96) rotate(1deg); opacity: 1; }
+      100% { transform: scale(1) rotate(0deg); opacity: 1; }
+    }
+
+    .miss-banner-active {
+      animation: missBannerPop 0.45s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+    }
+
+    @keyframes missCardShake {
+      0%, 100% { transform: translate(0, 0); }
+      15% { transform: translate(-9px, 0); }
+      30% { transform: translate(9px, 0); }
+      45% { transform: translate(-7px, 0); }
+      60% { transform: translate(7px, 0); }
+      75% { transform: translate(-4px, 0); }
+      90% { transform: translate(4px, 0); }
+    }
+
+    .card-miss-shake {
+      animation: missCardShake 0.45s ease-in-out;
+      border-color: #ef4444 !important;
+      box-shadow: 0 0 50px rgba(239, 68, 68, 0.75), 0 20px 50px rgba(0, 0, 0, 0.95) !important;
+    }
+
     .font-heading {
       font-family: 'Montserrat', sans-serif;
     }
 
-    /* Carte centrale avec bordure néon cyan et effet de verre sombre */
+    /* Carte centrale avec bordure néon cyan et effet de verre transparent sur le stade */
     .quiz-main-card {
-      background: rgba(7, 13, 30, 0.94);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
+      background: rgba(7, 13, 30, 0.84);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
       border: 2px solid rgba(56, 189, 248, 0.65);
       box-shadow: 
-        0 20px 50px rgba(0, 0, 0, 0.95),
-        0 0 35px rgba(28, 100, 242, 0.35),
+        0 20px 50px rgba(0, 0, 0, 0.90),
+        0 0 35px rgba(28, 100, 242, 0.30),
         inset 0 0 25px rgba(56, 189, 248, 0.05);
       border-radius: 1.5rem;
     }
@@ -223,17 +263,17 @@
   <!-- OVERLAY D'ANIMATION DE BUT (DÉCLENCHÉ SUR BONNE RÉPONSE : FILETS & BALLON)-->
   <!-- ========================================================================= -->
   <div id="goal-celebration-overlay" class="fixed inset-0 pointer-events-none z-40 overflow-hidden hidden flex items-center justify-center">
-    <!-- Flash vert de stade -->
+    <!-- Flash vert émeraude de stade -->
     <div id="goal-flash" class="absolute inset-0 bg-emerald-500/25 transition-opacity duration-300 opacity-0 pointer-events-none"></div>
 
     <!-- Ballon et filet gauche frappant le but -->
-    <div id="goal-net-left" class="absolute left-0 sm:left-2 top-1/2 -translate-y-1/2 w-48 sm:w-72 md:w-84 max-w-[45vw] pointer-events-none drop-shadow-[0_0_35px_rgba(16,185,129,0.7)]">
-      <img src="assets/goal_ball_left_clean.png" alt="But RCBA !" class="w-full h-auto filter contrast-125 brightness-110">
+    <div id="goal-net-left" class="absolute left-0 sm:left-4 top-1/2 -translate-y-1/2 w-48 sm:w-72 md:w-88 max-w-[46vw] pointer-events-none drop-shadow-[0_0_40px_rgba(16,185,129,0.8)]">
+      <img src="assets/ball_goal_net.png" alt="But RCBA !" class="w-full h-auto filter contrast-125 brightness-110">
     </div>
 
-    <!-- Ballon et filet droit frappant le but -->
-    <div id="goal-net-right" class="absolute right-0 sm:right-2 top-1/2 -translate-y-1/2 w-48 sm:w-72 md:w-84 max-w-[45vw] pointer-events-none drop-shadow-[0_0_35px_rgba(16,185,129,0.7)]">
-      <img src="assets/goal_ball_right_clean.png" alt="But RCBA !" class="w-full h-auto filter contrast-125 brightness-110">
+    <!-- Ballon et filet droit frappant le but (inversé horizontalement) -->
+    <div id="goal-net-right" class="absolute right-0 sm:right-4 top-1/2 -translate-y-1/2 w-48 sm:w-72 md:w-88 max-w-[46vw] pointer-events-none drop-shadow-[0_0_40px_rgba(16,185,129,0.8)]">
+      <img src="assets/ball_goal_net.png" alt="But RCBA !" class="w-full h-auto filter contrast-125 brightness-110 transform -scale-x-100">
     </div>
 
     <!-- Grand Badge Central BUUUUT ! -->
@@ -256,12 +296,40 @@
 
 
   <!-- ========================================================================= -->
+  <!-- OVERLAY D'ANIMATION DE RATÉ (DÉCLENCHÉ SUR MAUVAISE RÉPONSE : POTEAU)     -->
+  <!-- ========================================================================= -->
+  <div id="miss-celebration-overlay" class="fixed inset-0 pointer-events-none z-40 overflow-hidden hidden flex items-center justify-center">
+    <!-- Flash rouge/ambre d'alerte -->
+    <div id="miss-flash" class="absolute inset-0 bg-rose-600/25 transition-opacity duration-300 opacity-0 pointer-events-none"></div>
+
+    <!-- Ballon percutant le poteau / la transversale avec étincelles d'impact -->
+    <div id="miss-ball-container" class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 sm:w-80 md:w-96 max-w-[85vw] pointer-events-none drop-shadow-[0_0_45px_rgba(239,68,68,0.85)]">
+      <img src="assets/ball_hit_post.png" alt="Poteau !" class="w-full h-auto filter contrast-115 brightness-105">
+    </div>
+
+    <!-- Grand Badge Central AÏE, POTEAU ! -->
+    <div id="miss-badge-banner" class="relative z-10 flex flex-col items-center justify-center pointer-events-none px-4 mt-36 sm:mt-48">
+      <div class="px-6 sm:px-10 py-3 rounded-3xl bg-gradient-to-r from-rose-700 via-amber-600 to-rose-700 border-2 border-white text-white shadow-[0_0_60px_rgba(239,68,68,0.85)] text-center">
+        <div class="font-heading font-black text-2xl sm:text-4xl md:text-5xl tracking-wider text-white drop-shadow-[0_4px_12px_rgba(0,0,0,0.9)] flex items-center justify-center space-x-2 sm:space-x-3">
+          <span class="inline-block animate-bounce">🥅💥</span>
+          <span class="italic uppercase">POTEAU SORTANT !</span>
+          <span class="inline-block animate-bounce" style="animation-delay: 0.15s;">❌</span>
+        </div>
+        <div class="text-[11px] sm:text-xs md:text-sm font-black uppercase tracking-widest text-rose-950 mt-1 bg-white/95 px-3.5 py-0.5 rounded-full inline-block shadow" id="miss-note-badge">
+          Hors-cadre !
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ========================================================================= -->
   <!-- 1. ZONE HAUTE : LOGO, TITRE DU QUIZ & COMPTEURS (PLEINE LARGEUR)          -->
   <!-- ========================================================================= -->
   <header class="w-full pt-4 sm:pt-6 pb-2 px-4 flex flex-col items-center text-center relative z-10">
     
     <!-- Boîte de titre avec pilule de thème en relief -->
-    <div class="relative w-full max-w-2xl rounded-2xl pt-4 pb-3 px-4 border-2 border-racing-sky/40 shadow-2xl flex flex-col items-center bg-[#050914]/95 backdrop-blur-md">
+    <div class="relative w-full max-w-2xl rounded-2xl pt-4 pb-3 px-4 border-2 border-racing-sky/40 shadow-2xl flex flex-col items-center bg-[#050914]/85 backdrop-blur-md">
       
       <!-- Pilule Catégorie / Thème centrée sur le bord supérieur -->
       <div class="absolute -top-3.5 left-1/2 -translate-x-1/2 px-4 py-0.5 rounded-full bg-[#070c1a] border-2 border-racing-gold shadow-md flex items-center space-x-1.5">
@@ -343,18 +411,23 @@
           1 point par bonne réponse • Enchaînement automatique direct !
         </p>
 
-        <!-- Barre dynamique de transition automatique (s'active après le clic) -->
-        <div id="quiz-auto-advance-wrap" class="hidden pt-2.5 border-t border-white/10 mt-2.5">
+        <!-- Barre dynamique de transition automatique et bouton d'enchaînement -->
+        <div id="quiz-auto-advance-wrap" class="hidden pt-2.5 border-t border-white/10 mt-2.5 space-y-2">
           <div class="flex items-center justify-between text-[11px] font-bold text-racing-sky mb-1">
             <span class="flex items-center space-x-1.5" id="quiz-auto-text">
               <span class="w-2 h-2 rounded-full bg-racing-sky animate-ping"></span>
               <span>Passage automatique à la question suivante...</span>
             </span>
-            <span class="text-racing-gold font-mono font-black text-xs">⚡ Direct</span>
+            <span class="text-racing-gold font-mono font-black text-xs">⏱️ 4s</span>
           </div>
           <div class="w-full h-1.5 bg-white/10 rounded-full overflow-hidden">
             <div id="quiz-auto-progress-bar" class="h-full bg-gradient-to-r from-racing via-racing-sky to-emerald-400 w-0 transition-all ease-linear bar-glow"></div>
           </div>
+          <!-- Bouton pour passer immédiatement sans attendre -->
+          <button id="btn-next-question" onclick="goToNextQuestionNow()" class="w-full py-2.5 px-4 rounded-xl bg-gradient-to-r from-blue-600 via-racing-sky to-emerald-500 hover:brightness-110 text-white font-heading font-black text-xs sm:text-sm uppercase tracking-wider flex items-center justify-center space-x-2 shadow-lg shadow-blue-500/25 transition transform hover:scale-[1.01] active:scale-[0.99] cursor-pointer">
+            <span id="btn-next-label">Passer à la question suivante</span>
+            <i data-lucide="arrow-right" class="w-4 h-4"></i>
+          </button>
         </div>
 
       </div>
@@ -866,6 +939,7 @@
     // RENDU D'UNE QUESTION (PLEINE PAGE)
     function renderGameQuestion(stepIdx) {
       hideGoalCelebration();
+      hideMissCelebration();
       currentStep = stepIdx;
       const q = QUIZ_DATA[stepIdx];
 
@@ -974,11 +1048,13 @@
         }
       });
 
-      // 2. Score & Célébration de But
+      // 2. Score & Animation selon la réponse (Bonne ou Mauvaise)
       if (isCorrect) {
         playerScore++;
         document.getElementById('quiz-live-score').innerText = `Score : ${playerScore} pt${playerScore > 1 ? 's' : ''}`;
         triggerGoalCelebration();
+      } else {
+        triggerMissCelebration(q.answer);
       }
 
       playerAnswers.push({
@@ -999,7 +1075,7 @@
         bottomBox.style.background = '#2c0d14';
         bottomBox.style.borderColor = 'rgba(239, 68, 68, 0.7)';
         document.getElementById('feedback-box-title').className = 'font-black text-red-400 text-[11px] sm:text-xs uppercase tracking-wider mb-0.5 flex items-center space-x-1.5';
-        document.getElementById('feedback-box-title').innerHTML = `<span>✗</span><span>AÏE ! LA BONNE RÉPONSE ÉTAIT L'OPTION ${q.answer}</span>`;
+        document.getElementById('feedback-box-title').innerHTML = `<span>🥅💥</span><span>AÏE, POTEAU ! LA BONNE RÉPONSE ÉTAIT L'OPTION ${q.answer}</span>`;
       }
 
       document.getElementById('feedback-box-desc').className = 'text-white text-xs sm:text-sm leading-snug font-medium';
@@ -1026,29 +1102,44 @@
         `;
       }
 
+      const btnNextLabel = document.getElementById('btn-next-label');
+      if (btnNextLabel) {
+        btnNextLabel.innerText = isLast ? "Voir mon score & résultats 🏆" : "Passer à la question suivante ➔";
+      }
+
       autoWrap.classList.remove('hidden');
 
       if (progressBar) {
         progressBar.style.transition = 'none';
         progressBar.style.width = '0%';
         setTimeout(() => {
-          progressBar.style.transition = 'width 1300ms linear';
+          progressBar.style.transition = 'width 4500ms linear';
           progressBar.style.width = '100%';
         }, 30);
       }
 
       lucide.createIcons();
 
-      // 5. Enchaînement automatique (1,4s) sans retour arrière possible
+      // 5. Enchaînement automatique confortable (4,5s) ou clic sur le bouton pour avancer
       if (autoTimer) clearTimeout(autoTimer);
       autoTimer = setTimeout(() => {
-        hideGoalCelebration();
-        if (currentStep < 9) {
-          renderGameQuestion(currentStep + 1);
-        } else {
-          showVisualResults();
-        }
-      }, 1400);
+        goToNextQuestionNow();
+      }, 4500);
+    }
+
+    // ENCHAÎNEMENT DIRECT VERS LA QUESTION SUIVANTE OU LE PALMARÈS
+    function goToNextQuestionNow() {
+      if (autoTimer) {
+        clearTimeout(autoTimer);
+        autoTimer = null;
+      }
+      hideGoalCelebration();
+      hideMissCelebration();
+      if (currentStep < 9) {
+        renderGameQuestion(currentStep + 1);
+      } else {
+        showVisualResults();
+      }
     }
 
     // ÉCRAN FINAL DU PALMARÈS (PLEINE PAGE)
@@ -1177,12 +1268,27 @@ Et toi, connais-tu vraiment le RCBA ? Feras-tu mieux que moi ? ⚽👇
 
       // Pluie de confettis victorieuse
       launchGoalConfetti();
+
+      // Disparition en douceur après 1,8s pour laisser pleine visibilité à l'explication
+      setTimeout(() => {
+        if (overlay && !overlay.classList.contains('hidden')) {
+          overlay.style.transition = 'opacity 0.4s ease';
+          overlay.style.opacity = '0';
+          setTimeout(() => {
+            overlay.classList.add('hidden');
+            overlay.style.opacity = '1';
+            overlay.style.transition = '';
+          }, 400);
+        }
+      }, 1800);
     }
 
     function hideGoalCelebration() {
       const overlay = document.getElementById('goal-celebration-overlay');
       if (overlay) {
         overlay.classList.add('hidden');
+        overlay.style.opacity = '1';
+        overlay.style.transition = '';
       }
       const card = document.getElementById('quiz-question-view');
       if (card) {
@@ -1292,6 +1398,127 @@ Et toi, connais-tu vraiment le RCBA ? Feras-tu mieux que moi ? ⚽👇
           o.start(start);
           o.stop(start + 0.65);
         });
+      } catch (e) {}
+    }
+
+    // =========================================================================
+    // EFFETS & ANIMATION DE RATÉ (SUR MAUVAISE RÉPONSE : POTEAU & CHOC)
+    // =========================================================================
+    function triggerMissCelebration(correctOpt) {
+      playMissSound();
+
+      const overlay = document.getElementById('miss-celebration-overlay');
+      const flash = document.getElementById('miss-flash');
+      const ballContainer = document.getElementById('miss-ball-container');
+      const banner = document.getElementById('miss-badge-banner');
+      const card = document.getElementById('quiz-question-view');
+      const noteBadge = document.getElementById('miss-note-badge');
+
+      if (!overlay) return;
+
+      if (noteBadge) {
+        noteBadge.innerText = `Hors-cadre ! La bonne réponse était l'Option ${correctOpt}`;
+      }
+
+      overlay.classList.remove('hidden');
+
+      if (flash) {
+        flash.style.opacity = '1';
+        setTimeout(() => { if (flash) flash.style.opacity = '0'; }, 350);
+      }
+
+      if (ballContainer) {
+        ballContainer.classList.remove('miss-ball-animate');
+        void ballContainer.offsetWidth;
+        ballContainer.classList.add('miss-ball-animate');
+      }
+
+      if (banner) {
+        banner.classList.remove('miss-banner-active');
+        void banner.offsetWidth;
+        banner.classList.add('miss-banner-active');
+      }
+
+      if (card) {
+        card.classList.remove('card-miss-shake');
+        void card.offsetWidth;
+        card.classList.add('card-miss-shake');
+      }
+
+      // Disparition en douceur après 1,8s pour laisser pleine visibilité à l'explication
+      setTimeout(() => {
+        if (overlay && !overlay.classList.contains('hidden')) {
+          overlay.style.transition = 'opacity 0.4s ease';
+          overlay.style.opacity = '0';
+          setTimeout(() => {
+            overlay.classList.add('hidden');
+            overlay.style.opacity = '1';
+            overlay.style.transition = '';
+          }, 400);
+        }
+      }, 1800);
+    }
+
+    function hideMissCelebration() {
+      const overlay = document.getElementById('miss-celebration-overlay');
+      if (overlay) {
+        overlay.classList.add('hidden');
+        overlay.style.opacity = '1';
+        overlay.style.transition = '';
+      }
+      const card = document.getElementById('quiz-question-view');
+      if (card) card.classList.remove('card-miss-shake');
+    }
+
+    function playMissSound() {
+      try {
+        const AudioCtx = window.AudioContext || window.webkitAudioContext;
+        if (!AudioCtx) return;
+        const ctx = new AudioCtx();
+        if (ctx.state === 'suspended') ctx.resume();
+
+        // 1. Son métallique de choc sur le poteau / transversale (Klang !)
+        const oscMetal = ctx.createOscillator();
+        const gainMetal = ctx.createGain();
+        oscMetal.type = 'square';
+        oscMetal.frequency.setValueAtTime(480, ctx.currentTime);
+        oscMetal.frequency.exponentialRampToValueAtTime(140, ctx.currentTime + 0.28);
+        gainMetal.gain.setValueAtTime(0.18, ctx.currentTime);
+        gainMetal.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.32);
+        oscMetal.connect(gainMetal);
+        gainMetal.connect(ctx.destination);
+        oscMetal.start(ctx.currentTime);
+        oscMetal.stop(ctx.currentTime + 0.35);
+
+        // Overtone résonnant métallique
+        const oscDing = ctx.createOscillator();
+        const gainDing = ctx.createGain();
+        oscDing.type = 'sine';
+        oscDing.frequency.setValueAtTime(1180, ctx.currentTime);
+        oscDing.frequency.exponentialRampToValueAtTime(920, ctx.currentTime + 0.38);
+        gainDing.gain.setValueAtTime(0.12, ctx.currentTime);
+        gainDing.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.40);
+        oscDing.connect(gainDing);
+        gainDing.connect(ctx.destination);
+        oscDing.start(ctx.currentTime);
+        oscDing.stop(ctx.currentTime + 0.42);
+
+        // 2. Coup de sifflet bref d'arbitre (faute / hors-jeu)
+        setTimeout(() => {
+          try {
+            const oscWhistle = ctx.createOscillator();
+            const gainWhistle = ctx.createGain();
+            oscWhistle.type = 'sawtooth';
+            oscWhistle.frequency.setValueAtTime(2100, ctx.currentTime);
+            oscWhistle.frequency.linearRampToValueAtTime(1800, ctx.currentTime + 0.16);
+            gainWhistle.gain.setValueAtTime(0.07, ctx.currentTime);
+            gainWhistle.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.18);
+            oscWhistle.connect(gainWhistle);
+            gainWhistle.connect(ctx.destination);
+            oscWhistle.start(ctx.currentTime);
+            oscWhistle.stop(ctx.currentTime + 0.20);
+          } catch(e) {}
+        }, 120);
       } catch (e) {}
     }
 
