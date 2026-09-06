@@ -473,7 +473,7 @@
           <div class="flex items-center space-x-2">
             <div class="relative flex-1">
               <i data-lucide="lock" class="w-3.5 h-3.5 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2"></i>
-              <input type="password" id="tracker-pin-input" maxlength="12" placeholder="Code secret (ex: 28260)" onkeydown="if(event.key === 'Enter') unlockTrackerView()" class="w-full bg-black/60 border border-white/20 rounded-xl pl-8 pr-3 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-racing-sky font-mono transition">
+              <input type="password" id="tracker-pin-input" maxlength="12" placeholder="Code secret" onkeydown="if(event.key === 'Enter') unlockTrackerView()" class="w-full bg-black/60 border border-white/20 rounded-xl pl-8 pr-3 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-racing-sky font-mono transition">
             </div>
             <button onclick="unlockTrackerView()" class="px-4 py-2 bg-gradient-to-r from-racing to-blue-600 hover:from-blue-600 hover:to-racing text-white rounded-xl text-xs font-bold transition flex items-center space-x-1 shadow-md shadow-racing/20 shrink-0">
               <i data-lucide="key" class="w-3.5 h-3.5"></i>
@@ -482,7 +482,7 @@
           </div>
           <p id="tracker-error-msg" class="text-[10px] text-rose-400 font-semibold hidden flex items-center space-x-1">
             <i data-lucide="alert-circle" class="w-3 h-3"></i>
-            <span>Code secret incorrect. Réessayez ou utilisez 28260.</span>
+            <span>Code secret incorrect. Veuillez réessayer.</span>
           </p>
         </div>
 
@@ -1175,8 +1175,7 @@ Et toi, connais-tu vraiment le RCBA ? Feras-tu mieux que moi ? ⚽👇
 
     // 5. Modification du code secret PIN
     function promptChangePin() {
-      const currentSaved = localStorage.getItem('rcba_admin_pin') || DEFAULT_ADMIN_PIN;
-      const newPin = prompt("Entrez votre nouveau code secret / PIN :", currentSaved);
+      const newPin = prompt("Entrez votre nouveau code secret / PIN :");
       if (newPin && newPin.trim().length >= 4) {
         localStorage.setItem('rcba_admin_pin', newPin.trim());
         showToast("Nouveau code secret enregistré avec succès !");
