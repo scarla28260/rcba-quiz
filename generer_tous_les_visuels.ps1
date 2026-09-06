@@ -112,7 +112,7 @@ $penCyanBorder = New-Object System.Drawing.Pen ([System.Drawing.Color]::FromArgb
 $penEmeraldBorder = New-Object System.Drawing.Pen ($cEmerald), 4
 $penNormalOption = New-Object System.Drawing.Pen ([System.Drawing.Color]::FromArgb(60, 255, 255, 255)), 2
 
-Write-Host "Generation des 11 visuels Questions + 11 visuels Reponses en haute definition..." -ForegroundColor Yellow
+Write-Host "Generation des 10 visuels Questions + 10 visuels Reponses en haute definition..." -ForegroundColor Yellow
 
 $checkChar = [char]0x2713
 
@@ -150,7 +150,7 @@ foreach ($q in $quizData) {
         $g.DrawString($titleStr, $fontTitle, $brushWhite, ($targetW - $titleSize.Width) / 2, $headerY + 36)
 
         # Numero Question
-        $qNumStr = "QUESTION " + ("{0:D2}" -f [int]$q.id) + " / 11"
+        $qNumStr = "QUESTION " + ("{0:D2}" -f [int]$q.id) + " / 10"
         $qNumSize = $g.MeasureString($qNumStr, $fontSub)
         $g.DrawString($qNumStr, $fontSub, $brushSky, ($targetW - $qNumSize.Width) / 2, $headerY + 84)
 

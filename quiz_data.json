@@ -91,16 +91,6 @@
   },
   {
     "id": 10,
-    "theme": "ORGANISATION DU CLUB",
-    "question": "Quelle est la particularité logistique majeure de la gestion quotidienne d'un club bicommunal comme le RCBA ?",
-    "optA": "Il n'y a qu'un seul vestiaire pour tout le monde",
-    "optB": "Jongler en permanence entre les installations et plannings de Bû et d'Abondant",
-    "optC": "Les matchs se jouent obligatoirement sur terrain neutre",
-    "answer": "B",
-    "explanation": "Deux mairies, deux stades, deux plannings : une vraie prouesse menée chaque semaine par nos bénévoles !"
-  },
-  {
-    "id": 11,
     "theme": "MATCHDAY & VESTIAIRES",
     "question": "Comment appelle-t-on le moment crucial où l'entraîneur rassemble tout le monde dans les vestiaires avant le coup d'envoi ?",
     "optA": "La sieste tactique",

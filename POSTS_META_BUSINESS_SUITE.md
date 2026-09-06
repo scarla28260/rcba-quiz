@@ -337,88 +337,57 @@ Le bleu roi, symbole de fidélité et d'énergie, associé au gris argenté él�
 
 ---
 
-### 🧩 Question 10 — La Gestion Bicommunale
-- **Thème :** Organisation & Coulisses
+### 📢 Question 10 — Le Frisson des Vestiaires
+- **Thème :** Matchday & Rituels
 - **Visuel :** `RCBA_Quiz_Q10_question.png`
 
 #### Texte du post (à copier-coller) :
 ```text
-🗓️ DANS LES COULISSES DU CLUB ! [Question 10/11] 🔵🔘
-
-Gérer un club de football amateur est déjà un exploit... mais gérer un club bicommunal relève de la haute voltige ! 
-
-👉 Question 10 :
-Quelle est la particularité logistique majeure de la gestion quotidienne d'un club bicommunal comme le RCBA ?
-
-🔵 A) Il n'y a qu'un seul vestiaire pour tout le monde
-🔘 B) Il faut jongler en permanence entre les installations et les plannings des mairies de Bû et d'Abondant
-🔵 C) Les matchs se jouent obligatoirement sur terrain neutre à l'extérieur
-
-💬 À vos votes ! Et un grand coup de chapeau à nos secrétaires et planificateurs en commentaire ! 👏👇
-
-#RCBA #GestionClub #Benevoles #Bu #Abondant #Logistique #FootballAmateur #FiersDeNosCouleurs
-```
-
-#### Révélation & Anecdote (Slide Réponse ou J+1) :
-```text
-✅ RÉPONSE QUESTION 10 : Jongler en permanence entre les installations de Bû et d'Abondant (Option B) ! 🧩
-
-Deux stades, deux mairies, deux gymnases et des dizaines d'équipes à caser chaque semaine ! Un véritable jeu de Tetris que nos bénévoles réussissent avec brio pour le plus grand bonheur de nos 450 licenciés. 👏
-```
-
----
-
-### 📢 Question 11 — Le Frisson des Vestiaires
-- **Thème :** Matchday & Rituels
-- **Visuel :** `RCBA_Quiz_Q11_question.png`
-
-#### Texte du post (à copier-coller) :
-```text
-🔥 DERNIÈRE QUESTION DU GRAND QUIZ ! [Question 11/11] 🔵🔘
+🔥 DERNIÈRE QUESTION DU GRAND QUIZ ! [Question 10/10] 🔵🔘
 
 Les crampons sont serrés, les protège-tibias sont en place. Le coach ferme la porte des vestiaires, le silence se fait... 🤫
 
-👉 Question 11 :
+👉 Question 10 :
 Comment appelle-t-on ce moment crucial où l'entraîneur rassemble tout le monde dans les vestiaires juste avant le coup d'envoi ?
 
 🔵 A) La sieste tactique
 🔘 B) La causerie d'avant-match
 🔵 C) Le débriefing de fin de semaine
 
-💬 Dites-nous votre réponse ! Avez-vous réussi le sans-faute sur les 11 questions ? Quel est votre score final ? 🏆👇
+💬 Dites-nous votre réponse ! Avez-vous réussi le sans-faute sur les 10 questions ? Quel est votre score final ? 🏆👇
 
 #RCBA #Causerie #AvantMatch #GrandQuizRCBA #Matchday #EspritDequipe #FiersDeNosCouleurs #Bu #Abondant
 ```
 
 #### Révélation & Anecdote (Slide Réponse ou J+1) :
 ```text
-✅ RÉPONSE QUESTION 11 : La causerie d'avant-match (Option B) ! 📢🔥
+✅ RÉPONSE QUESTION 10 : La causerie d'avant-match (Option B) ! 📢🔥
 
 La mythique causerie ! Cet instant solennel où l'on affine la tactique, où les discours motivent les troupes et où l'on jure de tout donner pour ses coéquipiers et pour les couleurs du RCBA.
 
-Merci à tous d'avoir participé à ce Grand Quiz ! Quel est votre score final sur 11 ? Partagez-le en commentaire ! 💙🔘
+Merci à tous d'avoir participé à ce Grand Quiz ! Quel est votre score final sur 10 ? Partagez-le en commentaire ! 💙🔘
 ```
 
 ---
 
-### 🏆 Post 12 — Le Bilan, Palmarès & Résultats du Grand Quiz
+### 🏆 Post 11 — Le Bilan, Palmarès & Résultats du Grand Quiz
 - **Thème :** Clôture officielle & Barème des résultats
-- **Visuel :** `RCBA_Quiz_12_resultats.png`
+- **Visuel :** `RCBA_Quiz_11_resultats.png`
 
 #### Texte du post (à copier-coller) :
 ```text
 🏆 LE GRAND QUIZ DU RCBA EST TERMINÉ : QUEL EST VOTRE SCORE FINAL ? 🔵🔘
 
-Pendant 11 questions, vous avez vibré avec nous à travers l'histoire, les anecdotes, les infrastructures, les bénévoles et les valeurs de notre club ! ⚽
+Pendant 10 questions, vous avez vibré avec nous à travers l'histoire, les anecdotes, les infrastructures, les bénévoles et les valeurs de notre club ! ⚽
 
 C'est l'heure du coup de sifflet final et de la proclamation officielle des résultats ! 📜
 
-👉 CALCULEZ VOTRE NOTE SUR 11 ET DÉCOUVREZ VOTRE STATUT AU CLUB :
+👉 CALCULEZ VOTRE NOTE SUR 10 ET DÉCOUVREZ VOTRE STATUT AU CLUB :
 
-🥇 10 à 11 POINTS : LÉGENDE DU RCBA 👑
+🥇 9 à 10 POINTS : LÉGENDE DU RCBA 👑
 Connaissance absolue du club ! Vous avez le respect éternel du vestiaire, le maillot floqué en or et votre photo encadrée au club-house. Un véritable monument vivant !
 
-🥈 7 à 9 POINTS : TITULAIRE INDISCUTABLE ⚽
+🥈 7 à 8 POINTS : TITULAIRE INDISCUTABLE ⚽
 Le sang bleu et blanc coule dans vos veines ! Vous connaissez parfaitement le RCBA, son histoire et ses valeurs. Un cadre exemplaire sur lequel le club peut toujours compter.
 
 🥉 4 à 6 POINTS : SUPPORTER DU DIMANCHE 🍺
@@ -430,7 +399,7 @@ Bienvenue dans la grande famille du RCBA ! Tout s'apprend sur le terrain et la p
 ---
 
 💬 À VOUS DE JOUER EN COMMENTAIRE :
-1️⃣ Quel est votre score final sur 11 ? (ex: 9/11)
+1️⃣ Quel est votre score final sur 10 ? (ex: 8/10)
 2️⃣ Quel est votre titre officiel ?
 3️⃣ Identifiez votre coéquipier ou votre pote de club pour voir qui est le vrai champion du RCBA ! 👇⚽
 

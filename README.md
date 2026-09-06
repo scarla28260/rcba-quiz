@@ -14,14 +14,14 @@ Ce projet a été conçu pour animer la communauté des supporters, licenciés, 
 
 ### 🎮 Deux Modes en Un :
 1. **Mode Joueur Interactif (Quiz Direct)** :
-   * 11 questions officielles du club : fondation bicommunale Bû-Abondant, 450 licenciés, Top 5 en Eure-et-Loir, double labélisation FFF (Jeunes & Féminines), section féminine loisir, gymnase intercommunal de Bû, rituel de la buvette, affiliation District 28, tenues bleu roi et gris, gestion logistique et causerie d'avant-match.
+   * **10 questions officielles du club** : fondation bicommunale Bû-Abondant, 450 licenciés, Top 5 en Eure-et-Loir, double labélisation FFF (Jeunes & Féminines), section féminine loisir, gymnase intercommunal de Bû, rituel de la buvette, affiliation District 28, tenues bleu roi et gris, et causerie d'avant-match.
+   * **Célébration de But Interactive** : À chaque bonne réponse, les ballons frappent le fond des filets avec secousse, flash de stade, sifflet d'arbitre et pluie de confettis !
    * **Enchaînement automatique & irréversible** : Dès le clic sur une option (A, B ou C), le choix est verrouillé sans retour arrière possible, affichant la validation et l'anecdote club, avant de passer automatiquement à la question suivante après 1,4 s.
-   * **Grand Écran de Palmarès & Résultats** : Calcul du score officiel sur 11, attribution d'un rang club certifié, récapitulatif complet des 11 questions et bouton de partage formaté pour les réseaux sociaux.
+   * **Grand Écran de Palmarès & Résultats** : Calcul du score officiel sur 10, attribution d'un rang club certifié, et bouton de partage formaté pour les réseaux sociaux.
 
 2. **Mode Studio Réseaux Sociaux** :
    * Visualisation et export haute définition (1080 × 1336 px, ratio 4:5 optimisé pour Instagram et Facebook).
-   * 23 visuels officiels : 11 slides Question, 11 slides Réponse avec explication, et 1 slide bilan Palmarès du Quiz.
-   * Téléchargement unitaire ou en pack complet en un clic via `html2canvas`.
+   * 21 visuels officiels : 10 slides Question, 10 slides Réponse avec explication, et 1 slide bilan Palmarès du Quiz.
 
 ---
 
@@ -29,10 +29,10 @@ Ce projet a été conçu pour animer la communauté des supporters, licenciés, 
 
 | Score | Rang Attribué | Statut & Reconnaissance |
 | :---: | :--- | :--- |
-| **10 - 11 pts** | 🏆 **Légende du Stade** | Sang Bleu & Blanc pur ! Le club n'a aucun secret pour vous. Statut VIP au club-house ! |
-| **7 - 9 pts** | ⚽ **Titulaire Indiscutable** | Une excellente culture RCBA. Toujours présent pour encourager les équipes le dimanche ! |
-| **4 - 6 pts** | 🎽 **Espoir du Club** | De bonnes bases, mais quelques révisions s'imposent à la buvette autour d'une crêpe. |
-| **0 - 3 pts** | 🎯 **Supporter en Rodage** | Bienvenue au RCBA ! C'est l'occasion idéale de venir voir jouer nos équipes ce week-end ! |
+| **9 - 10 pts** | 👑 **Légende du RCBA** | Sang Bleu & Blanc pur ! Le club n'a aucun secret pour vous. Statut VIP au club-house ! |
+| **7 - 8 pts** | ⚽ **Titulaire Indiscutable** | Une excellente culture RCBA. Toujours présent pour encourager les équipes le dimanche ! |
+| **4 - 6 pts** | 🍺 **Supporter du Dimanche** | De bonnes bases, mais quelques révisions s'imposent à la buvette autour d'une crêpe. |
+| **0 - 3 pts** | 🍟 **Nouvelle Recrue du Club** | Bienvenue au RCBA ! C'est l'occasion idéale de venir voir jouer nos équipes ce week-end ! |
 
 ---
 

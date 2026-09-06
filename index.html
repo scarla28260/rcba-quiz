@@ -45,8 +45,8 @@
       font-family: 'Inter', sans-serif;
       background-color: #030712;
       background-image: 
-        linear-gradient(to bottom, rgba(3, 7, 18, 0.40) 0%, rgba(3, 7, 18, 0.15) 45%, rgba(3, 7, 18, 0.65) 100%),
-        url('assets/fond_clean.png');
+        linear-gradient(to bottom, rgba(3, 7, 18, 0.45) 0%, rgba(3, 7, 18, 0.20) 45%, rgba(3, 7, 18, 0.70) 100%),
+        url('assets/fond_but_clean.png');
       background-size: cover;
       background-position: center top;
       background-repeat: no-repeat;
@@ -56,6 +56,57 @@
       padding: 0;
       overflow-x: hidden;
       min-height: 100vh;
+    }
+
+    /* Effets de But & Secousse des Filets */
+    @keyframes goalNetImpactLeft {
+      0% { transform: translate(-100%, -50%) scale(0.6) rotate(-20deg); opacity: 0; }
+      40% { transform: translate(0%, -50%) scale(1.12) rotate(4deg); opacity: 1; }
+      60% { transform: translate(-6%, -50%) scale(0.96) rotate(-2deg); opacity: 1; }
+      80% { transform: translate(2%, -50%) scale(1.02) rotate(1deg); opacity: 1; }
+      100% { transform: translate(0%, -50%) scale(1) rotate(0deg); opacity: 1; }
+    }
+
+    @keyframes goalNetImpactRight {
+      0% { transform: translate(100%, -50%) scale(0.6) rotate(20deg); opacity: 0; }
+      40% { transform: translate(0%, -50%) scale(1.12) rotate(-4deg); opacity: 1; }
+      60% { transform: translate(6%, -50%) scale(0.96) rotate(2deg); opacity: 1; }
+      80% { transform: translate(-2%, -50%) scale(1.02) rotate(-1deg); opacity: 1; }
+      100% { transform: translate(0%, -50%) scale(1) rotate(0deg); opacity: 1; }
+    }
+
+    @keyframes goalCardShake {
+      0%, 100% { transform: translate(0, 0) rotate(0deg); }
+      15% { transform: translate(-6px, 3px) rotate(-0.5deg); }
+      30% { transform: translate(6px, -3px) rotate(0.5deg); }
+      45% { transform: translate(-4px, 2px) rotate(-0.3deg); }
+      60% { transform: translate(4px, -1px) rotate(0.2deg); }
+      75% { transform: translate(-2px, 1px) rotate(-0.1deg); }
+    }
+
+    @keyframes goalBannerPop {
+      0% { transform: scale(0.3) rotate(-8deg); opacity: 0; }
+      50% { transform: scale(1.15) rotate(2deg); opacity: 1; }
+      70% { transform: scale(0.95) rotate(-1deg); opacity: 1; }
+      100% { transform: scale(1) rotate(-2deg); opacity: 1; }
+    }
+
+    .goal-animate-left {
+      animation: goalNetImpactLeft 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+    }
+
+    .goal-animate-right {
+      animation: goalNetImpactRight 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+    }
+
+    .goal-banner-active {
+      animation: goalBannerPop 0.45s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+    }
+
+    .card-goal-scored {
+      animation: goalCardShake 0.45s ease-in-out;
+      border-color: #10b981 !important;
+      box-shadow: 0 0 50px rgba(16, 185, 129, 0.75), 0 20px 50px rgba(0, 0, 0, 0.95) !important;
     }
 
     .font-heading {
@@ -169,6 +220,42 @@
 
 
   <!-- ========================================================================= -->
+  <!-- OVERLAY D'ANIMATION DE BUT (DÉCLENCHÉ SUR BONNE RÉPONSE : FILETS & BALLON)-->
+  <!-- ========================================================================= -->
+  <div id="goal-celebration-overlay" class="fixed inset-0 pointer-events-none z-40 overflow-hidden hidden flex items-center justify-center">
+    <!-- Flash vert de stade -->
+    <div id="goal-flash" class="absolute inset-0 bg-emerald-500/25 transition-opacity duration-300 opacity-0 pointer-events-none"></div>
+
+    <!-- Ballon et filet gauche frappant le but -->
+    <div id="goal-net-left" class="absolute left-0 sm:left-2 top-1/2 -translate-y-1/2 w-48 sm:w-72 md:w-84 max-w-[45vw] pointer-events-none drop-shadow-[0_0_35px_rgba(16,185,129,0.7)]">
+      <img src="assets/goal_ball_left_clean.png" alt="But RCBA !" class="w-full h-auto filter contrast-125 brightness-110">
+    </div>
+
+    <!-- Ballon et filet droit frappant le but -->
+    <div id="goal-net-right" class="absolute right-0 sm:right-2 top-1/2 -translate-y-1/2 w-48 sm:w-72 md:w-84 max-w-[45vw] pointer-events-none drop-shadow-[0_0_35px_rgba(16,185,129,0.7)]">
+      <img src="assets/goal_ball_right_clean.png" alt="But RCBA !" class="w-full h-auto filter contrast-125 brightness-110">
+    </div>
+
+    <!-- Grand Badge Central BUUUUT ! -->
+    <div id="goal-badge-banner" class="relative z-10 flex flex-col items-center justify-center pointer-events-none px-4">
+      <div class="px-6 sm:px-10 py-3 sm:py-4 rounded-3xl bg-gradient-to-r from-emerald-600 via-racing-gold to-emerald-600 border-2 border-white text-slate-950 shadow-[0_0_60px_rgba(16,185,129,0.85)] text-center">
+        <div class="font-heading font-black text-3xl sm:text-5xl md:text-6xl tracking-wider text-white drop-shadow-[0_4px_12px_rgba(0,0,0,0.9)] flex items-center justify-center space-x-2 sm:space-x-4">
+          <span class="inline-block animate-bounce">⚽</span>
+          <span class="italic">BUUUUUT !</span>
+          <span class="inline-block animate-bounce" style="animation-delay: 0.15s;">⚽</span>
+        </div>
+        <div class="text-[11px] sm:text-sm md:text-base font-black uppercase tracking-widest text-slate-950 mt-1 bg-white/95 px-3.5 py-0.5 rounded-full inline-block shadow">
+          🎯 Pleine lucarne ! +1 Point RCBA
+        </div>
+      </div>
+    </div>
+
+    <!-- Canvas de confettis en direct -->
+    <canvas id="goal-confetti-canvas" class="absolute inset-0 w-full h-full pointer-events-none"></canvas>
+  </div>
+
+
+  <!-- ========================================================================= -->
   <!-- 1. ZONE HAUTE : LOGO, TITRE DU QUIZ & COMPTEURS (PLEINE LARGEUR)          -->
   <!-- ========================================================================= -->
   <header class="w-full pt-4 sm:pt-6 pb-2 px-4 flex flex-col items-center text-center relative z-10">
@@ -192,7 +279,7 @@
       <!-- Sous-titre avec doubles tirets cyan et progression -->
       <div class="flex items-center justify-center space-x-2 sm:space-x-3 mt-1 text-racing-sky font-extrabold tracking-widest text-xs uppercase">
         <span class="h-[1.5px] w-6 sm:w-12 bg-gradient-to-r from-transparent to-racing-sky"></span>
-        <span id="quiz-q-number">QUESTION 01 / 11</span>
+        <span id="quiz-q-number">QUESTION 01 / 10</span>
         <span class="h-[1.5px] w-6 sm:w-12 bg-gradient-to-l from-transparent to-racing-sky"></span>
       </div>
 
@@ -275,7 +362,7 @@
     </div>
 
 
-    <!-- CARTE DU PALMARÈS FINAL (S'affiche après la 11ème question) -->
+    <!-- CARTE DU PALMARÈS FINAL (S'affiche après la 10ème question) -->
     <div id="quiz-results-view" class="quiz-main-card p-5 sm:p-7 transition-all duration-300 hidden" style="border-color: rgba(245, 158, 11, 0.85); box-shadow: 0 20px 50px rgba(0,0,0,0.95), 0 0 35px rgba(245, 158, 11, 0.35);">
 
       <!-- En-tête du Palmarès -->
@@ -302,12 +389,12 @@
           <div>
             <div class="text-[10px] sm:text-xs uppercase font-bold text-slate-400">Score Officiel Certifié</div>
             <div class="font-heading font-black text-2xl sm:text-3xl text-white leading-tight">
-              <span id="final-score-num" class="text-racing-gold">10</span> <span class="text-sm text-slate-400">/ 11 pts</span>
+              <span id="final-score-num" class="text-racing-gold">10</span> <span class="text-sm text-slate-400">/ 10 pts</span>
             </div>
           </div>
         </div>
         <div id="final-percent-badge" class="text-xs sm:text-sm font-black text-emerald-400 bg-emerald-950/80 border border-emerald-500/40 px-3 py-1.5 rounded-xl shadow">
-          91% de réussite
+          100% de réussite
         </div>
       </div>
 
@@ -317,7 +404,7 @@
         <!-- 1. LÉGENDE DU RCBA -->
         <div id="tier-box-1" class="rounded-xl p-2.5 flex items-center space-x-3 transition-all" style="background: #0c142a; border: 1.5px solid rgba(245, 158, 11, 0.4);">
           <div class="px-3 py-1 rounded-lg bg-racing-gold text-slate-950 font-black text-xs shrink-0 shadow">
-            10 - 11 PTS
+            9 - 10 PTS
           </div>
           <div class="min-w-0 flex-1">
             <div class="font-heading font-black text-xs sm:text-sm text-racing-gold flex items-center space-x-1">
@@ -330,7 +417,7 @@
         <!-- 2. TITULAIRE INDISCUTABLE -->
         <div id="tier-box-2" class="rounded-xl p-2.5 flex items-center space-x-3 transition-all" style="background: #0c142a; border: 1.5px solid rgba(16, 185, 129, 0.4);">
           <div class="px-3 py-1 rounded-lg bg-emerald-500 text-slate-950 font-black text-xs shrink-0 shadow">
-            7 - 9 PTS
+            7 - 8 PTS
           </div>
           <div class="min-w-0 flex-1">
             <div class="font-heading font-black text-xs sm:text-sm text-emerald-400 flex items-center space-x-1">
@@ -406,21 +493,6 @@
         SUIVEZ LE RCBA • Facebook • Instagram
       </p>
     </div>
-
-    <!-- BANDEAU BLANC OFFICIEL DES SPONSORS (DÉFILANT / ALIGNÉ) -->
-    <div class="w-full bg-white py-2 px-4 shadow-2xl border-t border-slate-300">
-      <div class="max-w-6xl mx-auto flex items-center justify-between sm:justify-center gap-3 sm:gap-6 flex-wrap">
-        <img src="assets/sponsors/o_plateau_traiteur.png" alt="O'Plateau" class="h-6 sm:h-8 object-contain">
-        <img src="assets/sponsors/garage_cma_renault_dacia_bu.png" alt="Garage CMA Renault Dacia Bû" class="h-6 sm:h-8 object-contain">
-        <img src="assets/sponsors/credit_agricole_val_de_france.png" alt="Crédit Agricole Val de France" class="h-6 sm:h-8 object-contain">
-        <img src="assets/sponsors/auriau_vo_automobiles.jpg" alt="Auriau VO" class="h-6 sm:h-8 object-contain">
-        <img src="assets/sponsors/alf_menuiserie_moreira.png" alt="ALF Menuiserie" class="h-6 sm:h-8 object-contain">
-        <img src="assets/sponsors/tabac_presse_terrasson_bu.jpg" alt="Tabac Presse Bû" class="h-6 sm:h-8 object-contain">
-        <img src="assets/sponsors/les_3s_sports_barjouville.png" alt="Les 3S Sports" class="h-6 sm:h-8 object-contain">
-        <img src="assets/sponsors/progreen.png" alt="ProGreen" class="h-6 sm:h-8 object-contain">
-      </div>
-    </div>
-
   </footer>
 
 
@@ -569,11 +641,11 @@
   <!-- JAVASCRIPT : DONNÉES DU QUIZ & LOGIQUE COMPLÈTE EN PLEINE PAGE            -->
   <!-- ========================================================================= -->
   <script>
-    // 11 QUESTIONS OFFICIELLES DU RCBA
+    // 10 QUESTIONS OFFICIELLES DU RCBA
     const QUIZ_DATA = [
       {
         id: 1,
-        title: "Question 01 / 11",
+        title: "Question 01 / 10",
         theme: "HISTOIRE & FONDATION",
         question: "Dans le nom complet du club, le RCBA, quelles sont les deux communes historiques associées pour former cette entité ?",
         options: [
@@ -589,7 +661,7 @@
       },
       {
         id: 2,
-        title: "Question 02 / 11",
+        title: "Question 02 / 10",
         theme: "EFFECTIFS DU CLUB",
         question: "À combien estime-t-on globalement le nombre de licenciés au sein de la grande famille du club ?",
         options: [
@@ -605,7 +677,7 @@
       },
       {
         id: 3,
-        title: "Question 03 / 11",
+        title: "Question 03 / 10",
         theme: "RAYONNEMENT DU CLUB",
         question: "Où se situe approximativement le RCBA en termes de volume de licenciés par rapport aux autres clubs du 28 ?",
         options: [
@@ -621,7 +693,7 @@
       },
       {
         id: 4,
-        title: "Question 04 / 11",
+        title: "Question 04 / 10",
         theme: "LABELS FÉDÉRAUX FFF",
         question: "Le club a reçu une double labélisation officielle de la FFF (Jeunes & Féminines). Que récompensent ces labels ?",
         options: [
@@ -637,7 +709,7 @@
       },
       {
         id: 5,
-        title: "Question 05 / 11",
+        title: "Question 05 / 10",
         theme: "FOOTBALL FÉMININ",
         question: "Outre les équipes masculines et l'école de foot, quel type d'équipe féminine senior a vu le jour au RCBA ?",
         options: [
@@ -653,7 +725,7 @@
       },
       {
         id: 6,
-        title: "Question 06 / 11",
+        title: "Question 06 / 10",
         theme: "INFRASTRUCTURES",
         question: "En plus des terrains extérieurs de Bû et d'Abondant, quel équipement sportif couvert le club utilise-t-il régulièrement pour les entraînements ?",
         options: [
@@ -669,7 +741,7 @@
       },
       {
         id: 7,
-        title: "Question 07 / 11",
+        title: "Question 07 / 10",
         theme: "TRADITION & CONVIVIALITÉ",
         question: "Quel est le rituel sacré et incontournable après un match ou un entraînement au club ?",
         options: [
@@ -685,7 +757,7 @@
       },
       {
         id: 8,
-        title: "Question 08 / 11",
+        title: "Question 08 / 10",
         theme: "INSTITUTIONS OFFICIELLES",
         question: "Sur un plan institutionnel, à quelle instance départementale le RCBA est-il rattaché pour ses championnats ?",
         options: [
@@ -701,7 +773,7 @@
       },
       {
         id: 9,
-        title: "Question 09 / 11",
+        title: "Question 09 / 10",
         theme: "COULEURS OFFICIELLES",
         question: "Quelles sont les teintes principales qui habillent traditionnellement les tenues du club lors des dernières saisons ?",
         options: [
@@ -717,23 +789,7 @@
       },
       {
         id: 10,
-        title: "Question 10 / 11",
-        theme: "ORGANISATION DU CLUB",
-        question: "Quelle est la particularité logistique majeure de la gestion quotidienne d'un club bicommunal comme le RCBA ?",
-        options: [
-          { id: "A", text: "Il n'y a qu'un seul vestiaire pour tout le monde" },
-          { id: "B", text: "Jongler en permanence entre les installations et plannings de Bû et d'Abondant" },
-          { id: "C", text: "Les matchs se jouent obligatoirement sur terrain neutre" }
-        ],
-        answer: "B",
-        answerText: "Jongler en permanence entre les installations et plannings de Bû et d'Abondant",
-        explanation: "Deux mairies, deux stades, deux plannings : une vraie prouesse menée chaque semaine par nos bénévoles !",
-        funFact: "Un dévouement sans faille de nos dirigeants pour offrir le meilleur encadrement à tous les licenciés.",
-        hook: "⚙️ COULISSES DU CLUB : Quel est le défi logistique relevé chaque jour par nos bénévoles ?"
-      },
-      {
-        id: 11,
-        title: "Question 11 / 11",
+        title: "Question 10 / 10",
         theme: "MATCHDAY & VESTIAIRES",
         question: "Comment appelle-t-on le moment crucial où l'entraîneur rassemble tout le monde dans les vestiaires avant le coup d'envoi ?",
         options: [
@@ -753,10 +809,10 @@
     const TIERS_DATA = [
       {
         id: 1,
-        min: 10,
-        max: 11,
+        min: 9,
+        max: 10,
         title: "LÉGENDE DU RCBA",
-        badge: "10 - 11 PTS",
+        badge: "9 - 10 PTS",
         icon: "👑",
         color: "#F59E0B",
         desc: "Connaissance absolue du club ! Vous avez le respect éternel du vestiaire, le maillot floqué en or et votre photo au club-house. Un véritable monument vivant !"
@@ -764,9 +820,9 @@
       {
         id: 2,
         min: 7,
-        max: 9,
+        max: 8,
         title: "TITULAIRE INDISCUTABLE",
-        badge: "7 - 9 PTS",
+        badge: "7 - 8 PTS",
         icon: "⚽",
         color: "#10B981",
         desc: "Le sang bleu et blanc coule dans vos veines ! Vous connaissez parfaitement le RCBA, son histoire et ses valeurs. Un cadre exemplaire sur lequel le club peut toujours compter."
@@ -794,7 +850,7 @@
     ];
 
     // VARIABLES D'ÉTAT DU JEU
-    let currentStep = 0; // 0 à 10
+    let currentStep = 0; // 0 à 9
     let playerScore = 0;
     let playerAnswers = [];
     let autoTimer = null;
@@ -809,6 +865,7 @@
 
     // RENDU D'UNE QUESTION (PLEINE PAGE)
     function renderGameQuestion(stepIdx) {
+      hideGoalCelebration();
       currentStep = stepIdx;
       const q = QUIZ_DATA[stepIdx];
 
@@ -820,7 +877,7 @@
       document.getElementById('quiz-theme-tag').innerText = q.theme;
       document.getElementById('quiz-main-title').innerText = "LE GRAND QUIZ DU RCBA";
       const qNumStr = String(stepIdx + 1).padStart(2, '0');
-      document.getElementById('quiz-q-number').innerText = `QUESTION ${qNumStr} / 11`;
+      document.getElementById('quiz-q-number').innerText = `QUESTION ${qNumStr} / 10`;
 
       // En-tête de la carte
       document.getElementById('quiz-card-badge').innerText = "QUESTION DU CLUB (1 POINT)";
@@ -917,10 +974,11 @@
         }
       });
 
-      // 2. Score
+      // 2. Score & Célébration de But
       if (isCorrect) {
         playerScore++;
         document.getElementById('quiz-live-score').innerText = `Score : ${playerScore} pt${playerScore > 1 ? 's' : ''}`;
+        triggerGoalCelebration();
       }
 
       playerAnswers.push({
@@ -936,7 +994,7 @@
         bottomBox.style.background = '#06281e';
         bottomBox.style.borderColor = 'rgba(16, 185, 129, 0.7)';
         document.getElementById('feedback-box-title').className = 'font-black text-emerald-400 text-[11px] sm:text-xs uppercase tracking-wider mb-0.5 flex items-center space-x-1.5';
-        document.getElementById('feedback-box-title').innerHTML = `<span>✓</span><span>EXCELLENT ! C'EST LA BONNE RÉPONSE (+1 PT)</span>`;
+        document.getElementById('feedback-box-title').innerHTML = `<span>⚽</span><span>BUUUUUT ! EXCELLENTE RÉPONSE (+1 PT)</span>`;
       } else {
         bottomBox.style.background = '#2c0d14';
         bottomBox.style.borderColor = 'rgba(239, 68, 68, 0.7)';
@@ -955,7 +1013,7 @@
       const autoText = document.getElementById('quiz-auto-text');
       const progressBar = document.getElementById('quiz-auto-progress-bar');
 
-      const isLast = (currentStep >= 10);
+      const isLast = (currentStep >= 9);
       if (isLast) {
         autoText.innerHTML = `
           <span class="w-2 h-2 rounded-full bg-racing-gold animate-ping"></span>
@@ -984,7 +1042,8 @@
       // 5. Enchaînement automatique (1,4s) sans retour arrière possible
       if (autoTimer) clearTimeout(autoTimer);
       autoTimer = setTimeout(() => {
-        if (currentStep < 10) {
+        hideGoalCelebration();
+        if (currentStep < 9) {
           renderGameQuestion(currentStep + 1);
         } else {
           showVisualResults();
@@ -1005,12 +1064,12 @@
 
       // Score
       document.getElementById('final-score-num').innerText = playerScore;
-      const percent = Math.round((playerScore / 11) * 100);
-      document.getElementById('final-percent-badge').innerText = `${percent}% de réussite (${playerScore}/11)`;
+      const percent = Math.round((playerScore / 10) * 100);
+      document.getElementById('final-percent-badge').innerText = `${percent}% de réussite (${playerScore}/10)`;
 
       // Détermination du rang officiel
       let activeTierId = 4;
-      if (playerScore >= 10) activeTierId = 1;
+      if (playerScore >= 9) activeTierId = 1;
       else if (playerScore >= 7) activeTierId = 2;
       else if (playerScore >= 4) activeTierId = 3;
 
@@ -1046,11 +1105,11 @@
     // PARTAGER SON SCORE
     function copyPlayerScore() {
       let tier = TIERS_DATA[3];
-      if (playerScore >= 10) tier = TIERS_DATA[0];
+      if (playerScore >= 9) tier = TIERS_DATA[0];
       else if (playerScore >= 7) tier = TIERS_DATA[1];
       else if (playerScore >= 4) tier = TIERS_DATA[2];
 
-      const text = `🏆 J'ai obtenu le score de ${playerScore}/11 au GRAND QUIZ DU RACING CLUB BÛ ABONDANT ! 🔵🔘
+      const text = `🏆 J'ai obtenu le score de ${playerScore}/10 au GRAND QUIZ DU RACING CLUB BÛ ABONDANT ! 🔵🔘
 
 Mon statut officiel : ${tier.icon} ${tier.title} (${tier.badge})
 "${tier.desc}"
@@ -1061,6 +1120,179 @@ Et toi, connais-tu vraiment le RCBA ? Feras-tu mieux que moi ? ⚽👇
       navigator.clipboard.writeText(text).then(() => {
         showToast("Résultat copié ! Prêt à coller sur vos réseaux 📋");
       });
+    }
+
+    // =========================================================================
+    // EFFETS & ANIMATION DE BUT (SUR BONNE RÉPONSE : BALLONS DANS LE FILET)
+    // =========================================================================
+    let confettiAnimId = null;
+    let confettiParticles = [];
+
+    function triggerGoalCelebration() {
+      playGoalSound();
+
+      const overlay = document.getElementById('goal-celebration-overlay');
+      const flash = document.getElementById('goal-flash');
+      const netL = document.getElementById('goal-net-left');
+      const netR = document.getElementById('goal-net-right');
+      const banner = document.getElementById('goal-badge-banner');
+      const card = document.getElementById('quiz-question-view');
+
+      if (!overlay) return;
+
+      // Affichage du calque de célébration
+      overlay.classList.remove('hidden');
+
+      // Flash du stade
+      if (flash) {
+        flash.style.opacity = '1';
+        setTimeout(() => { if (flash) flash.style.opacity = '0'; }, 350);
+      }
+
+      // Ballons qui frappent le fond des filets (gauche & droite)
+      if (netL) {
+        netL.classList.remove('goal-animate-left');
+        void netL.offsetWidth;
+        netL.classList.add('goal-animate-left');
+      }
+      if (netR) {
+        netR.classList.remove('goal-animate-right');
+        void netR.offsetWidth;
+        netR.classList.add('goal-animate-right');
+      }
+
+      // Bannière BUUUUT centrale
+      if (banner) {
+        banner.classList.remove('goal-banner-active');
+        void banner.offsetWidth;
+        banner.classList.add('goal-banner-active');
+      }
+
+      // Secousse d'impact du stade
+      if (card) {
+        card.classList.remove('card-goal-scored');
+        void card.offsetWidth;
+        card.classList.add('card-goal-scored');
+      }
+
+      // Pluie de confettis victorieuse
+      launchGoalConfetti();
+    }
+
+    function hideGoalCelebration() {
+      const overlay = document.getElementById('goal-celebration-overlay');
+      if (overlay) {
+        overlay.classList.add('hidden');
+      }
+      const card = document.getElementById('quiz-question-view');
+      if (card) {
+        card.classList.remove('card-goal-scored');
+      }
+      if (confettiAnimId) {
+        cancelAnimationFrame(confettiAnimId);
+        confettiAnimId = null;
+      }
+      const canvas = document.getElementById('goal-confetti-canvas');
+      if (canvas) {
+        const ctx = canvas.getContext('2d');
+        if (ctx) ctx.clearRect(0, 0, canvas.width, canvas.height);
+      }
+    }
+
+    function launchGoalConfetti() {
+      const canvas = document.getElementById('goal-confetti-canvas');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+
+      const colors = ['#1C64F2', '#38BDF8', '#F59E0B', '#10B981', '#FFFFFF', '#FCD34D'];
+      confettiParticles = [];
+
+      for (let i = 0; i < 50; i++) {
+        confettiParticles.push({
+          x: canvas.width / 2 + (Math.random() - 0.5) * 180,
+          y: canvas.height / 2 + (Math.random() - 0.5) * 80,
+          vx: (Math.random() - 0.5) * 16,
+          vy: -Math.random() * 12 - 4,
+          size: Math.random() * 8 + 6,
+          color: colors[Math.floor(Math.random() * colors.length)],
+          rotation: Math.random() * 360,
+          rotSpeed: (Math.random() - 0.5) * 10,
+          opacity: 1
+        });
+      }
+
+      const startTime = performance.now();
+      function renderConfetti(time) {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        const elapsed = time - startTime;
+
+        confettiParticles.forEach(p => {
+          p.x += p.vx;
+          p.y += p.vy;
+          p.vy += 0.42;
+          p.rotation += p.rotSpeed;
+          if (elapsed > 800) {
+            p.opacity = Math.max(0, 1 - (elapsed - 800) / 550);
+          }
+
+          ctx.save();
+          ctx.translate(p.x, p.y);
+          ctx.rotate((p.rotation * Math.PI) / 180);
+          ctx.fillStyle = p.color;
+          ctx.globalAlpha = p.opacity;
+          ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size * 0.6);
+          ctx.restore();
+        });
+
+        if (elapsed < 1350) {
+          confettiAnimId = requestAnimationFrame(renderConfetti);
+        } else {
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+        }
+      }
+      if (confettiAnimId) cancelAnimationFrame(confettiAnimId);
+      confettiAnimId = requestAnimationFrame(renderConfetti);
+    }
+
+    function playGoalSound() {
+      try {
+        const AudioCtx = window.AudioContext || window.webkitAudioContext;
+        if (!AudioCtx) return;
+        const ctx = new AudioCtx();
+        if (ctx.state === 'suspended') ctx.resume();
+
+        // Coup de sifflet d'arbitre pour marquer le but
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(2600, ctx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(3200, ctx.currentTime + 0.08);
+        osc.frequency.exponentialRampToValueAtTime(2800, ctx.currentTime + 0.18);
+        gain.gain.setValueAtTime(0.12, ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.22);
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start(ctx.currentTime);
+        osc.stop(ctx.currentTime + 0.22);
+
+        // Accord victorieux (C5, E5, G5, C6)
+        const notes = [523.25, 659.25, 783.99, 1046.50];
+        notes.forEach((freq, idx) => {
+          const o = ctx.createOscillator();
+          const g = ctx.createGain();
+          o.type = 'triangle';
+          o.frequency.value = freq;
+          const start = ctx.currentTime + 0.06 + (idx * 0.035);
+          g.gain.setValueAtTime(0.09, start);
+          g.gain.exponentialRampToValueAtTime(0.001, start + 0.6);
+          o.connect(g);
+          g.connect(ctx.destination);
+          o.start(start);
+          o.stop(start + 0.65);
+        });
+      } catch (e) {}
     }
 
     // TOAST FLOTTANT
@@ -1261,7 +1493,7 @@ Et toi, connais-tu vraiment le RCBA ? Feras-tu mieux que moi ? ⚽👇
       const grid = document.getElementById('admin-questions-grid');
       grid.innerHTML = '';
 
-      for (let i = 0; i < 11; i++) {
+      for (let i = 0; i < 10; i++) {
         const btn = document.createElement('button');
         btn.onclick = () => {
           renderGameQuestion(i);
@@ -1272,7 +1504,7 @@ Et toi, connais-tu vraiment le RCBA ? Feras-tu mieux que moi ? ⚽👇
         grid.appendChild(btn);
       }
 
-      // 12ème bouton : Palmarès
+      // 11ème bouton : Palmarès
       const btnP = document.createElement('button');
       btnP.onclick = () => {
         showVisualResults();
@@ -1290,7 +1522,7 @@ Et toi, connais-tu vraiment le RCBA ? Feras-tu mieux que moi ? ⚽👇
 
 ${q.hook}
 
-❓ QUESTION ${String(currentStep + 1).padStart(2, '0')} / 11 :
+❓ QUESTION ${String(currentStep + 1).padStart(2, '0')} / 10 :
 ${q.question}
 
 Les 3 choix possibles :
