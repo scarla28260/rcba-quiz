@@ -19,7 +19,7 @@
   - **Mercredi 18h30 :** Rendez-vous "Mercredi Foot & Histoire" (au moment où les jeunes rentrent des entraînements).
   - **Dimanche 19h00 :** Rendez-vous "Après-Match & Buvette" (pour prolonger l'ambiance du week-end).
   - *Durée totale de la campagne : 5 à 6 semaines.*
-- **Rythme quotidien (Série événementielle) :** 1 question chaque soir à 19h00 pendant 11 jours consécutifs lors d'une trêve ou de la rentrée.
+- **Rythme quotidien (Série événementielle) :** 1 question chaque soir à 19h00 pendant 10 jours consécutifs lors d'une trêve ou de la rentrée.
 
 ---
 
@@ -34,7 +34,7 @@
 
 ---
 
-# 📝 Les 11 Posts Prêts à Copier-Coller
+# 📝 Les 10 Posts Prêts à Copier-Coller (+ 1 Post Bilan Palmarès)
 
 ---
 
@@ -44,7 +44,7 @@
 
 #### Texte du post (à copier-coller) :
 ```text
-⚽ TESTEZ VOS CONNAISSANCES RCBA ! [Question 1/11] 🔵🔘
+⚽ TESTEZ VOS CONNAISSANCES RCBA ! [Question 1/10] 🔵🔘
 
 Coup d'envoi de notre Grand Quiz du Racing Club Bû Abondant ! Que vous soyez joueur, supporter, parent ou bénévole, saurez-vous faire un sans-faute ? 🧠
 
@@ -82,7 +82,7 @@ Rendez-vous mercredi prochain pour la Question 2 ! 🔥
 
 #### Texte du post (à copier-coller) :
 ```text
-🔥 UNE VÉRITABLE ARMÉE BLEUE ET BLANCHE ! [Question 2/11] 🔵🔘
+🔥 UNE VÉRITABLE ARMÉE BLEUE ET BLANCHE ! [Question 2/10] 🔵🔘
 
 Chaque week-end, les pelouses de Bû et d'Abondant vibrent au rythme de nos équipes. Mais connaissez-vous réellement l'ampleur de la famille RCBA ?
 
@@ -116,7 +116,7 @@ Merci à toutes et à tous de faire vivre le club chaque jour ! 💙
 
 #### Texte du post (à copier-coller) :
 ```text
-📊 PETIT VILLAGE MAIS GRAND CLUB ! [Question 3/11] 🔵🔘
+📊 PETIT VILLAGE MAIS GRAND CLUB ! [Question 3/10] 🔵🔘
 
 Dans le département de l'Eure-et-Loir (District 28), de nombreux clubs représentent des villes de plusieurs dizaines de milliers d'habitants. Et le RCBA dans tout ça ?
 
@@ -149,7 +149,7 @@ Fiers de nos couleurs et de notre territoire ! 🔵🔘
 
 #### Texte du post (à copier-coller) :
 ```text
-⭐ LA RECONNAISSANCE DU TRAVAIL BIEN FAIT ! [Question 4/11] 🔵🔘
+⭐ LA RECONNAISSANCE DU TRAVAIL BIEN FAIT ! [Question 4/10] 🔵🔘
 
 Le saviez-vous ? Le RCBA a reçu une prestigieuse double labélisation officielle décernée par la Fédération Française de Football (FFF) pour ses catégories Jeunes et Féminines. 
 
@@ -182,7 +182,7 @@ Un grand bravo à nos éducateurs, éducatrices et responsables techniques ! �
 
 #### Texte du post (à copier-coller) :
 ```text
-⚽ LE FOOT AU FÉMININ ET EN TOUTE CONVIVIALITÉ ! [Question 5/11] 🔵🔘
+⚽ LE FOOT AU FÉMININ ET EN TOUTE CONVIVIALITÉ ! [Question 5/10] 🔵🔘
 
 Le football féminin est en plein essor au RCBA, des catégories jeunes jusqu'aux seniors ! 
 
@@ -215,7 +215,7 @@ Envie de tenter l'aventure ? Les séances sont ouvertes à toutes ! 💙
 
 #### Texte du post (à copier-coller) :
 ```text
-❄️ QUAND L'HIVER ARRIVE... [Question 6/11] 🔵🔘
+❄️ QUAND L'HIVER ARRIVE... [Question 6/10] 🔵🔘
 
 Pour que nos jeunes continuent à progresser même quand les terrains extérieurs sont gelés ou impraticables, le RCBA peut compter sur des installations couvertes de qualité.
 
@@ -248,7 +248,7 @@ Un grand merci à la municipalité de Bû pour son partenariat précieux ! 🤝
 
 #### Texte du post (à copier-coller) :
 ```text
-🍟 LE RITUEL SACRÉ DU RCBA ! [Question 7/11] 🔵🔘
+🍟 LE RITUEL SACRÉ DU RCBA ! [Question 7/10] 🔵🔘
 
 Il y a les 90 minutes sur le rectangle vert... et il y a le moment où se forge la véritable légende du football amateur ! 
 
@@ -281,7 +281,7 @@ Merci à nos bénévoles qui tiennent le stand avec passion chaque week-end ! �
 
 #### Texte du post (à copier-coller) :
 ```text
-📍 LE REVIENT-ON DANS LE 28 ! [Question 8/11] 🔵🔘
+📍 LE REVIENT-ON DANS LE 28 ! [Question 8/10] 🔵🔘
 
 Le RCBA évolue chaque week-end dans les compétitions officielles départementales et régionales. 
 
@@ -312,7 +312,7 @@ Le RCBA est fièrement affilié au District d'Eure-et-Loir (28), sous la houlett
 
 #### Texte du post (à copier-coller) :
 ```text
-🔵🔘 FIERS DE NOS COULEURS ! [Question 9/11] 🔵🔘
+🔵🔘 FIERS DE NOS COULEURS ! [Question 9/10] 🔵🔘
 
 Sur tous les terrains de la région, ces couleurs permettent d'identifier instantanément les guerriers et guerrières du Racing Club Bû Abondant.
 

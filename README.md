@@ -41,8 +41,8 @@ Ce projet a été conçu pour animer la communauté des supporters, licenciés, 
 ```text
 Quizz/
 ├── index.html                     # Application web interactive (Studio & Joueur)
-├── quiz_data.json                 # Base de données officielle des 11 questions & anecdotes
-├── POSTS_META_BUSINESS_SUITE.md   # Textes des 12 posts officiels prêts à copier-coller
+├── quiz_data.json                 # Base de données officielle des 10 questions & anecdotes
+├── POSTS_META_BUSINESS_SUITE.md   # Textes des 11 posts officiels prêts à copier-coller (10 questions + 1 bilan)
 ├── generer_tous_les_visuels.ps1   # Script PowerShell d'automatisation des captures HD
 ├── assets/                        # Ressources graphiques officielles (logos RCBA, fonds, sponsors)
 │   ├── fond_clean.png
