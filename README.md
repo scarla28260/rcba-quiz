@@ -73,6 +73,17 @@ Pour rendre le quiz jouable en ligne par tous les supporters :
 
 ---
 
+## 🔒 Suivi d'Audience Privé (Mouchard Invisible)
+
+Un système de comptage des vues en temps réel et discret est intégré directement dans le quiz :
+* **100% invisible pour les joueurs** : Aucun badge ni compteur public n'apparaît lors des parties.
+* **Comptage automatique & anti-doublon** : Chaque nouvelle session de visite est comptabilisée en tâche de fond.
+* **Accès exclusif réservé au club** :
+  * **Raccourci secret** : Faites **3 clics rapides** directement sur le grand titre *« LE GRAND QUIZ DU RCBA »*.
+  * **Code PIN secret** : Entrez `28260` pour déverrouiller l'affichage du total des vues réelles et actualiser en direct.
+
+---
+
 ## ⚽ Valeurs du RCBA
 > **RESPECT • ENGAGEMENT • CONVIVIALITÉ • PERFORMANCE • SÉRIEUX**  
 > *« Un club. Plusieurs équipes. Une seule passion. »* 💙🤍💚

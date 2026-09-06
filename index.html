@@ -111,19 +111,55 @@
       background: rgba(56, 189, 248, 0.3);
       border-radius: 9999px;
     }
+
+    /* Neutralisation et masquage complet de tout badge / iframe Netlify */
+    iframe[src*="netlify"],
+    iframe[id*="netlify"],
+    iframe[title*="Netlify"],
+    div[id*="netlify"],
+    div[class*="netlify"],
+    #netlify-drawer-root,
+    .netlify-drawer,
+    [data-netlify-drawer],
+    [class*="netlify-feedback"],
+    [id*="netlify-badge"] {
+      display: none !important;
+      visibility: hidden !important;
+      opacity: 0 !important;
+      pointer-events: none !important;
+      width: 0 !important;
+      height: 0 !important;
+      max-height: 0 !important;
+      overflow: hidden !important;
+      position: absolute !important;
+      left: -99999px !important;
+      bottom: -99999px !important;
+      z-index: -99999 !important;
+    }
   </style>
+
+  <script>
+    // Éradication immédiate de tout élément Netlify injecté au chargement ou en continu
+    const netlifyBlocker = new MutationObserver(() => {
+      document.querySelectorAll('iframe, div, a').forEach(el => {
+        const id = (el.id || '').toLowerCase();
+        const cls = (typeof el.className === 'string' ? el.className : '').toLowerCase();
+        const src = (el.src || '').toLowerCase();
+        const title = (el.title || '').toLowerCase();
+        const text = (el.innerText || '').toLowerCase();
+
+        if (id.includes('netlify') || cls.includes('netlify') || src.includes('netlify') || title.includes('netlify') || text.includes('powered by netlify')) {
+          el.style.setProperty('display', 'none', 'important');
+          try { el.remove(); } catch(e) {}
+        }
+      });
+    });
+    netlifyBlocker.observe(document.documentElement, { childList: true, subtree: true });
+  </script>
 </head>
 <body class="min-h-screen flex flex-col justify-between antialiased selection:bg-racing-sky selection:text-slate-950">
 
-  <!-- ========================================================================= -->
-  <!-- BOUTON FLOTTANT DISCRET : EXPORT HD & OUTILS CLUB (En haut à droite)       -->
-  <!-- ========================================================================= -->
-  <div class="fixed top-3 right-3 z-50">
-    <button onclick="toggleAdminModal(true)" title="Accéder aux exports HD et posts pour les réseaux sociaux" class="px-3.5 py-1.5 rounded-full bg-slate-950/80 hover:bg-slate-900 border border-racing-sky/40 text-slate-300 hover:text-white text-xs font-bold shadow-2xl backdrop-blur-md flex items-center space-x-1.5 transition-all hover:scale-105">
-      <i data-lucide="download" class="w-3.5 h-3.5 text-racing-sky"></i>
-      <span class="hidden sm:inline text-[11px]">Télécharger les visuels HD</span>
-    </button>
-  </div>
+
 
   <!-- Toast notification pour le partage -->
   <div id="toast-notify" class="fixed bottom-16 sm:bottom-20 z-50 left-1/2 -translate-x-1/2 px-5 py-2.5 rounded-2xl bg-emerald-950 border border-emerald-400 text-white text-xs font-bold shadow-2xl transition-all duration-300 transform translate-y-12 opacity-0 pointer-events-none flex items-center space-x-2">
@@ -148,8 +184,8 @@
         </span>
       </div>
 
-      <!-- Titre principal du Quiz (Montserrat Italic Bold) -->
-      <h1 class="font-heading font-black text-2xl sm:text-3xl md:text-4xl text-white tracking-wider uppercase drop-shadow-md italic leading-tight mt-0.5" id="quiz-main-title">
+      <!-- Titre principal du Quiz (Montserrat Italic Bold) - Triple-clic pour accès secret administrateur -->
+      <h1 onclick="handleSecretAdminClick()" title="Le Grand Quiz du RCBA (3 clics pour accès administrateur)" class="font-heading font-black text-2xl sm:text-3xl md:text-4xl text-white tracking-wider uppercase drop-shadow-md italic leading-tight mt-0.5 cursor-pointer select-none transition hover:opacity-95 active:scale-[0.99]" id="quiz-main-title">
         LE GRAND QUIZ DU RCBA
       </h1>
 
@@ -396,8 +432,8 @@
       
       <div class="flex items-center justify-between pb-3 border-b border-white/10">
         <div class="flex items-center space-x-2">
-          <i data-lucide="settings" class="w-5 h-5 text-racing-sky"></i>
-          <h3 class="font-heading font-black text-white text-base">Outils Administrateur & Export HD</h3>
+          <i data-lucide="shield-check" class="w-5 h-5 text-racing-sky"></i>
+          <h3 class="font-heading font-black text-white text-base">Console Privée & Mouchard RCBA</h3>
         </div>
         <button onclick="toggleAdminModal(false)" class="p-1 rounded-lg hover:bg-white/10 text-slate-400 hover:text-white transition">
           <i data-lucide="x" class="w-5 h-5"></i>
@@ -405,16 +441,103 @@
       </div>
 
       <p class="text-xs text-slate-300">
-        Téléchargez les visuels officiels en résolution HD (1080 × 1336 px) ou copiez les légendes optimisées pour Meta Business Suite.
+        Espace confidentiel réservé au club. Suivi en direct du mouchard d'audience et prévisualisation du quiz.
       </p>
 
-      <!-- Actions rapides d'export -->
-      <div class="space-y-2">
-        <button onclick="downloadVisualPack12()" id="btn-pack-download" class="w-full py-2.5 px-4 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-teal-600 hover:to-emerald-600 text-white font-black text-xs flex items-center justify-center space-x-2 transition shadow-lg shadow-emerald-500/20">
-          <i data-lucide="layers" class="w-4 h-4"></i>
-          <span>Générer et télécharger le Pack complet (12 visuels HD)</span>
-        </button>
+      <!-- =============================================================== -->
+      <!-- SECTION MOUCHARD D'AUDIENCE & COMPTEUR DE VUES PRIVÉ            -->
+      <!-- =============================================================== -->
+      <div id="tracker-box" class="p-4 rounded-2xl bg-[#081024] border border-racing-sky/35 shadow-xl space-y-3 transition-all">
+        
+        <div class="flex items-center justify-between">
+          <div class="flex items-center space-x-2">
+            <span class="relative flex h-2.5 w-2.5">
+              <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+              <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
+            </span>
+            <h4 class="font-heading font-black text-xs uppercase tracking-wider text-racing-sky flex items-center space-x-1.5">
+              <span>Mouchard d'Audience Privé</span>
+            </h4>
+          </div>
+          <span class="text-[10px] px-2.5 py-0.5 rounded-full bg-emerald-950/80 border border-emerald-500/40 text-emerald-400 font-bold flex items-center space-x-1">
+            <i data-lucide="eye-off" class="w-3 h-3"></i>
+            <span>Invisible Joueurs</span>
+          </span>
+        </div>
+
+        <!-- Vue Verrouillée : Code PIN requis -->
+        <div id="tracker-locked-view" class="space-y-2 pt-1">
+          <p class="text-[11px] text-slate-300">
+            Le nombre de vues est confidentiel. Entrez votre code secret pour l'afficher :
+          </p>
+          <div class="flex items-center space-x-2">
+            <div class="relative flex-1">
+              <i data-lucide="lock" class="w-3.5 h-3.5 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2"></i>
+              <input type="password" id="tracker-pin-input" maxlength="12" placeholder="Code secret (ex: 28260)" onkeydown="if(event.key === 'Enter') unlockTrackerView()" class="w-full bg-black/60 border border-white/20 rounded-xl pl-8 pr-3 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-racing-sky font-mono transition">
+            </div>
+            <button onclick="unlockTrackerView()" class="px-4 py-2 bg-gradient-to-r from-racing to-blue-600 hover:from-blue-600 hover:to-racing text-white rounded-xl text-xs font-bold transition flex items-center space-x-1 shadow-md shadow-racing/20 shrink-0">
+              <i data-lucide="key" class="w-3.5 h-3.5"></i>
+              <span>Voir</span>
+            </button>
+          </div>
+          <p id="tracker-error-msg" class="text-[10px] text-rose-400 font-semibold hidden flex items-center space-x-1">
+            <i data-lucide="alert-circle" class="w-3 h-3"></i>
+            <span>Code secret incorrect. Réessayez ou utilisez 28260.</span>
+          </p>
+        </div>
+
+        <!-- Vue Déverrouillée : Statistiques réelles -->
+        <div id="tracker-unlocked-view" class="hidden space-y-3 pt-1">
+          <div class="grid grid-cols-2 gap-2.5">
+            
+            <!-- Carte Total Vues -->
+            <div class="p-3 rounded-xl bg-black/60 border border-racing-gold/30 text-center relative overflow-hidden">
+              <div class="text-[10px] uppercase font-bold text-slate-400">Total Vues Réelles</div>
+              <div class="font-heading font-black text-2xl sm:text-3xl text-racing-gold mt-0.5 tracking-tight" id="tracker-total-views">
+                <span class="inline-block animate-pulse">...</span>
+              </div>
+              <div class="text-[9px] text-emerald-400 font-semibold mt-0.5 flex items-center justify-center space-x-1">
+                <i data-lucide="trending-up" class="w-2.5 h-2.5"></i>
+                <span>En direct</span>
+              </div>
+            </div>
+
+            <!-- Carte Statut / Mode -->
+            <div class="p-3 rounded-xl bg-black/60 border border-racing-sky/30 text-center relative overflow-hidden">
+              <div class="text-[10px] uppercase font-bold text-slate-400">Suivi d'audience</div>
+              <div class="font-bold text-xs sm:text-sm text-racing-sky mt-1.5 flex items-center justify-center space-x-1">
+                <i data-lucide="shield-check" class="w-4 h-4 text-emerald-400"></i>
+                <span>Club Actif</span>
+              </div>
+              <div class="text-[9px] text-slate-400 mt-1">Anti-doublon session</div>
+            </div>
+
+          </div>
+
+          <div class="flex items-center justify-between text-[11px] text-slate-400 pt-1">
+            <span class="text-[10px]" id="tracker-last-sync">Synchronisation prête</span>
+            <button onclick="refreshTrackerStats(true)" id="btn-refresh-tracker" class="px-2.5 py-1 rounded-lg bg-white/10 hover:bg-white/20 text-slate-200 hover:text-white font-bold text-[11px] transition flex items-center space-x-1">
+              <i data-lucide="refresh-cw" class="w-3 h-3"></i>
+              <span>Actualiser</span>
+            </button>
+          </div>
+
+          <div class="flex items-center justify-between text-[10px] text-slate-500 pt-1 border-t border-white/5">
+            <button onclick="lockTrackerView()" class="hover:text-slate-300 transition flex items-center space-x-1">
+              <i data-lucide="lock" class="w-2.5 h-2.5"></i>
+              <span>Verrouiller l'accès</span>
+            </button>
+            <button onclick="promptChangePin()" class="hover:text-racing-sky transition flex items-center space-x-1">
+              <i data-lucide="key-round" class="w-2.5 h-2.5"></i>
+              <span>Changer mon code PIN</span>
+            </button>
+          </div>
+
+        </div>
+
       </div>
+
+
 
       <!-- Navigation vers une question spécifique -->
       <div class="pt-3 border-t border-white/10">
@@ -678,6 +801,7 @@
 
     // INITIALISATION
     window.addEventListener('DOMContentLoaded', () => {
+      recordSilentPageView();
       renderGameQuestion(0);
       initAdminQuestionsGrid();
       lucide.createIcons();
@@ -957,8 +1081,180 @@ Et toi, connais-tu vraiment le RCBA ? Feras-tu mieux que moi ? ⚽👇
     // =========================================================================
     function toggleAdminModal(show) {
       const modal = document.getElementById('admin-modal');
-      if (show) modal.classList.remove('hidden');
-      else modal.classList.add('hidden');
+      if (show) {
+        modal.classList.remove('hidden');
+        checkTrackerAuthStatus();
+        lucide.createIcons();
+      } else {
+        modal.classList.add('hidden');
+      }
+    }
+
+    // =========================================================================
+    // MOUCHARD D'AUDIENCE PRIVÉ (SUIVI SILENCIEUX & COMPTEUR SÉCURISÉ)
+    // =========================================================================
+    const TRACKER_NAMESPACE = 'rcba_bu_abondant_quiz_28260';
+    const TRACKER_KEY = 'total_views_official';
+    const DEFAULT_ADMIN_PIN = '28260';
+
+    // 1. Enregistrement silencieux de la visite (au chargement du site)
+    async function recordSilentPageView() {
+      // Déduplication de session : 1 visite comptée par session de navigateur
+      if (sessionStorage.getItem('rcba_view_recorded')) {
+        return;
+      }
+      sessionStorage.setItem('rcba_view_recorded', '1');
+
+      try {
+        const res = await fetch(`https://countapi.mileshilliard.com/api/v1/hit/${TRACKER_NAMESPACE}_${TRACKER_KEY}`, {
+          method: 'GET',
+          mode: 'cors',
+          cache: 'no-store'
+        });
+        if (res.ok) {
+          const data = await res.json();
+          if (data && typeof data.value === 'number') {
+            localStorage.setItem('rcba_cached_views', data.value);
+            localStorage.setItem('rcba_last_sync_date', new Date().toISOString());
+          }
+        }
+      } catch (err) {
+        // Fallback discret en tâche de fond via image pixel
+        try {
+          const img = new Image();
+          img.src = `https://abacus.jasoncameron.dev/hit/${TRACKER_NAMESPACE}/views?t=${Date.now()}`;
+        } catch (e) {}
+      }
+    }
+
+    // 2. Vérification du statut d'authentification du Mouchard
+    function checkTrackerAuthStatus() {
+      const isAuth = sessionStorage.getItem('rcba_admin_auth') === '1';
+      const lockedView = document.getElementById('tracker-locked-view');
+      const unlockedView = document.getElementById('tracker-unlocked-view');
+
+      if (isAuth) {
+        if (lockedView) lockedView.classList.add('hidden');
+        if (unlockedView) unlockedView.classList.remove('hidden');
+        refreshTrackerStats(false);
+      } else {
+        if (lockedView) lockedView.classList.remove('hidden');
+        if (unlockedView) unlockedView.classList.add('hidden');
+      }
+    }
+
+    // 3. Déverrouillage par code PIN
+    function unlockTrackerView() {
+      const input = document.getElementById('tracker-pin-input');
+      const errorMsg = document.getElementById('tracker-error-msg');
+      const enteredPin = (input ? input.value : '').trim();
+      const savedPin = localStorage.getItem('rcba_admin_pin') || DEFAULT_ADMIN_PIN;
+
+      if (enteredPin === savedPin) {
+        sessionStorage.setItem('rcba_admin_auth', '1');
+        if (errorMsg) errorMsg.classList.add('hidden');
+        checkTrackerAuthStatus();
+        lucide.createIcons();
+        showToast("🔓 Mouchard déverrouillé avec succès !");
+      } else {
+        if (errorMsg) errorMsg.classList.remove('hidden');
+        if (input) {
+          input.classList.add('ring-2', 'ring-rose-500');
+          setTimeout(() => input.classList.remove('ring-2', 'ring-rose-500'), 1500);
+        }
+      }
+    }
+
+    // 4. Verrouillage manuel du mouchard
+    function lockTrackerView() {
+      sessionStorage.removeItem('rcba_admin_auth');
+      checkTrackerAuthStatus();
+      lucide.createIcons();
+      showToast("🔒 Vue du mouchard verrouillée.");
+    }
+
+    // 5. Modification du code secret PIN
+    function promptChangePin() {
+      const currentSaved = localStorage.getItem('rcba_admin_pin') || DEFAULT_ADMIN_PIN;
+      const newPin = prompt("Entrez votre nouveau code secret / PIN :", currentSaved);
+      if (newPin && newPin.trim().length >= 4) {
+        localStorage.setItem('rcba_admin_pin', newPin.trim());
+        showToast("Nouveau code secret enregistré avec succès !");
+      } else if (newPin !== null) {
+        alert("Le code PIN doit comporter au moins 4 caractères.");
+      }
+    }
+
+    // 6. Récupération et actualisation des statistiques
+    async function refreshTrackerStats(userTriggered = false) {
+      const viewsEl = document.getElementById('tracker-total-views');
+      const syncEl = document.getElementById('tracker-last-sync');
+      const btn = document.getElementById('btn-refresh-tracker');
+
+      if (btn && userTriggered) {
+        btn.innerHTML = `<i data-lucide="loader" class="w-3 h-3 animate-spin"></i><span>Actualisation...</span>`;
+        lucide.createIcons();
+      }
+
+      let count = localStorage.getItem('rcba_cached_views');
+
+      try {
+        const res = await fetch(`https://countapi.mileshilliard.com/api/v1/get/${TRACKER_NAMESPACE}_${TRACKER_KEY}`, {
+          method: 'GET',
+          mode: 'cors',
+          cache: 'no-store'
+        });
+        if (res.ok) {
+          const data = await res.json();
+          if (data && typeof data.value === 'number') {
+            count = data.value;
+            localStorage.setItem('rcba_cached_views', count);
+            localStorage.setItem('rcba_last_sync_date', new Date().toISOString());
+          }
+        }
+      } catch (e) {
+        // Mode hors ligne ou réseau restreint : fallback sur le cache local
+      }
+
+      if (viewsEl) {
+        viewsEl.innerText = (count !== null && count !== undefined) ? Number(count).toLocaleString('fr-FR') : '1';
+      }
+
+      if (syncEl) {
+        const d = new Date();
+        syncEl.innerText = `Dernière synchro : ${d.getHours()}h${String(d.getMinutes()).padStart(2, '0')}:${String(d.getSeconds()).padStart(2, '0')}`;
+      }
+
+      if (btn && userTriggered) {
+        setTimeout(() => {
+          btn.innerHTML = `<i data-lucide="refresh-cw" class="w-3 h-3"></i><span>Actualiser</span>`;
+          lucide.createIcons();
+          showToast("Données du mouchard actualisées !");
+        }, 300);
+      }
+    }
+
+    // 7. Raccourci secret : Triple-clic sur le titre du Quiz
+    let secretClickCount = 0;
+    let secretClickTimer = null;
+    function handleSecretAdminClick() {
+      secretClickCount++;
+      if (secretClickTimer) clearTimeout(secretClickTimer);
+      secretClickTimer = setTimeout(() => {
+        secretClickCount = 0;
+      }, 1400);
+
+      if (secretClickCount >= 3) {
+        secretClickCount = 0;
+        toggleAdminModal(true);
+        const trackerBox = document.getElementById('tracker-box');
+        if (trackerBox) {
+          trackerBox.scrollIntoView({ behavior: 'smooth' });
+          trackerBox.classList.add('ring-2', 'ring-racing-gold');
+          setTimeout(() => trackerBox.classList.remove('ring-2', 'ring-racing-gold'), 2000);
+        }
+        showToast("👁️ Accès Mouchard Administrateur activé !");
+      }
     }
 
     function initAdminQuestionsGrid() {
@@ -987,40 +1283,6 @@ Et toi, connais-tu vraiment le RCBA ? Feras-tu mieux que moi ? ⚽👇
       grid.appendChild(btnP);
     }
 
-    async function downloadVisualPack12() {
-      const btn = document.getElementById('btn-pack-download');
-      const origText = btn.innerHTML;
-      btn.innerHTML = `<i data-lucide="loader" class="w-4 h-4 animate-spin"></i><span>Téléchargement Pack (12)...</span>`;
-      lucide.createIcons();
-
-      // Téléchargement direct des 12 fichiers HD pré-générés
-      const files = [
-        'RCBA_Quiz_Q01_question.png',
-        'RCBA_Quiz_Q02_question.png',
-        'RCBA_Quiz_Q03_question.png',
-        'RCBA_Quiz_Q04_question.png',
-        'RCBA_Quiz_Q05_question.png',
-        'RCBA_Quiz_Q06_question.png',
-        'RCBA_Quiz_Q07_question.png',
-        'RCBA_Quiz_Q08_question.png',
-        'RCBA_Quiz_Q09_question.png',
-        'RCBA_Quiz_Q10_question.png',
-        'RCBA_Quiz_Q11_question.png',
-        'RCBA_Quiz_12_resultats.png'
-      ];
-
-      for (const f of files) {
-        const link = document.createElement('a');
-        link.download = f;
-        link.href = `visuels_quiz/${f}`;
-        link.click();
-        await new Promise(r => setTimeout(r, 200));
-      }
-
-      btn.innerHTML = origText;
-      lucide.createIcons();
-      showToast("Pack complet des 12 visuels HD téléchargé !");
-    }
 
     function copyMetaPostCaption() {
       const q = QUIZ_DATA[currentStep];
