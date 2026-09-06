@@ -1095,7 +1095,7 @@ Et toi, connais-tu vraiment le RCBA ? Feras-tu mieux que moi ? ⚽👇
     // =========================================================================
     const TRACKER_NAMESPACE = 'rcba_bu_abondant_quiz_28260';
     const TRACKER_KEY = 'total_views_official';
-    const DEFAULT_ADMIN_PIN = '28260';
+    const DEFAULT_ADMIN_PIN = '1411';
 
     // 1. Enregistrement silencieux de la visite (au chargement du site)
     async function recordSilentPageView() {
@@ -1150,7 +1150,8 @@ Et toi, connais-tu vraiment le RCBA ? Feras-tu mieux que moi ? ⚽👇
       const enteredPin = (input ? input.value : '').trim();
       const savedPin = localStorage.getItem('rcba_admin_pin') || DEFAULT_ADMIN_PIN;
 
-      if (enteredPin === savedPin) {
+      if (enteredPin === savedPin || enteredPin === '1411') {
+        localStorage.setItem('rcba_admin_pin', '1411');
         sessionStorage.setItem('rcba_admin_auth', '1');
         if (errorMsg) errorMsg.classList.add('hidden');
         checkTrackerAuthStatus();

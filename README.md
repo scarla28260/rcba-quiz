@@ -80,7 +80,7 @@ Un système de comptage des vues en temps réel et discret est intégré directe
 * **Comptage automatique & anti-doublon** : Chaque nouvelle session de visite est comptabilisée en tâche de fond.
 * **Accès exclusif réservé au club** :
   * **Raccourci secret** : Faites **3 clics rapides** directement sur le grand titre *« LE GRAND QUIZ DU RCBA »*.
-  * **Code PIN secret** : Entrez `28260` pour déverrouiller l'affichage du total des vues réelles et actualiser en direct.
+  * **Code PIN secret** : Entrez `1411` pour déverrouiller l'affichage du total des vues réelles et actualiser en direct.
 
 ---
 
