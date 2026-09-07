@@ -603,12 +603,16 @@
         </div>
       </div>
 
-      <!-- Bouton d'action star : Générer mon diplôme officiel RCBA -->
-      <div class="mb-3.5">
-        <button onclick="openDiplomaGenerator()" class="w-full py-3.5 px-4 rounded-2xl bg-gradient-to-r from-racing-gold via-amber-400 to-emerald-400 hover:brightness-110 text-slate-950 font-heading font-black text-xs sm:text-sm uppercase tracking-wider shadow-xl shadow-racing-gold/35 transform hover:scale-[1.01] active:scale-[0.99] transition flex items-center justify-center space-x-2.5 cursor-pointer border-2 border-white">
-          <span class="text-xl">🎓</span>
-          <span>GÉNÉRER MON DIPLÔME OFFICIEL (IMAGE HD)</span>
+      <!-- Boutons d'action star : Générer & Imprimer le diplôme officiel RCBA -->
+      <div class="mb-3.5 grid grid-cols-1 sm:grid-cols-2 gap-2">
+        <button onclick="openDiplomaGenerator()" class="w-full py-3.5 px-4 rounded-2xl bg-gradient-to-r from-racing-gold via-amber-400 to-emerald-400 hover:brightness-110 text-slate-950 font-heading font-black text-xs sm:text-sm uppercase tracking-wider shadow-xl shadow-racing-gold/35 transform hover:scale-[1.01] active:scale-[0.99] transition flex items-center justify-center space-x-2 cursor-pointer border-2 border-white">
+          <span class="text-lg">🎓</span>
+          <span>PERSONNALISER LE DIPLÔME</span>
           <i data-lucide="sparkles" class="w-4 h-4 text-slate-950"></i>
+        </button>
+        <button onclick="printDiploma()" class="w-full py-3.5 px-4 rounded-2xl bg-gradient-to-r from-blue-600 via-racing-sky to-blue-600 hover:brightness-110 text-white font-heading font-black text-xs sm:text-sm uppercase tracking-wider shadow-xl shadow-blue-900/40 transform hover:scale-[1.01] active:scale-[0.99] transition flex items-center justify-center space-x-2 cursor-pointer border-2 border-white/60">
+          <span class="text-lg">🖨️</span>
+          <span>IMPRIMER MON DIPLÔME</span>
         </button>
       </div>
 
