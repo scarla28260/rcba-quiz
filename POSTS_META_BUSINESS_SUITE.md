@@ -253,7 +253,7 @@ Un grand merci à la municipalité de Bû pour son partenariat précieux ! 🤝
 Il y a les 90 minutes sur le rectangle vert... et il y a le moment où se forge la véritable légende du football amateur ! 
 
 👉 Question 7 :
-Quel est le rituel sacré et incontournable après un match ou un entraînement au club ?
+Pour les vétérans et seniors du club, quel est le rituel sacré et incontournable après un match (contrairement aux jeunes qui rentrent directement) ?
 
 🔵 A) Une séance de yoga silencieuse dans les vestiaires
 🔘 B) Le passage obligé par la buvette pour refaire le match
