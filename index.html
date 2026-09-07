@@ -550,7 +550,7 @@
       </div>
 
       <!-- Encart Score Géant -->
-      <div class="py-3 px-4 rounded-2xl bg-black/60 border border-white/10 flex items-center justify-between mb-3.5">
+      <div class="py-3 px-4 rounded-2xl bg-black/60 border border-white/10 flex items-center justify-between mb-3">
         <div class="flex items-center space-x-3">
           <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-racing to-racing-gold flex items-center justify-center text-3xl shadow-lg shadow-racing-gold/30 shrink-0">
             🏆
@@ -565,6 +565,15 @@
         <div id="final-percent-badge" class="text-xs sm:text-sm font-black text-emerald-400 bg-emerald-950/80 border border-emerald-500/40 px-3 py-1.5 rounded-xl shadow">
           100% de réussite
         </div>
+      </div>
+
+      <!-- Bouton d'action star : Générer mon diplôme officiel RCBA -->
+      <div class="mb-3.5">
+        <button onclick="openDiplomaGenerator()" class="w-full py-3.5 px-4 rounded-2xl bg-gradient-to-r from-racing-gold via-amber-400 to-emerald-400 hover:brightness-110 text-slate-950 font-heading font-black text-xs sm:text-sm uppercase tracking-wider shadow-xl shadow-racing-gold/35 transform hover:scale-[1.01] active:scale-[0.99] transition flex items-center justify-center space-x-2.5 cursor-pointer border-2 border-white">
+          <span class="text-xl">🎓</span>
+          <span>GÉNÉRER MON DIPLÔME OFFICIEL (IMAGE HD)</span>
+          <i data-lucide="sparkles" class="w-4 h-4 text-slate-950"></i>
+        </button>
       </div>
 
       <!-- Les 4 Rangs Officiels avec surbrillance du joueur -->
@@ -627,7 +636,7 @@
       <!-- =============================================================== -->
       <!-- SECTION DIPLÔME OFFICIEL RCBA PERSONNALISÉ & PARTAGE RÉSEAUX   -->
       <!-- =============================================================== -->
-      <div class="p-4 sm:p-5 rounded-2xl bg-gradient-to-b from-[#09132e] via-[#060c20] to-[#040816] border-2 border-racing-gold/50 shadow-2xl space-y-4 my-4">
+      <div id="diploma-section" class="p-4 sm:p-5 rounded-2xl bg-gradient-to-b from-[#09132e] via-[#060c20] to-[#040816] border-2 border-racing-gold/50 shadow-2xl space-y-4 my-4 transition-all duration-300">
         
         <div class="flex items-center justify-between">
           <div class="flex items-center space-x-2">
@@ -1522,6 +1531,24 @@
       updateDiplomaPreview();
 
       lucide.createIcons();
+    }
+
+    // DÉCLENCHEUR DU GÉNÉRATEUR DE DIPLÔME
+    function openDiplomaGenerator() {
+      const diplomaSection = document.getElementById('diploma-section');
+      const nameInput = document.getElementById('diploma-player-name');
+      if (diplomaSection) {
+        diplomaSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        diplomaSection.classList.add('ring-4', 'ring-racing-gold');
+        setTimeout(() => diplomaSection.classList.remove('ring-4', 'ring-racing-gold'), 1800);
+      }
+      if (nameInput) {
+        setTimeout(() => {
+          nameInput.focus();
+          nameInput.select();
+        }, 350);
+      }
+      showToast("🎓 Personnalisez et téléchargez votre diplôme officiel !");
     }
 
     // RÉCUPÉRER LE RANG ACTUEL DU JOUEUR
