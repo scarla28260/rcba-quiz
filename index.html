@@ -255,11 +255,15 @@
 
     /* Style d'impression propre pour le Diplôme officiel */
     @media print {
-      body {
-        background: #000000 !important;
-        color: #ffffff !important;
+      @page {
+        size: A4 portrait;
+        margin: 8mm;
       }
-      header, footer, #quiz-kickoff-screen, #quiz-question-view, #admin-modal, .fixed, button, input, label {
+      body {
+        background: #ffffff !important;
+        color: #000000 !important;
+      }
+      header, footer, #quiz-kickoff-screen, #quiz-question-view, #admin-modal, .fixed, button, input, label, #results-header, #score-card, #ranks-guide, #review-section, #final-actions, #toast-container, .lucide, #diploma-img-loader {
         display: none !important;
       }
       #quiz-results-view, #diploma-section, #diploma-preview-box {
@@ -276,6 +280,8 @@
         width: 100% !important;
         height: auto !important;
         margin: 0 auto !important;
+        border-radius: 8px !important;
+        box-shadow: none !important;
       }
     }
   </style>
