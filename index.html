@@ -402,8 +402,65 @@
   <!-- ========================================================================= -->
   <main class="flex-1 w-full max-w-3xl mx-auto px-4 py-3 sm:py-5 flex flex-col justify-center relative z-10">
     
+    <!-- ÉCRAN DE COUP D'ENVOI (Active le son du stade & lance le quiz avec le chrono tic-tac) -->
+    <div id="quiz-kickoff-screen" class="quiz-main-card p-6 sm:p-8 text-center transition-all duration-300 space-y-5" style="border-color: rgba(56, 189, 248, 0.6); box-shadow: 0 20px 50px rgba(0,0,0,0.95), 0 0 35px rgba(28, 100, 242, 0.35);">
+      
+      <!-- Logo et Badge Officiel -->
+      <div class="flex flex-col items-center justify-center space-y-3">
+        <div class="w-20 h-20 sm:w-24 sm:h-24 rounded-3xl bg-racing/20 border-2 border-racing-sky/40 flex items-center justify-center p-3 shadow-xl shadow-blue-500/20 transform hover:scale-105 transition-transform duration-300">
+          <img src="assets/logo_rcba_hd.png" alt="Logo RCBA" class="w-full h-full object-contain drop-shadow-[0_4px_12px_rgba(0,0,0,0.8)]">
+        </div>
+        <span class="text-xs sm:text-sm font-black uppercase tracking-widest text-racing-gold px-3.5 py-1 rounded-full bg-racing-gold/15 border border-racing-gold/30 shadow">
+          🔵🔘 COUP D'ENVOI OFFICIEL
+        </span>
+      </div>
+
+      <!-- Titre & Pitch du Quiz -->
+      <div class="space-y-2 max-w-lg mx-auto">
+        <h2 class="font-heading font-black text-2xl sm:text-3xl md:text-4xl text-white tracking-wide uppercase drop-shadow italic leading-tight">
+          LE GRAND QUIZ DU RCBA
+        </h2>
+        <p class="text-slate-300 text-xs sm:text-sm leading-relaxed font-medium">
+          10 questions exclusives sur l'histoire, les effectifs et les valeurs du Racing Club Bû Abondant. Défiez vos coéquipiers et supporters !
+        </p>
+      </div>
+
+      <!-- 3 Piliers du Quiz -->
+      <div class="grid grid-cols-3 gap-2 sm:gap-3 max-w-md mx-auto text-center pt-1">
+        <div class="p-2.5 rounded-xl bg-black/40 border border-white/10">
+          <div class="text-base sm:text-lg">⏱️</div>
+          <div class="text-[10px] sm:text-xs font-bold text-racing-sky mt-0.5">Tic-Tac Chrono</div>
+          <div class="text-[9px] text-slate-400">Suspense garanti</div>
+        </div>
+        <div class="p-2.5 rounded-xl bg-black/40 border border-white/10">
+          <div class="text-base sm:text-lg">⚽</div>
+          <div class="text-[10px] sm:text-xs font-bold text-racing-gold mt-0.5">10 Questions</div>
+          <div class="text-[9px] text-slate-400">1 pt par bonne rép.</div>
+        </div>
+        <div class="p-2.5 rounded-xl bg-black/40 border border-white/10">
+          <div class="text-base sm:text-lg">🏆</div>
+          <div class="text-[10px] sm:text-xs font-bold text-emerald-400 mt-0.5">Palmarès</div>
+          <div class="text-[9px] text-slate-400">Rangs officiels</div>
+        </div>
+      </div>
+
+      <!-- Bouton Coup d'envoi -->
+      <div class="pt-2">
+        <button id="btn-kickoff-start" onclick="startQuizFromKickoff()" class="w-full sm:w-auto px-8 py-4 rounded-2xl bg-gradient-to-r from-blue-600 via-racing-sky to-emerald-500 hover:brightness-110 text-white font-heading font-black text-sm sm:text-base uppercase tracking-wider shadow-2xl shadow-blue-500/40 transform hover:scale-[1.03] active:scale-[0.98] transition cursor-pointer flex items-center justify-center space-x-3 mx-auto">
+          <span class="text-xl">⚽</span>
+          <span>DONNER LE COUP D'ENVOI</span>
+          <i data-lucide="arrow-right" class="w-5 h-5"></i>
+        </button>
+        <p class="text-slate-400 text-[10px] sm:text-[11px] mt-2.5 flex items-center justify-center space-x-1.5">
+          <i data-lucide="volume-2" class="w-3.5 h-3.5 text-racing-sky"></i>
+          <span>Ambiance sonore du stade & chronomètre tic-tac</span>
+        </p>
+      </div>
+
+    </div>
+
     <!-- CARTE DE LA QUESTION EN COURS -->
-    <div id="quiz-question-view" class="quiz-main-card p-5 sm:p-7 transition-all duration-300">
+    <div id="quiz-question-view" class="quiz-main-card p-5 sm:p-7 transition-all duration-300 hidden">
 
       <!-- En-tête de la carte : Badge officiel + Score en direct -->
       <div class="flex items-center justify-between pb-3 mb-3.5 border-b border-white/10">
@@ -463,23 +520,18 @@
           1 point par bonne réponse • Enchaînement automatique direct !
         </p>
 
-        <!-- Barre dynamique de transition automatique et bouton d'enchaînement -->
+        <!-- Barre dynamique de transition automatique (enchaînement direct 5 secondes) -->
         <div id="quiz-auto-advance-wrap" class="hidden pt-3 border-t border-white/15 mt-3 space-y-2.5">
           <div class="flex items-center justify-between text-xs font-bold text-racing-sky">
             <span class="flex items-center space-x-1.5" id="quiz-auto-text">
               <span class="w-2 h-2 rounded-full bg-racing-sky animate-ping"></span>
-              <span>Prenez le temps de lire • Enchaînement :</span>
+              <span>Question suivante dans :</span>
             </span>
-            <span class="text-racing-gold font-mono font-black text-xs px-2.5 py-0.5 rounded-lg bg-black/50 border border-racing-gold/30 shadow" id="quiz-timer-countdown">⏱️ 12s</span>
+            <span class="text-racing-gold font-mono font-black text-xs px-2.5 py-0.5 rounded-lg bg-black/50 border border-racing-gold/30 shadow" id="quiz-timer-countdown">⏱️ 5s</span>
           </div>
           <div class="w-full h-2 bg-white/10 rounded-full overflow-hidden">
             <div id="quiz-auto-progress-bar" class="h-full bg-gradient-to-r from-racing via-racing-sky to-emerald-400 w-0 transition-all ease-linear bar-glow"></div>
           </div>
-          <!-- Bouton pour passer immédiatement sans attendre -->
-          <button id="btn-next-question" onclick="goToNextQuestionNow()" class="w-full py-3 sm:py-3.5 px-5 rounded-xl bg-gradient-to-r from-blue-600 via-racing-sky to-emerald-500 hover:brightness-110 text-white font-heading font-black text-xs sm:text-sm uppercase tracking-wider flex items-center justify-center space-x-2 shadow-xl shadow-blue-500/30 transition transform hover:scale-[1.01] active:scale-[0.99] cursor-pointer">
-            <span id="btn-next-label">Passer à la question suivante ➔</span>
-            <i data-lucide="arrow-right" class="w-4 h-4"></i>
-          </button>
         </div>
 
       </div>
@@ -784,7 +836,7 @@
         answer: "B",
         answerText: "Bû et Abondant",
         explanation: "Le Racing Club Bû Abondant réunit nos deux communes d'Eure-et-Loir pour faire rayonner le football local !",
-        funFact: "Près de 450 passionnés portent fièrement les couleurs bleu et gris chaque week-end !",
+        funFact: "L'union de ces deux villages historiques fait la force du club sur et en dehors des terrains depuis des années !",
         hook: "🔵🔘 CONNAISSEZ-VOUS VRAIMENT LE RCBA ? On commence avec les fondations !"
       },
       {
@@ -896,7 +948,7 @@
         answer: "A",
         answerText: "Le District d'Eure-et-Loir de Football",
         explanation: "Le RCBA évolue sous l'égide du District d'Eure-et-Loir (28) au sein de la Ligue Centre-Val de Loire !",
-        funFact: "Nos équipes sillonnent les pelouses du 28 chaque week-end pour défendre les couleurs du club.",
+        funFact: "Nos équipes sillonnent les pelouses du 28 chaque week-end avec fierté et esprit sportif !",
         hook: "🏛️ FOOTBALL DÉPARTEMENTAL : À quel District officiel le club est-il affilié ?"
       },
       {
@@ -986,9 +1038,24 @@
     // INITIALISATION SÉCURISÉE & COMPATIBLE TOUS NAVIGATEURS (OPERA, BRAVE, CHROME, SAFARI)
     function initApp() {
       try {
-        renderGameQuestion(0);
+        const kickoffScreen = document.getElementById('quiz-kickoff-screen');
+        const questionView = document.getElementById('quiz-question-view');
+        const resultsView = document.getElementById('quiz-results-view');
+
+        if (kickoffScreen) {
+          kickoffScreen.classList.remove('hidden');
+          if (questionView) questionView.classList.add('hidden');
+          if (resultsView) resultsView.classList.add('hidden');
+
+          document.getElementById('quiz-theme-tag').innerText = "COUP D'ENVOI OFFICIEL";
+          document.getElementById('quiz-main-title').innerText = "LE GRAND QUIZ DU RCBA";
+          document.getElementById('quiz-q-number').innerText = "10 QUESTIONS • CULTURE CLUB";
+        } else {
+          renderGameQuestion(0);
+        }
       } catch (e) {
-        console.error("Erreur renderGameQuestion:", e);
+        console.error("Erreur initApp:", e);
+        renderGameQuestion(0);
       }
       try {
         initAdminQuestionsGrid();
@@ -1011,8 +1078,17 @@
       initApp();
     }
 
-    // Raccourci clavier pour passer à la question suivante (Espace, Entrée ou Flèche droite)
+    // Raccourci clavier (Espace, Entrée ou Flèche droite)
     window.addEventListener('keydown', (e) => {
+      const kickoff = document.getElementById('quiz-kickoff-screen');
+      if (kickoff && !kickoff.classList.contains('hidden') && document.activeElement.tagName !== 'INPUT') {
+        if (e.key === ' ' || e.key === 'Enter') {
+          e.preventDefault();
+          startQuizFromKickoff();
+          return;
+        }
+      }
+
       const autoWrap = document.getElementById('quiz-auto-advance-wrap');
       // Ne déclencher que si le panneau de feedback est visible et si aucun champ d'input n'est actif
       if (autoWrap && !autoWrap.classList.contains('hidden') && document.activeElement.tagName !== 'INPUT') {
@@ -1043,6 +1119,8 @@
       const q = QUIZ_DATA[stepIdx];
 
       // Affichage du panneau Question
+      const kickoffScreen = document.getElementById('quiz-kickoff-screen');
+      if (kickoffScreen) kickoffScreen.classList.add('hidden');
       document.getElementById('quiz-results-view').classList.add('hidden');
       document.getElementById('quiz-question-view').classList.remove('hidden');
 
@@ -1086,9 +1164,11 @@
         optionsContainer.appendChild(btn);
       });
 
-      // Réinitialisation de la zone d'appel / feedback (bottomBox déjà déclaré en début de fonction)
-      bottomBox.style.background = '#091326';
-      bottomBox.style.borderColor = 'rgba(56, 189, 248, 0.35)';
+      // Réinitialisation de la zone d'appel / feedback
+      if (bottomBox) {
+        bottomBox.style.background = '#091326';
+        bottomBox.style.borderColor = 'rgba(56, 189, 248, 0.35)';
+      }
 
       document.getElementById('feedback-box-title').className = 'font-black text-racing-sky text-[11px] sm:text-xs uppercase tracking-wider mb-0.5 flex items-center space-x-1.5';
       document.getElementById('feedback-box-title').innerHTML = `<span>💬</span><span>À vos pronostics !</span>`;
@@ -1116,7 +1196,7 @@
     // CLIC SUR UNE RÉPONSE : VERROUILLAGE IRRÉVERSIBLE & AFFICHAGE CLAIR BONNE / MAUVAISE RÉPONSE
     function selectVisualOption(chosenId) {
       try {
-        // Arrêter immédiatement le tic-tac d'attente dès que le joueur répond
+        // Arrêter immédiatement le tic-tac de suspense dès le choix de la réponse
         stopQuestionTicTac();
 
         // Initialiser l'AudioContext dès le premier clic (contournement des restrictions navigateur)
@@ -1224,7 +1304,7 @@
           fbSub.innerHTML = q.funFact ? `<span class="shrink-0 text-base">💡</span><span><strong class="text-white">Le saviez-vous ?</strong> ${q.funFact}</span>` : '';
         }
 
-        // 4. Animation de la barre et compte à rebours confortable (12s) avec pause automatique
+        // 4. Enchaînement direct en 5 secondes dès que la réponse est donnée (sans bouton)
         const autoWrap = document.getElementById('quiz-auto-advance-wrap');
         const autoText = document.getElementById('quiz-auto-text');
         const progressBar = document.getElementById('quiz-auto-progress-bar');
@@ -1235,50 +1315,28 @@
           if (isLast) {
             autoText.innerHTML = `
               <span class="w-2 h-2 rounded-full bg-racing-gold animate-ping"></span>
-              <span class="text-racing-gold font-bold text-xs sm:text-sm">Lecture terminée ? Proclamation du résultat final :</span>
+              <span class="text-racing-gold font-bold text-xs sm:text-sm">Proclamation du palmarès final dans :</span>
             `;
           } else {
             autoText.innerHTML = `
               <span class="w-2 h-2 rounded-full bg-racing-sky animate-ping"></span>
-              <span class="text-racing-sky font-bold text-xs sm:text-sm">Prenez le temps de lire • Enchaînement :</span>
+              <span class="text-racing-sky font-bold text-xs sm:text-sm">Question suivante dans :</span>
             `;
           }
         }
 
-        const btnNextLabel = document.getElementById('btn-next-label');
-        if (btnNextLabel) {
-          btnNextLabel.innerText = isLast ? "Voir mon palmarès & résultats 🏆" : "Passer à la question suivante ➔";
-        }
-
         if (autoWrap) autoWrap.classList.remove('hidden');
 
-        let remainingSec = 12;
-        let isPaused = false;
+        let remainingSec = 5;
         if (countdownEl) countdownEl.innerText = `⏱️ ${remainingSec}s`;
 
         if (progressBar) {
           progressBar.style.transition = 'none';
           progressBar.style.width = '0%';
           setTimeout(() => {
-            progressBar.style.transition = 'width 12000ms linear';
+            progressBar.style.transition = 'width 5000ms linear';
             progressBar.style.width = '100%';
-          }, 40);
-        }
-
-        // Mise en pause de la minuterie si le joueur survole ou touche la zone pour lire tranquillement
-        if (bottomBox) {
-          bottomBox.onmouseenter = () => {
-            isPaused = true;
-            if (countdownEl) countdownEl.innerText = `⏸️ Pause (lecture en cours)`;
-          };
-          bottomBox.onmouseleave = () => {
-            isPaused = false;
-            if (countdownEl) countdownEl.innerText = `⏱️ ${remainingSec}s`;
-          };
-          bottomBox.ontouchstart = () => {
-            isPaused = true;
-            if (countdownEl) countdownEl.innerText = `⏸️ Pause (lecture en cours)`;
-          };
+          }, 30);
         }
 
         if (autoTimer) {
@@ -1286,9 +1344,13 @@
           clearTimeout(autoTimer);
         }
 
+        let countdownTickState = false;
         autoTimer = setInterval(() => {
-          if (isPaused) return;
           remainingSec--;
+          countdownTickState = !countdownTickState;
+
+          // Tic-tac rythmique pendant le décompte des 5 secondes
+          try { playClockTick(countdownTickState); } catch(e) {}
 
           if (countdownEl) countdownEl.innerText = `⏱️ ${remainingSec}s`;
           if (remainingSec <= 0) {
@@ -1325,7 +1387,14 @@
     // ÉCRAN FINAL DU PALMARÈS (PLEINE PAGE)
     function showVisualResults() {
       stopQuestionTicTac();
+      if (autoTimer) {
+        clearInterval(autoTimer);
+        clearTimeout(autoTimer);
+        autoTimer = null;
+      }
       document.getElementById('quiz-question-view').classList.add('hidden');
+      const kickoffScreen = document.getElementById('quiz-kickoff-screen');
+      if (kickoffScreen) kickoffScreen.classList.add('hidden');
       const resContainer = document.getElementById('quiz-results-view');
       resContainer.classList.remove('hidden');
 
@@ -1355,11 +1424,11 @@
           card.style.transform = 'scale(1.02)';
           card.style.opacity = '1';
         } else {
-          card.style.background = '#0c142a';
-          card.style.borderColor = 'rgba(255,255,255,0.08)';
+          card.style.background = 'rgba(255, 255, 255, 0.03)';
+          card.style.borderColor = 'rgba(255, 255, 255, 0.08)';
           card.style.boxShadow = 'none';
-          card.style.transform = 'none';
-          card.style.opacity = '0.45';
+          card.style.transform = 'scale(1)';
+          card.style.opacity = '0.5';
         }
       }
 
@@ -1737,7 +1806,7 @@ Et toi, connais-tu vraiment le RCBA ? Feras-tu mieux que moi ? ⚽👇
         if (!ctx) return;
         const t = ctx.currentTime;
 
-        // 1. Clic d'horlogerie mécanique précis (volume augmenté x2)
+        // 1. Clic d'horlogerie mécanique précis
         const osc = ctx.createOscillator();
         const gain = ctx.createGain();
 
@@ -1747,7 +1816,7 @@ Et toi, connais-tu vraiment le RCBA ? Feras-tu mieux que moi ? ⚽👇
         osc.frequency.setValueAtTime(baseFreq, t);
         osc.frequency.exponentialRampToValueAtTime(isTac ? 650 : 900, t + 0.024);
 
-        // Volume doublé pour être clairement audible
+        // Volume bien audible et équilibré
         gain.gain.setValueAtTime(0.18, t);
         gain.gain.exponentialRampToValueAtTime(0.0001, t + 0.035);
 
@@ -1756,7 +1825,7 @@ Et toi, connais-tu vraiment le RCBA ? Feras-tu mieux que moi ? ⚽👇
         osc.start(t);
         osc.stop(t + 0.038);
 
-        // 2. Résonance feutrée du boîtier en bois (volume augmenté)
+        // 2. Résonance feutrée du boîtier en bois
         const oscBody = ctx.createOscillator();
         const gainBody = ctx.createGain();
         oscBody.type = 'sine';
@@ -1769,6 +1838,41 @@ Et toi, connais-tu vraiment le RCBA ? Feras-tu mieux que moi ? ⚽👇
         oscBody.start(t);
         oscBody.stop(t + 0.028);
       } catch (e) {}
+    }
+
+    // Coup de sifflet officiel de l'arbitre pour le coup d'envoi
+    function playKickoffWhistle() {
+      try {
+        const ctx = getAudioCtx();
+        if (!ctx) return;
+        const t = ctx.currentTime;
+
+        // Coup 1 : Bref
+        const osc1 = ctx.createOscillator();
+        const gain1 = ctx.createGain();
+        osc1.type = 'sawtooth';
+        osc1.frequency.setValueAtTime(2200, t);
+        osc1.frequency.linearRampToValueAtTime(2400, t + 0.12);
+        gain1.gain.setValueAtTime(0.12, t);
+        gain1.gain.exponentialRampToValueAtTime(0.001, t + 0.14);
+        osc1.connect(gain1);
+        gain1.connect(ctx.destination);
+        osc1.start(t);
+        osc1.stop(t + 0.15);
+
+        // Coup 2 : Puissant et éclatant
+        const osc2 = ctx.createOscillator();
+        const gain2 = ctx.createGain();
+        osc2.type = 'sawtooth';
+        osc2.frequency.setValueAtTime(2250, t + 0.18);
+        osc2.frequency.linearRampToValueAtTime(2550, t + 0.52);
+        gain2.gain.setValueAtTime(0.16, t + 0.18);
+        gain2.gain.exponentialRampToValueAtTime(0.001, t + 0.56);
+        osc2.connect(gain2);
+        gain2.connect(ctx.destination);
+        osc2.start(t + 0.18);
+        osc2.stop(t + 0.58);
+      } catch(e) {}
     }
 
     // Gestionnaire de tic-tac en attente de réponse (ambiance suspense de jeu télévisé)
@@ -1799,6 +1903,23 @@ Et toi, connais-tu vraiment le RCBA ? Feras-tu mieux que moi ? ⚽👇
       }
     }
 
+    // Lancer le quiz depuis l'écran de coup d'envoi (geste utilisateur garantissant l'activation audio)
+    function startQuizFromKickoff() {
+      try {
+        const ctx = getAudioCtx();
+        if (ctx && ctx.state === 'suspended') {
+          ctx.resume();
+        }
+        playKickoffWhistle();
+      } catch(e) {}
+
+      const kickoffScreen = document.getElementById('quiz-kickoff-screen');
+      if (kickoffScreen) {
+        kickoffScreen.classList.add('hidden');
+      }
+      renderGameQuestion(0);
+    }
+
     // Débloquer l'audio dès la première interaction de l'utilisateur sur la page
     const unlockAudioOnGesture = () => {
       const ctx = getAudioCtx();
@@ -1816,6 +1937,7 @@ Et toi, connais-tu vraiment le RCBA ? Feras-tu mieux que moi ? ⚽👇
     window.addEventListener('click', unlockAudioOnGesture, { passive: true });
     window.addEventListener('touchstart', unlockAudioOnGesture, { passive: true });
     window.addEventListener('keydown', unlockAudioOnGesture, { passive: true });
+
 
     // TOAST FLOTTANT
     function showToast(msg) {
