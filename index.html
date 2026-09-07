@@ -252,6 +252,32 @@
       bottom: -99999px !important;
       z-index: -99999 !important;
     }
+
+    /* Style d'impression propre pour le Diplôme officiel */
+    @media print {
+      body {
+        background: #000000 !important;
+        color: #ffffff !important;
+      }
+      header, footer, #quiz-kickoff-screen, #quiz-question-view, #admin-modal, .fixed, button, input, label {
+        display: none !important;
+      }
+      #quiz-results-view, #diploma-section, #diploma-preview-box {
+        display: block !important;
+        border: none !important;
+        box-shadow: none !important;
+        background: transparent !important;
+        padding: 0 !important;
+        margin: 0 auto !important;
+      }
+      #diploma-rendered-img {
+        display: block !important;
+        max-width: 100% !important;
+        width: 100% !important;
+        height: auto !important;
+        margin: 0 auto !important;
+      }
+    }
   </style>
 
   <script>
@@ -693,11 +719,17 @@
           </p>
         </div>
 
-        <!-- Bouton Télécharger Diplôme HD -->
-        <button onclick="downloadDiplomaPNG()" id="btn-download-diploma" class="w-full py-3.5 px-4 rounded-xl bg-gradient-to-r from-emerald-600 via-racing-gold to-emerald-600 hover:brightness-110 text-slate-950 font-heading font-black text-xs sm:text-sm uppercase tracking-wider shadow-xl shadow-emerald-900/40 transform hover:scale-[1.01] active:scale-[0.99] transition flex items-center justify-center space-x-2 cursor-pointer">
-          <i data-lucide="download" class="w-4 h-4"></i>
-          <span>Télécharger mon Diplôme Officiel (Image HD)</span>
-        </button>
+        <!-- Boutons d'action Télécharger & Imprimer Diplôme HD -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+          <button onclick="downloadDiplomaPNG()" id="btn-download-diploma" class="py-3.5 px-4 rounded-xl bg-gradient-to-r from-emerald-600 via-racing-gold to-emerald-600 hover:brightness-110 text-slate-950 font-heading font-black text-xs sm:text-sm uppercase tracking-wider shadow-xl shadow-emerald-900/40 transform hover:scale-[1.01] active:scale-[0.99] transition flex items-center justify-center space-x-2 cursor-pointer">
+            <i data-lucide="download" class="w-4 h-4"></i>
+            <span>Télécharger (PNG HD)</span>
+          </button>
+          <button onclick="printDiploma()" id="btn-print-diploma" class="py-3.5 px-4 rounded-xl bg-gradient-to-r from-blue-600 via-racing-sky to-blue-600 hover:brightness-110 text-white font-heading font-black text-xs sm:text-sm uppercase tracking-wider shadow-xl shadow-blue-900/40 transform hover:scale-[1.01] active:scale-[0.99] transition flex items-center justify-center space-x-2 cursor-pointer">
+            <i data-lucide="printer" class="w-4 h-4"></i>
+            <span>Imprimer mon Diplôme</span>
+          </button>
+        </div>
 
         <!-- Grille des Boutons de Partage Réseaux Sociaux -->
         <div class="pt-3 border-t border-white/15 space-y-2.5">
@@ -1883,7 +1915,60 @@
         showToast("Erreur lors de la génération du diplôme");
       } finally {
         if (btn) {
-          btn.innerHTML = `<i data-lucide="download" class="w-4 h-4"></i><span>Télécharger mon Diplôme Officiel (Image HD)</span>`;
+          btn.innerHTML = `<i data-lucide="download" class="w-4 h-4"></i><span>Télécharger (PNG HD)</span>`;
+          if (window.lucide && lucide.createIcons) lucide.createIcons();
+        }
+      }
+    }
+
+    // IMPRIMER LE DIPLÔME OFFICIEL (QUALITÉ IMPRESSION PAPIER / PDF)
+    async function printDiploma() {
+      const btn = document.getElementById('btn-print-diploma');
+      const nameInput = document.getElementById('diploma-player-name');
+      const playerName = (nameInput ? nameInput.value : '').trim() || "Supporter du RCBA";
+
+      if (btn) {
+        btn.innerHTML = `<i data-lucide="loader" class="w-4 h-4 animate-spin"></i><span>Préparation...</span>`;
+        if (window.lucide && lucide.createIcons) lucide.createIcons();
+      }
+
+      try {
+        const canvas = await generateRCBADiplomaCanvas((nameInput ? nameInput.value : '').trim());
+        const dataUrl = canvas.toDataURL('image/png');
+        
+        const printWin = window.open('', '_blank');
+        if (printWin) {
+          printWin.document.write(`<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Diplôme Officiel RCBA - ${playerName}</title>
+  <style>
+    @page { size: A4 portrait; margin: 6mm; }
+    * { box-sizing: border-box; }
+    body { margin: 0; padding: 0; display: flex; align-items: center; justify-content: center; min-height: 100vh; background: #000; }
+    img { max-width: 100%; max-height: 98vh; width: auto; height: auto; object-fit: contain; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.8); }
+    @media print {
+      body { background: transparent !important; }
+      img { width: 100% !important; max-width: 100% !important; height: auto !important; max-height: 100% !important; box-shadow: none !important; border-radius: 0 !important; }
+    }
+  </style>
+</head>
+<body>
+  <img src="${dataUrl}" alt="Diplôme Officiel RCBA" onload="setTimeout(function(){ window.focus(); window.print(); }, 250);" />
+</body>
+</html>`);
+          printWin.document.close();
+          showToast("🖨️ Fenêtre d'impression prête !");
+        } else {
+          window.print();
+        }
+      } catch (err) {
+        console.error("Erreur impression diplome:", err);
+        window.print();
+      } finally {
+        if (btn) {
+          btn.innerHTML = `<i data-lucide="printer" class="w-4 h-4"></i><span>Imprimer mon Diplôme</span>`;
           if (window.lucide && lucide.createIcons) lucide.createIcons();
         }
       }
