@@ -585,35 +585,37 @@
         </span>
       </div>
 
-      <!-- Encart Score Géant -->
-      <div class="py-3 px-4 rounded-2xl bg-black/60 border border-white/10 flex items-center justify-between mb-3">
-        <div class="flex items-center space-x-3">
-          <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-racing to-racing-gold flex items-center justify-center text-3xl shadow-lg shadow-racing-gold/30 shrink-0">
-            🏆
-          </div>
-          <div>
-            <div class="text-[10px] sm:text-xs uppercase font-bold text-slate-400">Score Officiel Certifié</div>
-            <div class="font-heading font-black text-2xl sm:text-3xl text-white leading-tight">
-              <span id="final-score-num" class="text-racing-gold">10</span> <span class="text-sm text-slate-400">/ 10 pts</span>
+      <!-- Encart Score Géant & Boutons Diplôme Intégrés -->
+      <div id="score-card" class="p-4 sm:p-5 rounded-2xl bg-gradient-to-br from-[#0c1633] via-[#050b1d] to-[#0c1633] border-2 border-racing-gold/80 shadow-2xl shadow-racing-gold/25 mb-4 space-y-3.5">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center space-x-3">
+            <div class="w-14 h-14 rounded-2xl bg-gradient-to-tr from-racing via-racing-sky to-racing-gold flex items-center justify-center text-3xl shadow-lg shadow-racing-gold/30 shrink-0">
+              🏆
+            </div>
+            <div>
+              <div class="text-[10px] sm:text-xs uppercase font-bold text-slate-400">Score Officiel Certifié</div>
+              <div class="font-heading font-black text-2xl sm:text-3xl text-white leading-tight">
+                <span id="final-score-num" class="text-racing-gold">10</span> <span class="text-sm text-slate-400">/ 10 pts</span>
+              </div>
             </div>
           </div>
+          <div id="final-percent-badge" class="text-xs sm:text-sm font-black text-emerald-400 bg-emerald-950/90 border border-emerald-500/50 px-3.5 py-1.5 rounded-xl shadow-lg text-right">
+            100% de réussite
+          </div>
         </div>
-        <div id="final-percent-badge" class="text-xs sm:text-sm font-black text-emerald-400 bg-emerald-950/80 border border-emerald-500/40 px-3 py-1.5 rounded-xl shadow">
-          100% de réussite
-        </div>
-      </div>
 
-      <!-- Boutons d'action star : Générer & Imprimer le diplôme officiel RCBA -->
-      <div class="mb-3.5 grid grid-cols-1 sm:grid-cols-2 gap-2">
-        <button onclick="openDiplomaGenerator()" class="w-full py-3.5 px-4 rounded-2xl bg-gradient-to-r from-racing-gold via-amber-400 to-emerald-400 hover:brightness-110 text-slate-950 font-heading font-black text-xs sm:text-sm uppercase tracking-wider shadow-xl shadow-racing-gold/35 transform hover:scale-[1.01] active:scale-[0.99] transition flex items-center justify-center space-x-2 cursor-pointer border-2 border-white">
-          <span class="text-lg">🎓</span>
-          <span>PERSONNALISER LE DIPLÔME</span>
-          <i data-lucide="sparkles" class="w-4 h-4 text-slate-950"></i>
-        </button>
-        <button onclick="printDiploma()" class="w-full py-3.5 px-4 rounded-2xl bg-gradient-to-r from-blue-600 via-racing-sky to-blue-600 hover:brightness-110 text-white font-heading font-black text-xs sm:text-sm uppercase tracking-wider shadow-xl shadow-blue-900/40 transform hover:scale-[1.01] active:scale-[0.99] transition flex items-center justify-center space-x-2 cursor-pointer border-2 border-white/60">
-          <span class="text-lg">🖨️</span>
-          <span>IMPRIMER MON DIPLÔME</span>
-        </button>
+        <!-- Boutons Diplôme affichés directement à l'endroit du score -->
+        <div class="pt-2 border-t border-white/15 grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+          <button onclick="openDiplomaGenerator()" class="w-full py-3 px-3.5 rounded-xl bg-gradient-to-r from-racing-gold via-amber-400 to-emerald-400 hover:brightness-110 text-slate-950 font-heading font-black text-xs sm:text-sm uppercase tracking-wider shadow-lg shadow-racing-gold/30 transform hover:scale-[1.01] active:scale-[0.99] transition flex items-center justify-center space-x-2 cursor-pointer border-2 border-white">
+            <span class="text-lg">🎓</span>
+            <span>OBTENIR MON DIPLÔME</span>
+            <i data-lucide="sparkles" class="w-4 h-4 text-slate-950"></i>
+          </button>
+          <button onclick="printDiploma()" class="w-full py-3 px-3.5 rounded-xl bg-gradient-to-r from-blue-600 via-racing-sky to-blue-600 hover:brightness-110 text-white font-heading font-black text-xs sm:text-sm uppercase tracking-wider shadow-lg shadow-blue-900/40 transform hover:scale-[1.01] active:scale-[0.99] transition flex items-center justify-center space-x-2 cursor-pointer border-2 border-white/60">
+            <span class="text-lg">🖨️</span>
+            <span>IMPRIMER LE DIPLÔME</span>
+          </button>
+        </div>
       </div>
 
       <!-- Les 4 Rangs Officiels avec surbrillance du joueur -->
