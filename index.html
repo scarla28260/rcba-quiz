@@ -1991,7 +1991,7 @@
       const nameInput = document.getElementById('diploma-player-name');
       const playerName = (nameInput ? nameInput.value : '').trim();
       const tier = getPlayerCurrentTier();
-      const url = "https://rcba-quizz.netlify.app/";
+      const url = window.location.href.split('?')[0];
       
       const quote = `🏆 ${playerName ? playerName + ' a' : "J'ai"} obtenu ${playerScore}/10 au Grand Quiz du RCBA ! Rang : ${tier.icon} ${tier.title} (${tier.badge}). Peux-tu faire mieux ? Teste ta culture club ici ⚽🔵🔘`;
       const fbUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}&quote=${encodeURIComponent(quote)}`;
@@ -2005,7 +2005,8 @@
       const nameInput = document.getElementById('diploma-player-name');
       const playerName = (nameInput ? nameInput.value : '').trim();
       const tier = getPlayerCurrentTier();
-      const captionText = `🏆 J'ai fait ${playerScore}/10 au Grand Quiz Officiel du RCBA ! 🔵🔘\nMon statut : ${tier.icon} ${tier.title} (${tier.badge})\n\nTeste ta culture club sur 👉 https://rcba-quizz.netlify.app\n#RCBA #GrandQuizRCBA #RacingClubBuAbondant #Football28 #FiersDeNosCouleurs`;
+      const url = window.location.href.split('?')[0];
+      const captionText = `🏆 J'ai fait ${playerScore}/10 au Grand Quiz Officiel du RCBA ! 🔵🔘\nMon statut : ${tier.icon} ${tier.title} (${tier.badge})\n\nTeste ta culture club sur 👉 ${url}\n#RCBA #GrandQuizRCBA #RacingClubBuAbondant #Football28 #FiersDeNosCouleurs`;
 
       // 1. Copie du texte de la légende dans le presse-papier
       try {
@@ -2048,7 +2049,7 @@
       const nameInput = document.getElementById('diploma-player-name');
       const playerName = (nameInput ? nameInput.value : '').trim();
       const tier = getPlayerCurrentTier();
-      const url = "https://rcba-quizz.netlify.app/";
+      const url = window.location.href.split('?')[0];
       
       const msg = `🏆 *${playerName ? playerName : "J'ai"} fait ${playerScore}/10 au Grand Quiz du RCBA !* 🔵🔘\n\nMon rang officiel : ${tier.icon} *${tier.title}* (${tier.badge})\n_"${tier.desc}"_\n\n👉 Feras-tu un sans-faute ? Lance le quiz ici : ${url}`;
       const waUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(msg)}`;
