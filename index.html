@@ -449,6 +449,10 @@
           <i data-lucide="volume-2" class="w-3.5 h-3.5 text-racing-sky"></i>
           <span>Ambiance sonore du stade & chronomètre tic-tac</span>
         </p>
+        <button onclick="previewDiplomaDirect()" class="mt-2 text-[11px] sm:text-xs font-bold text-racing-gold hover:text-white underline decoration-dotted flex items-center justify-center space-x-1.5 mx-auto transition cursor-pointer">
+          <i data-lucide="award" class="w-3.5 h-3.5 text-racing-gold"></i>
+          <span>Aperçu immédiat du Diplôme Officiel & Palmarès</span>
+        </button>
       </div>
 
     </div>
@@ -664,31 +668,29 @@
           </div>
         </div>
 
-        <!-- Aperçu visuel miniature du diplôme -->
-        <div id="diploma-preview-box" class="relative rounded-2xl overflow-hidden border-2 border-racing-gold/40 bg-gradient-to-b from-[#060c22] to-[#020510] p-4 text-center shadow-2xl flex flex-col items-center justify-center space-y-2">
-          <div class="flex items-center space-x-2">
-            <img src="assets/logo_rcba_hd.png" alt="RCBA" class="w-7 h-auto drop-shadow">
-            <span class="text-[9px] sm:text-[10px] font-black uppercase tracking-widest text-racing-sky">
-              RACING CLUB BÛ ABONDANT • DIPLÔME OFFICIEL
+        <!-- Aperçu visuel réel du diplôme en haute définition (Image rendue) -->
+        <div id="diploma-preview-box" class="relative rounded-2xl overflow-hidden border-2 border-racing-gold/50 bg-[#020510] p-2.5 text-center shadow-2xl flex flex-col items-center justify-center space-y-2">
+          <div class="w-full flex items-center justify-between px-2 pt-0.5 pb-1">
+            <span class="text-[10px] font-black uppercase tracking-widest text-racing-gold flex items-center space-x-1.5">
+              <span>★</span><span>VOTRE DIPLÔME OFFICIEL CERTIFIÉ</span>
+            </span>
+            <span class="text-[9px] text-emerald-400 font-extrabold bg-emerald-950/80 px-2 py-0.5 rounded-full border border-emerald-500/30">
+              Format HD 1080×1350
             </span>
           </div>
+
+          <!-- L'image réelle du diplôme Canvas -->
+          <div class="relative w-full max-w-sm sm:max-w-md mx-auto rounded-xl overflow-hidden shadow-2xl border-2 border-racing-gold/60 bg-black">
+            <img id="diploma-rendered-img" alt="Diplôme Officiel RCBA" class="w-full h-auto object-contain block rounded-lg transition-transform duration-300 transform hover:scale-[1.01]" src="assets/logo_rcba_hd.png">
+            <div id="diploma-img-loader" class="absolute inset-0 bg-black/75 flex items-center justify-center text-xs font-bold text-racing-gold">
+              <i data-lucide="loader" class="w-5 h-5 animate-spin mr-2"></i>
+              <span>Génération du Diplôme officiel...</span>
+            </div>
+          </div>
           
-          <div class="text-[11px] text-slate-300 uppercase tracking-wider font-semibold">
-            Décerné avec les félicitations du club à :
-          </div>
-
-          <div id="diploma-preview-name" class="font-heading font-black text-base sm:text-xl text-racing-gold tracking-wide drop-shadow">
-            Supporter du RCBA
-          </div>
-
-          <div class="py-1.5 px-3.5 rounded-xl bg-black/50 border border-white/10 text-xs text-slate-200">
-            Score certifié : <strong id="diploma-preview-score" class="text-emerald-400 font-black">10 / 10</strong> • Rang : <strong id="diploma-preview-tier" class="text-racing-gold font-black">👑 Légende du RCBA</strong>
-          </div>
-
-          <div class="flex items-center justify-between w-full pt-2 border-t border-white/10 text-[9px] text-slate-400 font-medium">
-            <span id="diploma-preview-date">Fait à Bû & Abondant</span>
-            <span class="text-racing-gold font-bold">★ Tampon Officiel Certifié ★</span>
-          </div>
+          <p class="text-[10px] text-slate-400 italic">
+            Cliquez sur le bouton ci-dessous pour télécharger cette image ou la partager en Story Instagram / Facebook !
+          </p>
         </div>
 
         <!-- Bouton Télécharger Diplôme HD -->
@@ -1133,6 +1135,14 @@
     // INITIALISATION SÉCURISÉE & COMPATIBLE TOUS NAVIGATEURS (OPERA, BRAVE, CHROME, SAFARI)
     function initApp() {
       try {
+        // Détection de l'accès direct aux résultats / au diplôme (?diplome=1 ou ?result=1)
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.has('result') || urlParams.has('diplome') || urlParams.has('score') || urlParams.has('palmares')) {
+          playerScore = parseInt(urlParams.get('score')) || 10;
+          showVisualResults();
+          return;
+        }
+
         const kickoffScreen = document.getElementById('quiz-kickoff-screen');
         const questionView = document.getElementById('quiz-question-view');
         const resultsView = document.getElementById('quiz-results-view');
@@ -1165,6 +1175,15 @@
       setTimeout(() => {
         try { recordSilentPageView(); } catch (e) {}
       }, 400);
+    }
+
+    // ACCÈS DIRECT AU DIPLÔME ET AUX RÉSULTATS (POUR TEST & PRÉVISUALISATION RAPIDE)
+    function previewDiplomaDirect(score = 10) {
+      playerScore = score;
+      showVisualResults();
+      setTimeout(() => {
+        openDiplomaGenerator();
+      }, 200);
     }
 
     if (document.readyState === 'loading') {
@@ -1559,25 +1578,37 @@
       return TIERS_DATA[3];
     }
 
-    // METTRE À JOUR L'APERÇU DU DIPLÔME
+    // METTRE À JOUR L'APERÇU DU DIPLÔME (GÉNÉRATION & INJECTION DE L'IMAGE EN DIRECT)
+    let diplomaDebounceTimer = null;
     function updateDiplomaPreview() {
-      const nameInput = document.getElementById('diploma-player-name');
-      const previewName = document.getElementById('diploma-preview-name');
-      const previewScore = document.getElementById('diploma-preview-score');
-      const previewTier = document.getElementById('diploma-preview-tier');
-      const previewDate = document.getElementById('diploma-preview-date');
-
-      const rawName = (nameInput ? nameInput.value : '').trim();
-      const displayName = rawName || "Supporter du RCBA";
-      const tier = getPlayerCurrentTier();
-
-      if (previewName) previewName.innerText = displayName;
-      if (previewScore) previewScore.innerText = `${playerScore} / 10`;
-      if (previewTier) previewTier.innerText = `${tier.icon} ${tier.title}`;
-      if (previewDate) {
-        const d = new Date();
-        previewDate.innerText = `Fait à Bû & Abondant le ${d.toLocaleDateString('fr-FR')}`;
+      if (diplomaDebounceTimer) clearTimeout(diplomaDebounceTimer);
+      
+      const loader = document.getElementById('diploma-img-loader');
+      if (loader) {
+        loader.classList.remove('hidden');
+        loader.style.display = 'flex';
       }
+
+      diplomaDebounceTimer = setTimeout(async () => {
+        const nameInput = document.getElementById('diploma-player-name');
+        const rawName = (nameInput ? nameInput.value : '').trim();
+        const displayName = rawName || "Supporter du RCBA";
+        const previewImg = document.getElementById('diploma-rendered-img');
+
+        try {
+          const canvas = await generateRCBADiplomaCanvas(displayName);
+          if (previewImg) {
+            previewImg.src = canvas.toDataURL('image/png');
+          }
+        } catch (e) {
+          console.error("Erreur génération aperçu diplôme:", e);
+        } finally {
+          if (loader) {
+            loader.classList.add('hidden');
+            loader.style.display = 'none';
+          }
+        }
+      }, 150);
     }
 
     // GÉNÉRATEUR CANVAS HAUTE DÉFINITION DU DIPLÔME RCBA (1080x1350 px)
